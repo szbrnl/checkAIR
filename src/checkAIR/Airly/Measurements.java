@@ -1,6 +1,6 @@
 package checkAIR.Airly;
 
-class Measurements {
+public class Measurements {
     private double airQualityIndex;
 
     private double humidity;

@@ -1,6 +1,6 @@
 package checkAIR.Airly;
 
-class Address {
+public class Address {
     private String country;
     private String locality;
     private String route;

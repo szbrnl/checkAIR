@@ -1,6 +1,6 @@
 package checkAIR.Airly;
 
-class DatedMeasurements {
+public class DatedMeasurements {
     private String fromDateTime;
 
     private Measurements measurements;

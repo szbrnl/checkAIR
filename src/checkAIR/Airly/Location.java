@@ -1,6 +1,6 @@
 package checkAIR.Airly;
 
-class Location {
+public class Location {
     private double latitude;
     private double longitude;
 
