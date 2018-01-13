@@ -3,6 +3,8 @@ package checkAIR.Airly;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
@@ -18,21 +20,30 @@ public class AirlyClient {
         this.apiKey = apiKey;
     }
 
-    public NearestSensorMeasurements getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
+    public CurrentAndHistoricalMeasurements getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
 
         //TODO IO exception?
 
-        String Url = "https://airapi.airly.eu/v1/nearestSensor/measurements?latitude=" +
-                latitude + "&longitude=" +
-                longitude + "&maxDistance=1000";
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        NearestSensorMeasurements measurements = gson.fromJson(retrieveJson(Url), NearestSensorMeasurements.class);
+        int id = getNearestSensorId(latitude, longitude);
+        CurrentAndHistoricalMeasurements measurements = getSensorDetailedMeasurements(id);
 
         return measurements;
     }
 
-    public SensorDetailedMeasurements getSensorDetailedMeasurements(int sensorID) throws IOException {
+    private int getNearestSensorId(double latitude, double longitude) throws IOException {
+        String Url = "https://airapi.airly.eu/v1/nearestSensor/measurements?latitude=" +
+                latitude + "&longitude=" +
+                longitude + "&maxDistance=1000";
+
+        JsonParser parser = new JsonParser();
+        JsonObject root = parser.parse(retrieveJson(Url)).getAsJsonObject();
+        int id = root.get("id").getAsInt();
+
+        return id;
+    }
+
+
+    public CurrentAndHistoricalMeasurements getSensorDetailedMeasurements(int sensorID) throws IOException {
 
         //TODO IO exception?
 
@@ -41,7 +52,7 @@ public class AirlyClient {
                 "&historyHours=5&historyResolutionHours=5";
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        SensorDetailedMeasurements nearestSensorMeasurement = gson.fromJson(retrieveJson(Url), SensorDetailedMeasurements.class);
+        CurrentAndHistoricalMeasurements nearestSensorMeasurement = gson.fromJson(retrieveJson(Url), CurrentAndHistoricalMeasurements.class);
 
         return nearestSensorMeasurement;
     }
@@ -53,7 +64,7 @@ public class AirlyClient {
             request.setRequestProperty("apikey", apiKey);
             request.connect();
 
-            System.out.println(request.getResponseCode());
+            //System.out.println(request.getResponseCode());
             InputStream inputStream = (InputStream) request.getContent();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
@@ -62,7 +73,6 @@ public class AirlyClient {
             return jsonReader;
         }
         catch(IOException ex) {
-
             throw new IOException(ex.getMessage());
         }
 
