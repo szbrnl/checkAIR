@@ -20,6 +20,11 @@ public class AirlyClient {
         this.apiKey = apiKey;
     }
 
+
+    //TODO zapamiętywanie wszystkiego o co pytamy w tym obiekcie, żeby nie musieć wielokrotnie parsować?
+    //TODO rozróżnić opcję z historią?
+
+
     public CurrentAndHistoricalMeasurements getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
 
         //TODO IO exception?
