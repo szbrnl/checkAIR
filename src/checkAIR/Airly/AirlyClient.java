@@ -61,15 +61,19 @@ public class AirlyClient {
 
         return nearestSensorMeasurement;
     }
-//TODO rozróżniać wyjątki (żeby wiedzieć czy można odwołać się do requesta żeby sprawdzić zwrócony kod)
+
     private JsonReader retrieveJson(String Url) throws IOException {
+        HttpURLConnection request;
         try {
             URL url = new URL(Url);
-            HttpURLConnection request = (HttpURLConnection) url.openConnection();
+            request = (HttpURLConnection) url.openConnection();
             request.setRequestProperty("apikey", apiKey);
             request.connect();
-
-            //System.out.println(request.getResponseCode());
+        }
+        catch(IOException ex) {
+            throw new IOException("Connection error");
+        }
+        try{
             InputStream inputStream = (InputStream) request.getContent();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
@@ -78,7 +82,17 @@ public class AirlyClient {
             return jsonReader;
         }
         catch(IOException ex) {
-            throw new IOException(ex.getMessage());
+            switch(request.getResponseCode()) {
+                case 400:
+                    throw new IOException("Input validation error");
+                case 403:
+                    throw new IOException("Your API key is invalid");
+                case 404:
+                    throw new IOException("Data not found");
+
+            }
+
+            throw new IOException("There was a problem with your request");
         }
 
     }
