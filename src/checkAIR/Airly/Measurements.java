@@ -1,34 +1,34 @@
 package checkAIR.Airly;
 
-public class Measurements {
-    private double airQualityIndex;
+class Measurements {
+    private Double airQualityIndex;
 
-    private double humidity;
+    private Double humidity;
 
     private String measurementTime;
 
-    private double pm1;
+    private Double pm1;
 
-    private double pm10;
+    private Double pm10;
 
-    private double pm25;
+    private Double pm25;
 
-    private double pollutionLevel;
+    private Double pollutionLevel;
 
-    private double pressure;
+    private Double pressure;
 
-    private double temperature;
+    private Double temperature;
 
-    private double windDirection;
+    private Double windDirection;
 
-    private double windSpeed;
+    private Double windSpeed;
 
 
-    public double getAirQualityIndex() {
+    public Double getAirQualityIndex() {
         return airQualityIndex;
     }
 
-    public double getHumidity() {
+    public Double getHumidity() {
         return humidity;
     }
 
@@ -36,37 +36,38 @@ public class Measurements {
         return measurementTime;
     }
 
-    public double getPm1() {
+    public Double getPm1() {
         return pm1;
     }
 
-    public double getPm10() {
+    public Double getPm10() {
         return pm10;
     }
 
-    public double getPm25() {
+    public Double getPm25() {
         return pm25;
     }
 
-    public double getPollutionLevel() {
+    public Double getPollutionLevel() {
         return pollutionLevel;
     }
 
-    public double getPressure() {
+    public Double getPressure() {
         return pressure;
     }
 
-    public double getTemperature() {
+    public Double getTemperature() {
         return temperature;
     }
 
-    public double getWindDirection() {
+    public Double getWindDirection() {
         return windDirection;
     }
 
-    public double getWindSpeed() {
+    public Double getWindSpeed() {
         return windSpeed;
     }
+
 
     @Override
     public String toString() {
