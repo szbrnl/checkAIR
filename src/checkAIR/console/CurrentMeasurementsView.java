@@ -1,4 +1,4 @@
-package checkAIR.Console;
+package checkAIR.console;
 
 class CurrentMeasurementsView implements IConsoleView {
     public CurrentMeasurementsView() {

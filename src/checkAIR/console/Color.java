@@ -1,4 +1,4 @@
-package checkAIR.Console;
+package checkAIR.console;
 
 public enum Color {
     TextBlack, TextRed, TextGreen, TextYellow, TextBlue, TextPurple, TextCyan, TextWhite,

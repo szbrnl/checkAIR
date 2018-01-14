@@ -1,4 +1,4 @@
-package checkAIR.Airly;
+package checkAIR.airly;
 
 import java.util.Arrays;
 

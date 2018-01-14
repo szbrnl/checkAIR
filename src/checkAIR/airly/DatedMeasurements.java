@@ -1,4 +1,4 @@
-package checkAIR.Airly;
+package checkAIR.airly;
 
 class DatedMeasurements {
     private String fromDateTime;

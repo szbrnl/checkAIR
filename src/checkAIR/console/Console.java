@@ -1,4 +1,4 @@
-package checkAIR.Console;
+package checkAIR.console;
 
 public class Console {
 
@@ -8,11 +8,13 @@ public class Console {
 
     public Console(ViewMode viewMode) throws IllegalAccessException, InstantiationException{
 
+        int width = 110;
+        int height = 17;
+
         Class selectedViewClass = CurrentMeasurementsView.class;
 
-        console = new PrettyConsole();
-        console.append(new StringBuilder("__________"), Color.TextBlue, Color.BackgroundGreen);
-
+        console = new PrettyConsole(width, height);
+        //console.append(new StringBuilder("________________________________________________________________________________"), Color.TextBlue, Color.BackgroundGreen);
 
         try {
             IConsoleView selectedView = (IConsoleView) selectedViewClass.newInstance();

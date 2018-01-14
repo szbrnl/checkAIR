@@ -1,10 +1,9 @@
 package checkAIR;
 
-
-import checkAIR.Airly.AirlyClient;
-import checkAIR.Airly.NotProvidedException;
-import checkAIR.Console.Console;
-import checkAIR.Console.ViewMode;
+import checkAIR.airly.AirlyClient;
+import checkAIR.airly.NotProvidedException;
+import checkAIR.console.Console;
+import checkAIR.console.ViewMode;
 
 import java.io.IOException;
 

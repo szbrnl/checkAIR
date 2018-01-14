@@ -1,4 +1,4 @@
-package checkAIR.Console;
+package checkAIR.console;
 
 import org.junit.jupiter.api.Test;
 

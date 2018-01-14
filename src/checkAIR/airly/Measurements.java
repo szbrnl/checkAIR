@@ -1,4 +1,4 @@
-package checkAIR.Airly;
+package checkAIR.airly;
 
 import static java.lang.Double.NaN;
 

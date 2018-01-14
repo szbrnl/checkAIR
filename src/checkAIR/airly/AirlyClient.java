@@ -1,4 +1,4 @@
-package checkAIR.Airly;
+package checkAIR.airly;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
