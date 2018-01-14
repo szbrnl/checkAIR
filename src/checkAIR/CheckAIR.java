@@ -10,6 +10,9 @@ import java.io.IOException;
 
 public class CheckAIR {
 
+    //TODO a może odpytywanie o odczyty byłoby realizowane przez airlyclient? client.getcurrentcośtam, client.history.srutututu
+
+
     public static void main(String[] args) throws Exception {
         try {
             AirlyClient airlyClient = new AirlyClient("f87f3655b35f40f28e7cd00bd097f860");
