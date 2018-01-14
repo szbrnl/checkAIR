@@ -28,88 +28,44 @@ public class Measurements {
         return airQualityIndex;
     }
 
-    public void setAirQualityIndex(double airQualityIndex) {
-        this.airQualityIndex = airQualityIndex;
-    }
-
     public double getHumidity() {
         return humidity;
-    }
-
-    public void setHumidity(double humidity) {
-        this.humidity = humidity;
     }
 
     public String getMeasurementTime() {
         return measurementTime;
     }
 
-    public void setMeasurementTime(String measurementTime) {
-        this.measurementTime = measurementTime;
-    }
-
     public double getPm1() {
         return pm1;
-    }
-
-    public void setPm1(double pm1) {
-        this.pm1 = pm1;
     }
 
     public double getPm10() {
         return pm10;
     }
 
-    public void setPm10(double pm10) {
-        this.pm10 = pm10;
-    }
-
     public double getPm25() {
         return pm25;
-    }
-
-    public void setPm25(double pm25) {
-        this.pm25 = pm25;
     }
 
     public double getPollutionLevel() {
         return pollutionLevel;
     }
 
-    public void setPollutionLevel(double pollutionLevel) {
-        this.pollutionLevel = pollutionLevel;
-    }
-
     public double getPressure() {
         return pressure;
-    }
-
-    public void setPressure(double pressure) {
-        this.pressure = pressure;
     }
 
     public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
     public double getWindDirection() {
         return windDirection;
     }
 
-    public void setWindDirection(double windDirection) {
-        this.windDirection = windDirection;
-    }
-
     public double getWindSpeed() {
         return windSpeed;
-    }
-
-    public void setWindSpeed(double windSpeed) {
-        this.windSpeed = windSpeed;
     }
 
     @Override
