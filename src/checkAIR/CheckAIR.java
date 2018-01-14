@@ -26,16 +26,9 @@ public class CheckAIR {
         }
 
         System.out.println(airlyClient.toString());
-        System.out.print('A');
 
-        String RESET = "\u001B[0m";
-        String ANSI_RED = "\u001B[31m";
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(ANSI_RED);
-        sb.append("ASDASDASD");
-        sb.append(RESET);
-        System.out.println(sb.toString());
+        Console cons = new Console(ViewMode.CurrentMeasurements);
+        System.out.println(cons.toString());
 
         try {
             System.out.println(airlyClient.getCurrentAirQualityIndex());

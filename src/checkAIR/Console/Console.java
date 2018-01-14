@@ -4,13 +4,15 @@ public class Console {
 
     private IConsoleView currentView;
 
-
-
-    //private StringBuilder content;
+    PrettyConsole console;
 
     public Console(ViewMode viewMode) throws IllegalAccessException, InstantiationException{
 
         Class selectedViewClass = CurrentMeasurementsView.class;
+
+        console = new PrettyConsole();
+        console.append(new StringBuilder("__________"), Color.TextBlue, Color.BackgroundGreen);
+
 
         try {
             IConsoleView selectedView = (IConsoleView) selectedViewClass.newInstance();
@@ -24,8 +26,8 @@ public class Console {
     }
 
 
-//    @Override
-//    public String toString() {
-//        return content.toString();
-//    }
+    @Override
+    public String toString() {
+        return console.getContent().toString();
+    }
 }

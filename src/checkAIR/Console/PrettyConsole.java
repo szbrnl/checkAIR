@@ -1,11 +1,10 @@
 package checkAIR.Console;
 
-//TODO colorizer?
 class PrettyConsole {
     private StringBuilder content;
 
     public PrettyConsole() {
-
+        content = new StringBuilder();
     }
 
     public void append(StringBuilder text, Color... colors) {
