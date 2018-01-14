@@ -24,7 +24,7 @@ public class AirlyClient {
     public AirlyClient(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
 
-        this.measurements = getNearestSensorMeasurement(latitude,longitude);
+        this.measurements = getNearestSensorMeasurement(latitude, longitude);
     }
 
     public AirlyClient(String apiKey, int sensorId) throws IOException {
@@ -37,86 +37,84 @@ public class AirlyClient {
     //TODO rozróżnić opcję z historią?
 
 
-
     //TODO konwersje na ludzką formę
-    public double getCurrentAirQualityIndex() throws NotProvidedException {
+    public int getCurrentAirQualityIndex() throws NotProvidedException {
         double airQualityIndex = measurements.getCurrentMeasurements().getAirQualityIndex();
-        if(isNaN(airQualityIndex))
+        if (isNaN(airQualityIndex))
             throw new NotProvidedException();
-        return airQualityIndex;
+        return (int)(Math.round(airQualityIndex));
     }
 
-    public double getCurrentHumidity() throws NotProvidedException {
+    public int getCurrentHumidity() throws NotProvidedException {
         double humidity = measurements.getCurrentMeasurements().getHumidity();
-        if(isNaN(humidity))
+        if (isNaN(humidity))
             throw new NotProvidedException();
-        return humidity;
+        return (int)(Math.round(humidity));
     }
 
     public String getCurrentMeasurementTime() throws NotProvidedException {
-        String measurementTime  = measurements.getCurrentMeasurements().getMeasurementTime();
-        if(measurementTime == null)
+        String measurementTime = measurements.getCurrentMeasurements().getMeasurementTime();
+        if (measurementTime == null)
             throw new NotProvidedException();
         return measurementTime;
     }
 
-    public double getCurrentPm1() throws NotProvidedException{
+    public int getCurrentPm1() throws NotProvidedException {
         double pm1 = measurements.getCurrentMeasurements().getPm1();
-        if(isNaN(pm1))
+        if (isNaN(pm1))
             throw new NotProvidedException();
-        return pm1;
+        return (int)(Math.round(pm1));
     }
 
-    public double getCurrentPm10() throws NotProvidedException {
+    public int getCurrentPm10() throws NotProvidedException {
         double pm10 = measurements.getCurrentMeasurements().getPm10();
-        if(isNaN(pm10))
+        if (isNaN(pm10))
             throw new NotProvidedException();
-        return pm10;
+        return (int)(Math.round(pm10));
     }
 
-    public double getCurrentPm25() throws NotProvidedException {
+    public int getCurrentPm25() throws NotProvidedException {
         double pm25 = measurements.getCurrentMeasurements().getPm25();
-        if(isNaN(pm25))
+        if (isNaN(pm25))
             throw new NotProvidedException();
-        return pm25;
+        return (int)(Math.round(pm25));
     }
 
+    //TODO konwersja? na co?
     public double getCurrentPollutionLevel() throws NotProvidedException {
         double pollutionLevel = measurements.getCurrentMeasurements().getPollutionLevel();
-        if(isNaN(pollutionLevel))
+        if (isNaN(pollutionLevel))
             throw new NotProvidedException();
         return pollutionLevel;
     }
 
-    public double getCurrentPressure() throws NotProvidedException {
+    public int getCurrentPressure() throws NotProvidedException {
         double currentPressure = measurements.getCurrentMeasurements().getPressure();
-        if(isNaN(currentPressure))
+        if (isNaN(currentPressure))
             throw new NotProvidedException();
-        return currentPressure;
+        return (int)(Math.round(currentPressure));
     }
 
-    public double getCurrentTemperature() throws NotProvidedException {
+    public int getCurrentTemperature() throws NotProvidedException {
         double currentTemperature = measurements.getCurrentMeasurements().getTemperature();
-        if(isNaN(currentTemperature))
+        if (isNaN(currentTemperature))
             throw new NotProvidedException();
-        return currentTemperature;
+        return (int)(Math.round(currentTemperature));
     }
 
     public double getCurrentWindDirection() throws NotProvidedException {
         double windDirection = measurements.getCurrentMeasurements().getWindDirection();
-        if(isNaN(windDirection))
+        if (isNaN(windDirection))
             throw new NotProvidedException();
         return windDirection;
     }
 
     public double getCurrentWindSpeed() throws NotProvidedException {
         double windSpeed = measurements.getCurrentMeasurements().getWindSpeed();
-        if(isNaN(windSpeed))
+        if (isNaN(windSpeed))
             throw new NotProvidedException();
-        return windSpeed;
+        return Math.round(windSpeed*10)/10;
     }
-
-
 
 
     private ExtendedMeasurements getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
@@ -156,21 +154,19 @@ public class AirlyClient {
             request = (HttpURLConnection) url.openConnection();
             request.setRequestProperty("apikey", apiKey);
             request.connect();
-        }
-        catch(IOException ex) {
+        } catch (IOException ex) {
             throw new IOException("Connection error");
         }
 
-        try{
+        try {
             InputStream inputStream = (InputStream) request.getContent();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
             JsonReader jsonReader = new JsonReader(inputStreamReader);
 
             return jsonReader;
-        }
-        catch(IOException ex) {
-            switch(request.getResponseCode()) {
+        } catch (IOException ex) {
+            switch (request.getResponseCode()) {
                 case 400:
                     throw new IOException("Input validation error (code 400)");
                 case 403:

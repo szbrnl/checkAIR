@@ -25,19 +25,7 @@ public class CheckAIR {
             return;
         }
 
-        try {
-            System.out.println(airlyClient.getCurrentMeasurementTime());
-        }
-        catch (NotProvidedException ex) {
-            System.out.println("nie dali");
-        }
-
-        try {
-            System.out.println(airlyClient.getCurrentWindDirection());
-        }
-        catch (NotProvidedException ex) {
-            System.out.println("nie dali");
-        }
+        System.out.println(airlyClient.toString());
 
         try {
             System.out.println(airlyClient.getCurrentAirQualityIndex());
@@ -45,6 +33,20 @@ public class CheckAIR {
         catch (NotProvidedException ex) {
             System.out.println("nie dali");
         }
+//
+//        try {
+//            System.out.println(airlyClient.getCurrentWindDirection());
+//        }
+//        catch (NotProvidedException ex) {
+//            System.out.println("nie dali");
+//        }
+//
+//        try {
+//            System.out.println(airlyClient.getCurrentAirQualityIndex());
+//        }
+//        catch (NotProvidedException ex) {
+//            System.out.println("nie dali");
+//        }
 
 
     }
