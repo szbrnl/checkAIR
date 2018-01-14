@@ -63,7 +63,9 @@ public class AirlyClient {
     }
 
     private JsonReader retrieveJson(String Url) throws IOException {
+
         HttpURLConnection request;
+
         try {
             URL url = new URL(Url);
             request = (HttpURLConnection) url.openConnection();
@@ -73,6 +75,7 @@ public class AirlyClient {
         catch(IOException ex) {
             throw new IOException("Connection error");
         }
+
         try{
             InputStream inputStream = (InputStream) request.getContent();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -84,14 +87,13 @@ public class AirlyClient {
         catch(IOException ex) {
             switch(request.getResponseCode()) {
                 case 400:
-                    throw new IOException("Input validation error");
+                    throw new IOException("Input validation error (code 400)");
                 case 403:
-                    throw new IOException("Your API key is invalid");
+                    throw new IOException("Your API key is invalid (code 403");
                 case 404:
-                    throw new IOException("Data not found");
+                    throw new IOException("Data not found (code 404)");
 
             }
-
             throw new IOException("There was a problem with your request");
         }
 
