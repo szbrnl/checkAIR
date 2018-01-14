@@ -2,7 +2,7 @@ package checkAIR.Airly;
 
 import java.util.Arrays;
 
-public class CurrentAndHistoricalMeasurements {
+public class ExtendedMeasurements {
 
     private Measurements currentMeasurements;
 

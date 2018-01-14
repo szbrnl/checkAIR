@@ -25,12 +25,12 @@ public class AirlyClient {
     //TODO rozróżnić opcję z historią?
 
 
-    public CurrentAndHistoricalMeasurements getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
+    public ExtendedMeasurements getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
 
         //TODO IO exception?
 
         int id = getNearestSensorId(latitude, longitude);
-        CurrentAndHistoricalMeasurements measurements = getSensorDetailedMeasurements(id);
+        ExtendedMeasurements measurements = getSensorDetailedMeasurements(id);
 
         return measurements;
     }
@@ -48,7 +48,7 @@ public class AirlyClient {
     }
 
 
-    public CurrentAndHistoricalMeasurements getSensorDetailedMeasurements(int sensorID) throws IOException {
+    public ExtendedMeasurements getSensorDetailedMeasurements(int sensorID) throws IOException {
 
         //TODO IO exception?
 
@@ -57,7 +57,7 @@ public class AirlyClient {
                 "&historyHours=5&historyResolutionHours=5";
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        CurrentAndHistoricalMeasurements nearestSensorMeasurement = gson.fromJson(retrieveJson(Url), CurrentAndHistoricalMeasurements.class);
+        ExtendedMeasurements nearestSensorMeasurement = gson.fromJson(retrieveJson(Url), ExtendedMeasurements.class);
 
         return nearestSensorMeasurement;
     }
