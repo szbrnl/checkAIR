@@ -1,7 +1,5 @@
 package checkAIR.Airly;
 
-
-import checkAIR.Console.ViewMode;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -14,7 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static java.lang.Double.NaN;
+import static java.lang.Double.isNaN;
 
 public class AirlyClient {
     private final String apiKey;
@@ -39,11 +37,19 @@ public class AirlyClient {
     //TODO rozróżnić opcję z historią?
 
 
+
+    //TODO konwersje na ludzką formę
     public double getCurrentAirQualityIndex() throws NotProvidedException {
+        double airQualityIndex = measurements.getCurrentMeasurements().getAirQualityIndex();
+        if(isNaN(airQualityIndex))
+            throw new NotProvidedException();
         return airQualityIndex;
     }
 
     public double getCurrentHumidity() throws NotProvidedException {
+        double humidity = measurements.getCurrentMeasurements().getHumidity();
+        if(isNaN(humidity))
+            throw new NotProvidedException();
         return humidity;
     }
 
@@ -52,54 +58,64 @@ public class AirlyClient {
         if(measurementTime == null)
             throw new NotProvidedException();
         return measurementTime;
-
-        //TODO konwersja
     }
 
     public double getCurrentPm1() throws NotProvidedException{
-        Double pm1 = measurements.getCurrentMeasurements().getPm1();
-        if(pm1 == null)
+        double pm1 = measurements.getCurrentMeasurements().getPm1();
+        if(isNaN(pm1))
             throw new NotProvidedException();
-        return pm1.doubleValue();
+        return pm1;
     }
 
     public double getCurrentPm10() throws NotProvidedException {
-        Double pm10 = measurements.getCurrentMeasurements().getPm10();
-        if(pm10 == null)
+        double pm10 = measurements.getCurrentMeasurements().getPm10();
+        if(isNaN(pm10))
             throw new NotProvidedException();
-        return pm10.doubleValue();
+        return pm10;
     }
 
     public double getCurrentPm25() throws NotProvidedException {
-        Double pm25 = measurements.getCurrentMeasurements().getPm25();
-        if(pm25 == null)
+        double pm25 = measurements.getCurrentMeasurements().getPm25();
+        if(isNaN(pm25))
             throw new NotProvidedException();
-        return pm25.doubleValue();
+        return pm25;
     }
 
     public double getCurrentPollutionLevel() throws NotProvidedException {
-        Double pollutionLevel = measurements.getCurrentMeasurements().getPollutionLevel();
-        if(pollutionLevel == null)
+        double pollutionLevel = measurements.getCurrentMeasurements().getPollutionLevel();
+        if(isNaN(pollutionLevel))
             throw new NotProvidedException();
-        double aa = NaN;
-        return pollutionLevel.doubleValue();
+        return pollutionLevel;
     }
 
     public double getCurrentPressure() throws NotProvidedException {
-        return pressure;
+        double currentPressure = measurements.getCurrentMeasurements().getPressure();
+        if(isNaN(currentPressure))
+            throw new NotProvidedException();
+        return currentPressure;
     }
 
     public double getCurrentTemperature() throws NotProvidedException {
-        return temperature;
+        double currentTemperature = measurements.getCurrentMeasurements().getTemperature();
+        if(isNaN(currentTemperature))
+            throw new NotProvidedException();
+        return currentTemperature;
     }
 
     public double getCurrentWindDirection() throws NotProvidedException {
+        double windDirection = measurements.getCurrentMeasurements().getWindDirection();
+        if(isNaN(windDirection))
+            throw new NotProvidedException();
         return windDirection;
     }
 
     public double getCurrentWindSpeed() throws NotProvidedException {
+        double windSpeed = measurements.getCurrentMeasurements().getWindSpeed();
+        if(isNaN(windSpeed))
+            throw new NotProvidedException();
         return windSpeed;
     }
+
 
 
 

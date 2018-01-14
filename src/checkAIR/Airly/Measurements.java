@@ -1,34 +1,50 @@
 package checkAIR.Airly;
 
-class Measurements {
-    private Double airQualityIndex;
+import static java.lang.Double.NaN;
 
-    private Double humidity;
+public class Measurements {
+
+    public Measurements() {
+        airQualityIndex = NaN;
+        humidity = NaN;
+        pm1 = NaN;
+        pm10 = NaN;
+        pm25 = NaN;
+        pollutionLevel = NaN;
+        pressure = NaN;
+        temperature = NaN;
+        windSpeed = NaN;
+        windDirection = NaN;
+    }
+
+    private double airQualityIndex;
+
+    private double humidity;
 
     private String measurementTime;
 
-    private Double pm1;
+    private double pm1;
 
-    private Double pm10;
+    private double pm10;
 
-    private Double pm25;
+    private double pm25;
 
-    private Double pollutionLevel;
+    private double pollutionLevel;
 
-    private Double pressure;
+    private double pressure;
 
-    private Double temperature;
+    private double temperature;
 
-    private Double windDirection;
+    private double windDirection;
 
-    private Double windSpeed;
+    private double windSpeed;
 
 
-    public Double getAirQualityIndex() {
+    public double getAirQualityIndex() {
         return airQualityIndex;
     }
 
-    public Double getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
@@ -36,38 +52,37 @@ class Measurements {
         return measurementTime;
     }
 
-    public Double getPm1() {
+    public double getPm1() {
         return pm1;
     }
 
-    public Double getPm10() {
+    public double getPm10() {
         return pm10;
     }
 
-    public Double getPm25() {
+    public double getPm25() {
         return pm25;
     }
 
-    public Double getPollutionLevel() {
+    public double getPollutionLevel() {
         return pollutionLevel;
     }
 
-    public Double getPressure() {
+    public double getPressure() {
         return pressure;
     }
 
-    public Double getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public Double getWindDirection() {
+    public double getWindDirection() {
         return windDirection;
     }
 
-    public Double getWindSpeed() {
+    public double getWindSpeed() {
         return windSpeed;
     }
-
 
     @Override
     public String toString() {

@@ -2,6 +2,7 @@ package checkAIR;
 
 
 import checkAIR.Airly.AirlyClient;
+import checkAIR.Airly.NotProvidedException;
 import checkAIR.Console.Console;
 import checkAIR.Console.ViewMode;
 
@@ -13,17 +14,39 @@ public class CheckAIR {
 
 
     public static void main(String[] args) throws Exception {
+
+        AirlyClient airlyClient;
+
         try {
-            AirlyClient airlyClient = new AirlyClient("f87f3655b35f40f28e7cd00bd097f860", 50.06201, 19.94098);
+            airlyClient = new AirlyClient("f87f3655b35f40f28e7cd00bd097f860", 50.06201, 19.94098);
 
-
-            System.out.println(airlyClient);
-
-            Console c = new Console(ViewMode.CurrentMeasurements);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
+            return;
         }
+
+        try {
+            System.out.println(airlyClient.getCurrentMeasurementTime());
+        }
+        catch (NotProvidedException ex) {
+            System.out.println("nie dali");
+        }
+
+        try {
+            System.out.println(airlyClient.getCurrentWindDirection());
+        }
+        catch (NotProvidedException ex) {
+            System.out.println("nie dali");
+        }
+
+        try {
+            System.out.println(airlyClient.getCurrentAirQualityIndex());
+        }
+        catch (NotProvidedException ex) {
+            System.out.println("nie dali");
+        }
+
+
     }
 
 

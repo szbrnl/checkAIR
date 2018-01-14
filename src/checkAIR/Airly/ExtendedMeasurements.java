@@ -3,7 +3,6 @@ package checkAIR.Airly;
 import java.util.Arrays;
 
 class ExtendedMeasurements {
-
     private Measurements currentMeasurements;
 
     private DatedMeasurements[] forecast = new DatedMeasurements[] {};
