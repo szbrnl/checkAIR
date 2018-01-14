@@ -66,8 +66,5 @@ public enum Color {
         return "\033[0;"+(colorBase()+70)+"m";
     }
 
-    public String reset() {
-        return "\033[0m";
-    }
-
+    public  static final String Reset = "\033[0m";
 }

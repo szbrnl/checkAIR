@@ -4,12 +4,13 @@ public class Console {
 
     private IConsoleView currentView;
 
+
+
     //private StringBuilder content;
 
     public Console(ViewMode viewMode) throws IllegalAccessException, InstantiationException{
 
         Class selectedViewClass = CurrentMeasurementsView.class;
-
 
         try {
             IConsoleView selectedView = (IConsoleView) selectedViewClass.newInstance();
