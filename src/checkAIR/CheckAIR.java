@@ -2,7 +2,7 @@ package checkAIR;
 
 import checkAIR.airly.AirlyClient;
 import checkAIR.airly.NotProvidedException;
-import checkAIR.console.Console;
+import checkAIR.console.PrettyConsole;
 import checkAIR.console.ViewMode;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class CheckAIR {
 
         System.out.println(airlyClient.toString());
 
-        Console cons = new Console(ViewMode.CurrentMeasurements);
+        PrettyConsole cons = new PrettyConsole(ViewMode.CurrentMeasurements, "Stan powietrza w "+50.06201+ ", "+50.06201, "13:12");
         System.out.println(cons.toString());
 
         try {
