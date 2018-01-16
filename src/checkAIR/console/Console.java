@@ -8,12 +8,13 @@ public class Console {
 
     public Console(ViewMode viewMode) throws IllegalAccessException, InstantiationException{
 
-        int width = 110;
+        int width = 80;
         int height = 17;
 
         Class selectedViewClass = CurrentMeasurementsView.class;
 
         console = new PrettyConsole(width, height);
+        console.addContent("adsSDADS", 3, 4);
         //console.append(new StringBuilder("________________________________________________________________________________"), Color.TextBlue, Color.BackgroundGreen);
 
         try {
@@ -30,6 +31,6 @@ public class Console {
 
     @Override
     public String toString() {
-        return console.getContent().toString();
+        return console.getWindow().toString();
     }
 }
