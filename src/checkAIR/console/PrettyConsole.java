@@ -5,12 +5,64 @@ import java.util.List;
 
 class PrettyConsole {
     private List<StringBuilder> window;
+
+
+    //Content for console, area inside the window's borders
+    // x: 1 - width-2
+    // y: 4 - height-1
+    private List<StringBuilder> content;
+
+    private StringBuilder firstTitle;
+    private StringBuilder secondTitle;
+
+
+
+    int width;
+    int height;
+    int banner_width = 40;
+
+    public PrettyConsole(int width, int height, String firstTitle, String secondTitle) throws IllegalArgumentException {
+
+        //TODO parametryzacja szerokości titlebar
+        //TODO wyjątki na niewłaściwe argumenty w konstruktorze
+        if(height<5) throw new IllegalArgumentException("Given height is to small");
+
+        //TODO za długa nazwa nie powoduje błędu, tylko wyświetlenie części
+
+
+        content = new LinkedList<StringBuilder>();
+        window = new LinkedList<StringBuilder>();
+
+
+
+        this.firstTitle = new StringBuilder(fromChar(' ', banner_width-2));
+        this.firstTitle.replace(0,firstTitle.length(), firstTitle);
+
+        this.secondTitle = new StringBuilder(fromChar(' ', banner_width-2));
+        this.secondTitle.replace(this.secondTitle.length()-secondTitle.length(), this.secondTitle.length()-1, secondTitle);
+
+        this.width = width;
+        this.height = height;
+
+        fill();
+    }
+
     public StringBuilder getWindow() {
 
         StringBuilder filledWindow = new StringBuilder();
 
         //Appending title bar
-        for(int i=0; i<4; i++) {
+        filledWindow.append(window.get(0));
+        filledWindow.append('\n');
+
+
+        filledWindow.append(new StringBuilder(window.get(1)).replace((width-banner_width)/2,(width-banner_width)/2 + firstTitle.length(),firstTitle.toString()));
+        filledWindow.append('\n');
+
+        filledWindow.append(new StringBuilder(window.get(2)).replace((width-banner_width)/2,(width-banner_width)/2 + secondTitle.length(),secondTitle.toString()));
+        filledWindow.append('\n');
+
+        for(int i=3; i<4; i++) {
             filledWindow.append(window.get(i));
             filledWindow.append('\n');
         }
@@ -27,24 +79,6 @@ class PrettyConsole {
         return filledWindow;
     }
 
-
-    //Content for console, area inside the window's borders
-    // x: 1 - width-2
-    // y: 4 - height-1
-    private List<StringBuilder> content;
-
-    int width;
-    int height;
-    int banner_width = 40;
-
-    public PrettyConsole(int width, int height) {
-        content = new LinkedList<StringBuilder>();
-        window = new LinkedList<StringBuilder>();
-        this.width = width;
-        this.height = height;
-
-        fill();
-    }
 
 //    public void append(StringBuilder text, Color... colors) {
 //        for (Color color : colors) {
@@ -87,6 +121,7 @@ class PrettyConsole {
         return temp;
     }
 
+    //TODO refaktoryzacja
     private void fill() {
 
         StringBuilder line = new StringBuilder();

@@ -13,7 +13,7 @@ public class Console {
 
         Class selectedViewClass = CurrentMeasurementsView.class;
 
-        console = new PrettyConsole(width, height);
+        console = new PrettyConsole(width, height, "tytuł okienka", "drugi tytuł okienka");
         console.addContent("adsSDADS", 3, 4);
         //console.append(new StringBuilder("________________________________________________________________________________"), Color.TextBlue, Color.BackgroundGreen);
 
