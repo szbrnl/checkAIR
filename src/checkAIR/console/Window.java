@@ -7,7 +7,7 @@ class Window {
     private List<StringBuilder> window;
 
 
-    //Content for console, area inside the window's borders
+    //Content for window, area inside the window's borders
     // x: 1 - width-2
     // y: 4 - height-1
     private List<StringBuilder> content;
@@ -24,8 +24,20 @@ class Window {
     public Window(int width, int height, int bannerWidth, String firstTitle, String secondTitle) throws IllegalArgumentException {
 
         //TODO parametryzacja szerokości titlebar
-        //TODO wyjątki na niewłaściwe argumenty w konstruktorze
-        if(height<5) throw new IllegalArgumentException("Given height is to small");
+
+        // TODO sprawdzić czy się na pewno tak stopniuje
+        if(height<5)
+            throw new IllegalArgumentException("Given height is too short");
+
+        if(width < 10)
+            throw new IllegalArgumentException("Given width is too small");
+
+        if(width - 4 <= bannerWidth)
+            throw new IllegalArgumentException("Banner width is too large");
+
+
+
+
 
         //TODO za długa nazwa nie powoduje błędu, tylko wyświetlenie części
         this.bannerWidth = bannerWidth;
@@ -37,14 +49,15 @@ class Window {
 
 
 
+        //If title is longer than the space for title, showing only partially
         this.firstTitle = new StringBuilder(fromChar(' ', this.bannerWidth -2));
-        this.firstTitle.replace(0,firstTitle.length(), firstTitle);
+        this.firstTitle.replace(0, this.firstTitle.length(), firstTitle.substring(0, this.firstTitle.length()));
 
         this.secondTitle = new StringBuilder(fromChar(' ', this.bannerWidth -2));
-        this.secondTitle.replace(this.secondTitle.length()-secondTitle.length(), this.secondTitle.length()-1, secondTitle);
+        this.secondTitle.replace(0, this.secondTitle.length(), secondTitle.substring(0, this.secondTitle.length()));
 
 
-        fill();
+        addBorders();
     }
 
     public StringBuilder getWindow() {
@@ -122,7 +135,7 @@ class Window {
     }
 
     //TODO refaktoryzacja
-    private void fill() {
+    private void addBorders() {
 
         StringBuilder line = new StringBuilder();
         line.append(fromChar(' ',(width- bannerWidth)/2));
