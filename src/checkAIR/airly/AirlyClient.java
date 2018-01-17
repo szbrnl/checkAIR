@@ -33,7 +33,7 @@ public class AirlyClient {
         this.measurements = getSensorDetailedMeasurements(sensorId);
     }
 
-    //TODO zapamiętywanie wszystkiego o co pytamy w tym obiekcie, żeby nie musieć wielokrotnie parsować?
+
     //TODO rozróżnić opcję z historią?
 
 
@@ -142,7 +142,7 @@ public class AirlyClient {
                 "&historyHours=5&historyResolutionHours=5";
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        ExtendedMeasurements nearestSensorMeasurement = gson.fromJson(retrieveJson(Url), ExtendedMeasurements.class);
+        ExtendedMeasurements nearestSensorMeasurement = gson.fromJson(retrieveJson(Url), new ExtendedMeasurements().getClass());
         return nearestSensorMeasurement;
     }
 

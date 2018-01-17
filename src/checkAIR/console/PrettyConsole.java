@@ -6,26 +6,27 @@ public class PrettyConsole {
 
     Window window;
 
-    public PrettyConsole(ViewMode viewMode, String firstTitle, String secondTitle) throws IllegalAccessException, InstantiationException{
+    public PrettyConsole(IConsoleView selectedView, String firstTitle, String secondTitle) throws IllegalAccessException, InstantiationException{
 
         int width = 100;
         int height = 20;
 
-        Class selectedViewClass = CurrentMeasurementsView.class;
+        Frame namesFrame = new Frame(true);
+        namesFrame.add("pm25");
+        namesFrame.add("2222222222222", Color.TextRed);
+        namesFrame.add("pm1", Color.HighIntensityBackgroundBlue);
+
+        Frame valueFrames = new Frame(false);
+        valueFrames.add("odczyt1", Color.TextBlue);
+        valueFrames.add("odczyt234234", Color.BackgroundCyan);
+        valueFrames.add("odczytsdieur348");
+
 
         window = new Window(width, height, 40, firstTitle, secondTitle);
-        window.addContent("adsSDADS", 3, 4);
+        window.addColumn(namesFrame);
+        window.addColumn(valueFrames);
 
 
-        try {
-            IConsoleView selectedView = (IConsoleView) selectedViewClass.newInstance();
-        }
-        catch (IllegalAccessException ex) {
-            throw new IllegalAccessException("Could not access the constructor of "+selectedViewClass.getName());
-        }
-        catch (InstantiationException ex) {
-            throw new InstantiationException("There was an error during view instantiation");
-        }
     }
 
 
