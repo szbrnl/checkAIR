@@ -26,7 +26,7 @@ public class CheckAIR {
 
         System.out.println(airlyClient.toString());
 
-        PrettyConsole cons = new PrettyConsole(ViewMode.CurrentMeasurements, "Stan powietrza w "+50.06201+ ", "+50.06201, "13:12");
+        PrettyConsole cons = new PrettyConsole(ViewMode.CurrentMeasurements, "Stan powietrza w "+50.06201+ ", "+50.06201, "");
         System.out.println(cons.toString());
 
         try {

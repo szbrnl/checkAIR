@@ -16,7 +16,6 @@ class Window {
     private StringBuilder secondTitle;
 
 
-
     int width;
     int height;
     int bannerWidth;
@@ -24,7 +23,6 @@ class Window {
     public Window(int width, int height, int bannerWidth, String firstTitle, String secondTitle) throws IllegalArgumentException {
 
         //TODO parametryzacja szerokości titlebar
-
         // TODO sprawdzić czy się na pewno tak stopniuje
         if(height<5)
             throw new IllegalArgumentException("Given height is too short");
@@ -36,10 +34,6 @@ class Window {
             throw new IllegalArgumentException("Banner width is too large");
 
 
-
-
-
-        //TODO za długa nazwa nie powoduje błędu, tylko wyświetlenie części
         this.bannerWidth = bannerWidth;
         this.width = width;
         this.height = height;
@@ -48,14 +42,12 @@ class Window {
         window = new LinkedList<StringBuilder>();
 
 
-
         //If title is longer than the space for title, showing only partially
         this.firstTitle = new StringBuilder(fromChar(' ', this.bannerWidth -2));
-        this.firstTitle.replace(0, this.firstTitle.length(), firstTitle.substring(0, this.firstTitle.length()));
+        this.firstTitle.replace(0, this.firstTitle.length(), firstTitle.substring(0, Math.min(this.firstTitle.length(), firstTitle.length())));
 
         this.secondTitle = new StringBuilder(fromChar(' ', this.bannerWidth -2));
-        this.secondTitle.replace(0, this.secondTitle.length(), secondTitle.substring(0, this.secondTitle.length()));
-
+        this.secondTitle.replace(0, this.secondTitle.length()-1, secondTitle.substring(0, Math.min(this.secondTitle.length(), secondTitle.length())));
 
         addBorders();
     }
@@ -197,6 +189,7 @@ class Window {
         for(int i=0; i<height-4; i++) {
             content.add(new StringBuilder(fromChar(' ',width-2)));
         }
+
     }
 
     //TODO no raczej tak nie będzie
