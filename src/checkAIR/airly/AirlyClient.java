@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.lang.Double.isNaN;
 
@@ -47,10 +48,16 @@ public class AirlyClient {
     }
 
     public int getCurrentHumidity() throws NotProvidedException {
-        double humidity = currentMeasurements.humidity;
-        if (isNaN(humidity))
-            throw new NotProvidedException();
-        return (int)(Math.round(humidity));
+
+        return Math.round(
+                Optional.ofNullable(currentMeasurements.humidity)
+                .orElseThrow(NotProvidedException::new)
+                .intValue());
+//
+//        double humidity = currentMeasurements.humidity;
+//        if (isNaN(humidity))
+//            throw new NotProvidedException();
+//        return (int)(Math.round(humidity));
     }
 
     public String getCurrentMeasurementTime() throws NotProvidedException {
@@ -104,10 +111,16 @@ public class AirlyClient {
     }
 
     public double getCurrentWindDirection() throws NotProvidedException {
-        double windDirection = currentMeasurements.windDirection;
-        if (isNaN(windDirection))
-            throw new NotProvidedException();
-        return windDirection;
+
+        return Math.round(
+                Optional.ofNullable(currentMeasurements.windDirection)
+                        .orElseThrow(NotProvidedException::new)
+                        .doubleValue());
+
+//        double windDirection = currentMeasurements.windDirection;
+//        if (isNaN(windDirection))
+//            throw new NotProvidedException();
+//        return windDirection;
     }
 
     public double getCurrentWindSpeed() throws NotProvidedException {

@@ -30,7 +30,7 @@ public class Measurements {
 
         temperature = (jsonObject.has("temperature") ? jsonObject.get("temperature").getAsDouble() : NaN);
 
-        windDirection = (jsonObject.has("windDirection") ? jsonObject.get("windDirection").getAsDouble() : NaN);
+        windDirection = (jsonObject.has("windDirection") ? jsonObject.get("windDirection").getAsDouble() : null);
 
         windSpeed = (jsonObject.has("windSpeed") ? jsonObject.get("windSpeed").getAsDouble() : NaN);
 
@@ -56,7 +56,7 @@ public class Measurements {
 
     public final double temperature;
 
-    public final double windDirection;
+    public final Double windDirection;
 
     public final double windSpeed;
 

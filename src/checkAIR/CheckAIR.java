@@ -47,7 +47,7 @@ public class CheckAIR {
         System.out.println(cons.toString());
 
         try {
-            System.out.println(airlyClient.getCurrentAirQualityIndex());
+            System.out.println(airlyClient.getCurrentHumidity());
         }
         catch (NotProvidedException ex) {
             System.out.println("nie dali");
