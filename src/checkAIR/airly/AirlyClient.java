@@ -121,12 +121,12 @@ public class AirlyClient {
     private void getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
 
         //TODO IO exception?
-
         int id = getNearestSensorId(latitude, longitude);
         getSensorDetailedMeasurements(id);
 
     }
 
+    //TODO trycatch
     private int getNearestSensorId(double latitude, double longitude) throws IOException {
         String Url = "https://airapi.airly.eu/v1/nearestSensor/measurements?latitude=" +
                 latitude + "&longitude=" +
@@ -136,6 +136,7 @@ public class AirlyClient {
         return root.get("id").getAsInt();
     }
 
+    //TODO jeśli zwróci puste to nie ma takiego sensora
     public void getSensorDetailedMeasurements(int sensorID) throws IOException {
         //TODO IO exception?
         String Url = "https://airapi.airly.eu/v1/sensor/measurements?sensorId=" +
@@ -144,14 +145,13 @@ public class AirlyClient {
 
         JsonObject root = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
 
-
         JsonObject currentMeasurementsJsonObject = root.get("currentMeasurements").getAsJsonObject();
+        JsonArray historyJsonArray = root.getAsJsonArray("history");
+
+        //Parsing current measurements
         this.currentMeasurements = new Measurements(currentMeasurementsJsonObject);
 
-
         this.history = new LinkedList<>();
-
-        JsonArray historyJsonArray = root.getAsJsonArray("history");
 
         //Parsing the history array
         historyJsonArray.forEach( x-> history.add(new DatedMeasurements(x.getAsJsonObject())));
