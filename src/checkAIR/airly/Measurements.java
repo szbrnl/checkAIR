@@ -2,6 +2,8 @@ package checkAIR.airly;
 
 import com.google.gson.JsonObject;
 
+import java.util.Optional;
+
 import static java.lang.Double.NaN;
 
 public class Measurements {
@@ -9,29 +11,31 @@ public class Measurements {
     //TODO zamienić pola na final
     //TODO usunąć settery
     public Measurements(JsonObject jsonObject) {
-        airQualityIndex = NaN;
-        humidity = NaN;
-        pm1 = NaN;
-        pm10 = NaN;
-        pm25 = NaN;
-        pollutionLevel = NaN;
-        pressure = NaN;
-        temperature = NaN;
-        windSpeed = NaN;
-        windDirection = NaN;
 
+        airQualityIndex = (jsonObject.has("airQualityIndex") ? jsonObject.get("airQualityIndex").getAsDouble() : NaN);
 
-        //TODO dodać trycatche które w przypadku braku takiego czegoś dają wartość NULL/NaN
-        airQualityIndex = jsonObject.get("airQualityIndex").getAsDouble();
-        humidity = jsonObject.get("humidity").getAsDouble();
-        //TODO trycatch bo tego zazwyczaj nie ma (a właściwie nigdy)
-        // measurements.setMeasurementTime(currentMeasurementsJsonObject.get("measurementTime").getAsString());
-        pollutionLevel = jsonObject.get("pollutionLevel").getAsDouble();
-        pressure =jsonObject.get("pressure").getAsDouble();
-        temperature = jsonObject.get("temperature").getAsDouble();
-        pm1 = jsonObject.get("pm1").getAsDouble();
-        pm10 = jsonObject.get("pm10").getAsDouble();
-        pm25 = jsonObject.get("pm25").getAsDouble();
+        humidity = (jsonObject.has("humidity") ? jsonObject.get("humidity").getAsDouble() : NaN);
+
+        measurementTime = (jsonObject.has("measurementTime") ? jsonObject.get("measurementTime").getAsString() : null);
+
+        pm1 = (jsonObject.has("pm1") ? jsonObject.get("pm1").getAsDouble() : NaN);
+
+        pm10 = (jsonObject.has("pm10") ? jsonObject.get("pm10").getAsDouble() : NaN);
+
+        pm25 = (jsonObject.has("pm25") ? jsonObject.get("pm25").getAsDouble() : NaN);
+
+        pollutionLevel = (jsonObject.has("pollutionLevel") ? jsonObject.get("pollutionLevel").getAsDouble() : NaN);
+
+        pressure = (jsonObject.has("pressure") ? jsonObject.get("pressure").getAsDouble() : NaN);
+
+        temperature = (jsonObject.has("temperature") ? jsonObject.get("temperature").getAsDouble() : NaN);
+
+        windDirection = (jsonObject.has("windDirection") ? jsonObject.get("windDirection").getAsDouble() : NaN);
+
+        windSpeed = (jsonObject.has("windSpeed") ? jsonObject.get("windSpeed").getAsDouble() : NaN);
+
+        //humidity = Optional.ofNullable(jsonObject.get("humidity")).orElse(NaN).getAsDouble();
+
     }
 
     private double airQualityIndex;
