@@ -141,8 +141,22 @@ public class AirlyClient {
                 sensorID +
                 "&historyHours=5&historyResolutionHours=5";
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        ExtendedMeasurements nearestSensorMeasurement = gson.fromJson(retrieveJson(Url), new ExtendedMeasurements().getClass());
+        ExtendedMeasurements measurements = new ExtendedMeasurements();
+        JsonObject root = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
+
+        ClassLoader classLoader = ExtendedMeasurements.class.getClassLoader();
+        ExtendedMeasurements nearestSensorMeasurement = null;
+        try {
+            Class aClass = classLoader.loadClass("checkAIR.airly.ExtendedMeasurements");
+            System.out.println("aClass.getName() = " + aClass.getName());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            nearestSensorMeasurement = gson.fromJson(retrieveJson(Url), aClass);
+        } catch (ClassNotFoundException e) {
+            System.out.print("ERROR");
+            e.printStackTrace();
+        }
+
+
         return nearestSensorMeasurement;
     }
 
