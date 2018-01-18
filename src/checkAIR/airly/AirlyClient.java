@@ -16,20 +16,22 @@ import static java.lang.Double.isNaN;
 public class AirlyClient {
     private final String apiKey;
 
-    private final ExtendedMeasurements measurements;
+    private Measurements currentMeasurements;
+
+    private List<DatedMeasurements> history;
 
     //TODO w zależości od zapytania pobierze sobie co chce?
 
     public AirlyClient(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
 
-        this.measurements = getNearestSensorMeasurement(latitude, longitude);
+        getNearestSensorMeasurement(latitude, longitude);
     }
 
     public AirlyClient(String apiKey, int sensorId) throws IOException {
         this.apiKey = apiKey;
 
-        this.measurements = getSensorDetailedMeasurements(sensorId);
+        getSensorDetailedMeasurements(sensorId);
     }
 
 
@@ -38,42 +40,42 @@ public class AirlyClient {
 
     //TODO konwersje na ludzką formę
     public int getCurrentAirQualityIndex() throws NotProvidedException {
-        double airQualityIndex = measurements.getCurrentMeasurements().getAirQualityIndex();
+        double airQualityIndex = currentMeasurements.getAirQualityIndex();
         if (isNaN(airQualityIndex))
             throw new NotProvidedException();
         return (int)(Math.round(airQualityIndex));
     }
 
     public int getCurrentHumidity() throws NotProvidedException {
-        double humidity = measurements.getCurrentMeasurements().getHumidity();
+        double humidity = currentMeasurements.getHumidity();
         if (isNaN(humidity))
             throw new NotProvidedException();
         return (int)(Math.round(humidity));
     }
 
     public String getCurrentMeasurementTime() throws NotProvidedException {
-        String measurementTime = measurements.getCurrentMeasurements().getMeasurementTime();
+        String measurementTime = currentMeasurements.getMeasurementTime();
         if (measurementTime == null)
             throw new NotProvidedException();
         return measurementTime;
     }
 
     public int getCurrentPm1() throws NotProvidedException {
-        double pm1 = measurements.getCurrentMeasurements().getPm1();
+        double pm1 = currentMeasurements.getPm1();
         if (isNaN(pm1))
             throw new NotProvidedException();
         return (int)(Math.round(pm1));
     }
 
     public int getCurrentPm10() throws NotProvidedException {
-        double pm10 = measurements.getCurrentMeasurements().getPm10();
+        double pm10 = currentMeasurements.getPm10();
         if (isNaN(pm10))
             throw new NotProvidedException();
         return (int)(Math.round(pm10));
     }
 
     public int getCurrentPm25() throws NotProvidedException {
-        double pm25 = measurements.getCurrentMeasurements().getPm25();
+        double pm25 = currentMeasurements.getPm25();
         if (isNaN(pm25))
             throw new NotProvidedException();
         return (int)(Math.round(pm25));
@@ -81,47 +83,47 @@ public class AirlyClient {
 
     //TODO konwersja? na co?
     public double getCurrentPollutionLevel() throws NotProvidedException {
-        double pollutionLevel = measurements.getCurrentMeasurements().getPollutionLevel();
+        double pollutionLevel = currentMeasurements.getPollutionLevel();
         if (isNaN(pollutionLevel))
             throw new NotProvidedException();
         return pollutionLevel;
     }
 
     public int getCurrentPressure() throws NotProvidedException {
-        double currentPressure = measurements.getCurrentMeasurements().getPressure();
+        double currentPressure = currentMeasurements.getPressure();
         if (isNaN(currentPressure))
             throw new NotProvidedException();
         return (int)(Math.round(currentPressure));
     }
 
     public int getCurrentTemperature() throws NotProvidedException {
-        double currentTemperature = measurements.getCurrentMeasurements().getTemperature();
+        double currentTemperature = currentMeasurements.getTemperature();
         if (isNaN(currentTemperature))
             throw new NotProvidedException();
         return (int)(Math.round(currentTemperature));
     }
 
     public double getCurrentWindDirection() throws NotProvidedException {
-        double windDirection = measurements.getCurrentMeasurements().getWindDirection();
+        double windDirection = currentMeasurements.getWindDirection();
         if (isNaN(windDirection))
             throw new NotProvidedException();
         return windDirection;
     }
 
     public double getCurrentWindSpeed() throws NotProvidedException {
-        double windSpeed = measurements.getCurrentMeasurements().getWindSpeed();
+        double windSpeed = currentMeasurements.getWindSpeed();
         if (isNaN(windSpeed))
             throw new NotProvidedException();
         return Math.round(windSpeed*10)/10;
     }
 
 
-    private ExtendedMeasurements getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
+    private void getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
 
         //TODO IO exception?
 
         int id = getNearestSensorId(latitude, longitude);
-        return getSensorDetailedMeasurements(id);
+        getSensorDetailedMeasurements(id);
 
     }
 
@@ -134,7 +136,7 @@ public class AirlyClient {
         return root.get("id").getAsInt();
     }
 
-    public ExtendedMeasurements getSensorDetailedMeasurements(int sensorID) throws IOException {
+    public void getSensorDetailedMeasurements(int sensorID) throws IOException {
         //TODO IO exception?
         String Url = "https://airapi.airly.eu/v1/sensor/measurements?sensorId=" +
                 sensorID +
@@ -142,22 +144,17 @@ public class AirlyClient {
 
         JsonObject root = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
 
-        ExtendedMeasurements nearestSensorMeasurement = new ExtendedMeasurements();
-
-
 
         JsonObject currentMeasurementsJsonObject = root.get("currentMeasurements").getAsJsonObject();
-        Measurements currentMeasurements = new Measurements(currentMeasurementsJsonObject);
+        this.currentMeasurements = new Measurements(currentMeasurementsJsonObject);
 
 
-        List<DatedMeasurements> history = new LinkedList<>();
+        this.history = new LinkedList<>();
 
         JsonArray historyJsonArray = root.getAsJsonArray("history");
 
         //Parsing the history array
         historyJsonArray.forEach( x-> history.add(new DatedMeasurements(x.getAsJsonObject())));
-
-        return nearestSensorMeasurement;
     }
 
     private JsonReader retrieveJson(String Url) throws IOException {
@@ -196,7 +193,6 @@ public class AirlyClient {
 
     @Override
     public String toString() {
-        //return measurements.getCurrentMeasurements().toString();
-        return "Work in progress";
+        return currentMeasurements.toString();
     }
 }

@@ -9,16 +9,16 @@ public class Measurements {
     //TODO zamienić pola na final
     //TODO usunąć settery
     public Measurements(JsonObject jsonObject) {
-//        airQualityIndex = NaN;
-//        humidity = NaN;
-//        pm1 = NaN;
-//        pm10 = NaN;
-//        pm25 = NaN;
-//        pollutionLevel = NaN;
-//        pressure = NaN;
-//        temperature = NaN;
-//        windSpeed = NaN;
-//        windDirection = NaN;
+        airQualityIndex = NaN;
+        humidity = NaN;
+        pm1 = NaN;
+        pm10 = NaN;
+        pm25 = NaN;
+        pollutionLevel = NaN;
+        pressure = NaN;
+        temperature = NaN;
+        windSpeed = NaN;
+        windDirection = NaN;
 
 
         //TODO dodać trycatche które w przypadku braku takiego czegoś dają wartość NULL/NaN

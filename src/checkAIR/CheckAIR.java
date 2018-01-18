@@ -46,26 +46,26 @@ public class CheckAIR {
         PrettyConsole cons = new PrettyConsole(mainView, "Stan powietrza w "+50.06201+ ", "+50.06201, "");
         System.out.println(cons.toString());
 
-//        try {
-//            System.out.println(airlyClient.getCurrentAirQualityIndex());
-//        }
-//        catch (NotProvidedException ex) {
-//            System.out.println("nie dali");
-//        }
-//
-//        try {
-//            System.out.println(airlyClient.getCurrentWindDirection());
-//        }
-//        catch (NotProvidedException ex) {
-//            System.out.println("nie dali");
-//        }
-//
-//        try {
-//            System.out.println(airlyClient.getCurrentAirQualityIndex());
-//        }
-//        catch (NotProvidedException ex) {
-//            System.out.println("nie dali");
-//        }
+        try {
+            System.out.println(airlyClient.getCurrentAirQualityIndex());
+        }
+        catch (NotProvidedException ex) {
+            System.out.println("nie dali");
+        }
+
+        try {
+            System.out.println(airlyClient.getCurrentWindDirection());
+        }
+        catch (NotProvidedException ex) {
+            System.out.println("nie dali");
+        }
+
+        try {
+            System.out.println(airlyClient.getCurrentAirQualityIndex());
+        }
+        catch (NotProvidedException ex) {
+            System.out.println("nie dali");
+        }
 
 
     }
