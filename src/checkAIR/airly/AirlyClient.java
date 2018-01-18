@@ -40,42 +40,42 @@ public class AirlyClient {
 
     //TODO konwersje na ludzką formę
     public int getCurrentAirQualityIndex() throws NotProvidedException {
-        double airQualityIndex = currentMeasurements.getAirQualityIndex();
+        double airQualityIndex = currentMeasurements.airQualityIndex;
         if (isNaN(airQualityIndex))
             throw new NotProvidedException();
         return (int)(Math.round(airQualityIndex));
     }
 
     public int getCurrentHumidity() throws NotProvidedException {
-        double humidity = currentMeasurements.getHumidity();
+        double humidity = currentMeasurements.humidity;
         if (isNaN(humidity))
             throw new NotProvidedException();
         return (int)(Math.round(humidity));
     }
 
     public String getCurrentMeasurementTime() throws NotProvidedException {
-        String measurementTime = currentMeasurements.getMeasurementTime();
+        String measurementTime = currentMeasurements.measurementTime;
         if (measurementTime == null)
             throw new NotProvidedException();
         return measurementTime;
     }
 
     public int getCurrentPm1() throws NotProvidedException {
-        double pm1 = currentMeasurements.getPm1();
+        double pm1 = currentMeasurements.pm1;
         if (isNaN(pm1))
             throw new NotProvidedException();
         return (int)(Math.round(pm1));
     }
 
     public int getCurrentPm10() throws NotProvidedException {
-        double pm10 = currentMeasurements.getPm10();
+        double pm10 = currentMeasurements.pm10;
         if (isNaN(pm10))
             throw new NotProvidedException();
         return (int)(Math.round(pm10));
     }
 
     public int getCurrentPm25() throws NotProvidedException {
-        double pm25 = currentMeasurements.getPm25();
+        double pm25 = currentMeasurements.pm25;
         if (isNaN(pm25))
             throw new NotProvidedException();
         return (int)(Math.round(pm25));
@@ -83,35 +83,35 @@ public class AirlyClient {
 
     //TODO konwersja? na co?
     public double getCurrentPollutionLevel() throws NotProvidedException {
-        double pollutionLevel = currentMeasurements.getPollutionLevel();
+        double pollutionLevel = currentMeasurements.pollutionLevel;
         if (isNaN(pollutionLevel))
             throw new NotProvidedException();
         return (int) pollutionLevel;
     }
 
     public int getCurrentPressure() throws NotProvidedException {
-        double currentPressure = currentMeasurements.getPressure();
+        double currentPressure = currentMeasurements.pressure;
         if (isNaN(currentPressure))
             throw new NotProvidedException();
         return (int)(Math.round(currentPressure));
     }
 
     public int getCurrentTemperature() throws NotProvidedException {
-        double currentTemperature = currentMeasurements.getTemperature();
+        double currentTemperature = currentMeasurements.temperature;
         if (isNaN(currentTemperature))
             throw new NotProvidedException();
         return (int)(Math.round(currentTemperature));
     }
 
     public double getCurrentWindDirection() throws NotProvidedException {
-        double windDirection = currentMeasurements.getWindDirection();
+        double windDirection = currentMeasurements.windDirection;
         if (isNaN(windDirection))
             throw new NotProvidedException();
         return windDirection;
     }
 
     public double getCurrentWindSpeed() throws NotProvidedException {
-        double windSpeed = currentMeasurements.getWindSpeed();
+        double windSpeed = currentMeasurements.windSpeed;
         if (isNaN(windSpeed))
             throw new NotProvidedException();
         return Math.round(windSpeed*10)/10;

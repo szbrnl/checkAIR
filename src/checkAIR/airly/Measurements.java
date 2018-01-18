@@ -38,72 +38,27 @@ public class Measurements {
 
     }
 
-    private final double airQualityIndex;
+    public final double airQualityIndex;
 
-    private final double humidity;
+    public final double humidity;
 
-    private final String measurementTime;
+    public final String measurementTime;
 
-    private final double pm1;
+    public final double pm1;
 
-    private final double pm10;
+    public final double pm10;
 
-    private final double pm25;
+    public final double pm25;
 
-    private final double pollutionLevel;
+    public final double pollutionLevel;
 
-    private final double pressure;
+    public final double pressure;
 
-    private final double temperature;
+    public final double temperature;
 
-    private final double windDirection;
+    public final double windDirection;
 
-    private final double windSpeed;
-
-
-    public double getAirQualityIndex() {
-        return airQualityIndex;
-    }
-
-    public double getHumidity() {
-        return humidity;
-    }
-
-    public String getMeasurementTime() {
-        return measurementTime;
-    }
-
-    public double getPm1() {
-        return pm1;
-    }
-
-    public double getPm10() {
-        return pm10;
-    }
-
-    public double getPm25() {
-        return pm25;
-    }
-
-    public double getPollutionLevel() {
-        return pollutionLevel;
-    }
-
-    public double getPressure() {
-        return pressure;
-    }
-
-    public double getTemperature() {
-        return temperature;
-    }
-
-    public double getWindDirection() {
-        return windDirection;
-    }
-
-    public double getWindSpeed() {
-        return windSpeed;
-    }
+    public final double windSpeed;
 
     @Override
     public String toString() {
