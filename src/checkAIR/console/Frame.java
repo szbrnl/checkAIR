@@ -53,7 +53,7 @@ public class Frame {
     }
 
     public List<StringBuilder> getLines() {
-        if(alignRight)
+
             align();
         return lines;
     }
@@ -63,15 +63,25 @@ public class Frame {
     }
 
     private void align() {
+        if(alignRight) {
+            for(int i=0; i<lines.size(); i++) {
 
-        for(int i=0; i<lines.size(); i++) {
+                lines.set(i, new StringBuilder(
+                        fromChar(' ', width).replace(width - linesLengths.get(i) ,width, lines.get(i).toString())
+                ));
 
-            lines.set(i, new StringBuilder(
-                    fromChar(' ', width).replace(width - linesLengths.get(i) ,width, lines.get(i).toString())
-            ));
+                linesLengths.set(i, width);
+            }
+        }
+        else {
+            for(int i=0; i<lines.size(); i++) {
 
-            linesLengths.set(i, width);
+                lines.set(i, new StringBuilder(
+                        fromChar(' ', width).replace(0 ,linesLengths.get(i), lines.get(i).toString())
+                ));
 
+                linesLengths.set(i, width);
+            }
         }
 
     }

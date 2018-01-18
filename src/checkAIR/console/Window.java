@@ -1,7 +1,9 @@
 package checkAIR.console;
 
+import javax.xml.stream.events.Characters;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 class Window {
     private List<StringBuilder> window;
@@ -11,16 +13,21 @@ class Window {
     // x: 1 - width-2
     // y: 4 - height-1
     private List<StringBuilder> content;
-    private List<Integer> contentLinesLength;
+
+    //Real length of the lines (escape characters used for colors are not visible on the screen
+    //but they are elements in StringBuilder)
+    private List<Integer> contentLinesEndPositions;
 
     private StringBuilder firstTitle;
     private StringBuilder secondTitle;
 
 
-    int width;
-    int height;
-    int bannerWidth;
-    int contentWidth;
+
+    private int width;
+    private int height;
+    private int bannerWidth;
+    private int margin = 2;
+    private int contentWidth = 2;
 
     //TODO jeśli coś wykracza poza ekran to nie powoduje błędu, jest po prostu ucinane
 
@@ -42,10 +49,9 @@ class Window {
         this.bannerWidth = bannerWidth;
         this.width = width;
         this.height = height;
-        this.contentWidth = 2;
 
         content = new LinkedList<>();
-        contentLinesLength = new LinkedList<>();
+        contentLinesEndPositions = new LinkedList<>();
         window = new LinkedList<>();
 
 
@@ -63,20 +69,23 @@ class Window {
         List<StringBuilder> lines = frame.getLines();
         List<Integer> linesLengths = frame.getLinesLengths();
 
+        if( contentWidth + 3 + frame.getWidth() > width - 2)
+            return;
+
         int posX;
 
         for (int i = 0; i < lines.size(); i++) {
-            posX = contentLinesLength.get(posY + i) + 3;
+            posX = contentLinesEndPositions.get(posY + i) + 3;
 
             content.get(posY + i).replace(posX, posX + linesLengths.get(i), lines.get(i).toString());
 
-            contentLinesLength.set(posY + i, posX + lines.get(i).length() + 1);
-
+            contentLinesEndPositions.set(posY + i, posX + lines.get(i).length() + 1);
         }
+        contentWidth = contentWidth + 3 + frame.getWidth();
     }
 
     public void addColumn(Frame frame) {
-        addFrame(frame, 1);
+        addFrame(frame, margin );
     }
 
 
@@ -102,9 +111,29 @@ class Window {
 
         //Appending border frames and content
         for (int i = 4; i < height; i++) {
-            filledWindow.append(window.get(i).replace(1, width - 1, content.get(i - 4).toString()));
+           //this.firstTitle.replace(0, this.firstTitle.length(), firstTitle.substring(0, Math.min(this.firstTitle.length(), firstTitle.length())));
+            if(content.get(i-4).charAt(10)!=' ') {
+                System.out.println(content.get(i - 4).length() + "AAAAA");
+                int contentLineLength = 0;
+                //= (int) content.get(i-4).toString().chars().filter(x-> (Character.isLetterOrDigit(x) || Character.isWhitespace(x))).count();
+
+                for(char x : content.get(i-4).toString().toCharArray()) {
+                    if( Character.isLetterOrDigit(x) || Character.isWhitespace(x))
+                        contentLineLength++;
+                }
+
+
+                System.out.println(contentLineLength);
+                System.out.println("\n");
+            }
+
+            int contentLineLength = (int) content.get(i-4).toString().chars().filter(x-> (Character.isAlphabetic(x) || Character.isWhitespace(x )|| Character.isDigit(x))).count();
+
+
+            filledWindow.append(window.get(i).replace(1, width - 2, content.get(i - 4).toString()));
             filledWindow.append('\n');
         }
+
 
         //Appending bottom border
         filledWindow.append(window.get(window.size() - 1));
@@ -112,31 +141,6 @@ class Window {
         return filledWindow;
     }
 
-//dodawanie z kolorem - prawdopodobnie do wywalenia
-//    public void append(StringBuilder text, Color... colors) {
-//        for (Color color : colors) {
-//            content.append(color.getCode());
-//        }
-//        content.append(text);
-//        content.append(Color.Reset);
-//    }
-
-    public void add(StringBuilder content, int positionX, int positionY, Color... colors) throws IllegalArgumentException {
-        if (positionX <= 0 || positionX >= width || positionY <= 0 || positionY >= height)
-            throw new IllegalArgumentException("Illegal position");
-
-    }
-
-    public void addContent(StringBuilder content, int x, int y) {
-        String[] sLines = content.toString().split("\n");
-
-        int i = 0;
-        for (String sLine : sLines) {
-            StringBuilder line = this.content.get(y + i);
-            line.replace(x, x + sLine.length(), sLine);
-            i++;
-        }
-    }
 
 
     private StringBuilder fromChar(char character, int count) {
@@ -209,7 +213,7 @@ class Window {
         //Filling content
         for (int i = 0; i < height - 4; i++) {
             content.add(new StringBuilder(fromChar(' ', width - 2)));
-            contentLinesLength.add(1);
+            contentLinesEndPositions.add(margin);
         }
 
     }

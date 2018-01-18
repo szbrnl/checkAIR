@@ -14,17 +14,22 @@ public class PrettyConsole {
         Frame namesFrame = new Frame(true);
         namesFrame.add("pm25");
         namesFrame.add("2222222222222", Color.TextRed);
-        namesFrame.add("pm1", Color.HighIntensityBackgroundBlue);
+        namesFrame.add("2222222222222");
 
         Frame valueFrames = new Frame(false);
-        valueFrames.add("odczyt1", Color.TextBlue);
-        valueFrames.add("odczyt234234", Color.BackgroundCyan);
-        valueFrames.add("odczytsdieur348");
+        valueFrames.add("odczyt1");
+        valueFrames.add("odczyt234234");
+        valueFrames.add("odczyt234sdaadasasads234", Color.BackgroundBlue);
 
 
         window = new Window(width, height, 40, firstTitle, secondTitle);
         window.addColumn(namesFrame);
         window.addColumn(valueFrames);
+        window.addColumn(valueFrames);
+        window.addColumn(valueFrames);
+        window.addColumn(valueFrames);
+        window.addColumn(valueFrames);
+
 
 
     }
