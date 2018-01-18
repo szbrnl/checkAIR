@@ -1,9 +1,6 @@
 package checkAIR.airly;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
@@ -11,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 import static java.lang.Double.isNaN;
 
@@ -141,21 +140,22 @@ public class AirlyClient {
                 sensorID +
                 "&historyHours=5&historyResolutionHours=5";
 
-        ExtendedMeasurements measurements = new ExtendedMeasurements();
         JsonObject root = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
 
-        ClassLoader classLoader = ExtendedMeasurements.class.getClassLoader();
-        ExtendedMeasurements nearestSensorMeasurement = null;
-        try {
-            Class aClass = classLoader.loadClass("checkAIR.airly.ExtendedMeasurements");
-            System.out.println("aClass.getName() = " + aClass.getName());
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            nearestSensorMeasurement = gson.fromJson(retrieveJson(Url), aClass);
-        } catch (ClassNotFoundException e) {
-            System.out.print("ERROR");
-            e.printStackTrace();
-        }
+        ExtendedMeasurements nearestSensorMeasurement = new ExtendedMeasurements();
 
+
+
+        JsonObject currentMeasurementsJsonObject = root.get("currentMeasurements").getAsJsonObject();
+        Measurements currentMeasurements = new Measurements(currentMeasurementsJsonObject);
+
+
+        List<DatedMeasurements> history = new LinkedList<>();
+
+        JsonArray historyJsonArray = root.getAsJsonArray("history");
+
+        //Parsing the history array
+        historyJsonArray.forEach( x-> history.add(new DatedMeasurements(x.getAsJsonObject())));
 
         return nearestSensorMeasurement;
     }
@@ -196,6 +196,7 @@ public class AirlyClient {
 
     @Override
     public String toString() {
-        return measurements.getCurrentMeasurements().toString();
+        //return measurements.getCurrentMeasurements().toString();
+        return "Work in progress";
     }
 }
