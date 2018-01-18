@@ -38,71 +38,28 @@ public class Measurements {
 
     }
 
-    private double airQualityIndex;
+    private final double airQualityIndex;
 
-    private double humidity;
+    private final double humidity;
 
-    private String measurementTime;
+    private final String measurementTime;
 
-    private double pm1;
+    private final double pm1;
 
-    private double pm10;
+    private final double pm10;
 
-    private double pm25;
+    private final double pm25;
 
-    private double pollutionLevel;
+    private final double pollutionLevel;
 
-    private double pressure;
+    private final double pressure;
 
-    private double temperature;
+    private final double temperature;
 
-    private double windDirection;
+    private final double windDirection;
 
-    private double windSpeed;
+    private final double windSpeed;
 
-    public void setAirQualityIndex(double airQualityIndex) {
-        this.airQualityIndex = airQualityIndex;
-    }
-
-    public void setHumidity(double humidity) {
-        this.humidity = humidity;
-    }
-
-    public void setMeasurementTime(String measurementTime) {
-        this.measurementTime = measurementTime;
-    }
-
-    public void setPm1(double pm1) {
-        this.pm1 = pm1;
-    }
-
-    public void setPm10(double pm10) {
-        this.pm10 = pm10;
-    }
-
-    public void setPm25(double pm25) {
-        this.pm25 = pm25;
-    }
-
-    public void setPollutionLevel(double pollutionLevel) {
-        this.pollutionLevel = pollutionLevel;
-    }
-
-    public void setPressure(double pressure) {
-        this.pressure = pressure;
-    }
-
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
-    public void setWindDirection(double windDirection) {
-        this.windDirection = windDirection;
-    }
-
-    public void setWindSpeed(double windSpeed) {
-        this.windSpeed = windSpeed;
-    }
 
     public double getAirQualityIndex() {
         return airQualityIndex;
