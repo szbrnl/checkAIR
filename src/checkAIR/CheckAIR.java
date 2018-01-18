@@ -8,9 +8,6 @@ import java.io.IOException;
 
 public class CheckAIR {
 
-    //TODO a może odpytywanie o odczyty byłoby realizowane przez airlyclient? client.getcurrentcośtam, client.history.srutututu
-
-
     public static void main(String[] args) throws Exception {
 
         AirlyClient airlyClient;
@@ -49,12 +46,12 @@ public class CheckAIR {
         PrettyConsole cons = new PrettyConsole(mainView, "Stan powietrza w "+50.06201+ ", "+50.06201, "");
         System.out.println(cons.toString());
 
-        try {
-            System.out.println(airlyClient.getCurrentAirQualityIndex());
-        }
-        catch (NotProvidedException ex) {
-            System.out.println("nie dali");
-        }
+//        try {
+//            System.out.println(airlyClient.getCurrentAirQualityIndex());
+//        }
+//        catch (NotProvidedException ex) {
+//            System.out.println("nie dali");
+//        }
 //
 //        try {
 //            System.out.println(airlyClient.getCurrentWindDirection());
