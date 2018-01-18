@@ -11,8 +11,13 @@ class DatedMeasurements {
 
 
     public DatedMeasurements(JsonObject jsonObject) {
-        //TODO Parsing the json
+        //TODO trycatch
 
+        fromDateTime = jsonObject.get("fromDateTime").getAsString();
+
+        tillDateTime = jsonObject.get("tillDateTime").getAsString();
+
+        measurements = new Measurements(jsonObject.getAsJsonObject("measurements"));
     }
 
     @Override
