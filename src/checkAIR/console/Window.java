@@ -65,27 +65,28 @@ class Window {
         addBorders();
     }
 
-    public void addFrame(Frame frame, int posY) {
+
+    public void addColumn(Frame frame) {
+
+        //Checking if there is enough space for a frame
+        if( contentWidth + margin + frame.getWidth() > width - 2)
+            return;
+
         List<StringBuilder> lines = frame.getLines();
         List<Integer> linesLengths = frame.getLinesLengths();
 
-        if( contentWidth + 3 + frame.getWidth() > width - 2)
-            return;
-
+        //The position of last character in a content line
         int posX;
+        int posY = margin;
 
         for (int i = 0; i < lines.size(); i++) {
-            posX = contentLinesEndPositions.get(posY + i) + 3;
+            posX = contentLinesEndPositions.get(posY + i);
 
             content.get(posY + i).replace(posX, posX + linesLengths.get(i), lines.get(i).toString());
 
-            contentLinesEndPositions.set(posY + i, posX + lines.get(i).length() + 1);
+            contentLinesEndPositions.set(posY + i, posX + lines.get(i).length() + 4);
         }
-        contentWidth = contentWidth + 3 + frame.getWidth();
-    }
-
-    public void addColumn(Frame frame) {
-        addFrame(frame, margin );
+        contentWidth = contentWidth + 4 + frame.getWidth();
     }
 
 
@@ -111,26 +112,7 @@ class Window {
 
         //Appending border frames and content
         for (int i = 4; i < height; i++) {
-           //this.firstTitle.replace(0, this.firstTitle.length(), firstTitle.substring(0, Math.min(this.firstTitle.length(), firstTitle.length())));
-            if(content.get(i-4).charAt(10)!=' ') {
-                System.out.println(content.get(i - 4).length() + "AAAAA");
-                int contentLineLength = 0;
-                //= (int) content.get(i-4).toString().chars().filter(x-> (Character.isLetterOrDigit(x) || Character.isWhitespace(x))).count();
-
-                for(char x : content.get(i-4).toString().toCharArray()) {
-                    if( Character.isLetterOrDigit(x) || Character.isWhitespace(x))
-                        contentLineLength++;
-                }
-
-
-                System.out.println(contentLineLength);
-                System.out.println("\n");
-            }
-
-            int contentLineLength = (int) content.get(i-4).toString().chars().filter(x-> (Character.isAlphabetic(x) || Character.isWhitespace(x )|| Character.isDigit(x))).count();
-
-
-            filledWindow.append(window.get(i).replace(1, width - 2, content.get(i - 4).toString()));
+            filledWindow.append(window.get(i).replace(1, width  - 1, content.get(i - 4).toString()));
             filledWindow.append('\n');
         }
 
