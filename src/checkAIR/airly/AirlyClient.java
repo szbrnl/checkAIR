@@ -21,7 +21,7 @@ public class AirlyClient {
     private List<DatedMeasurements> history;
 
     //TODO w zależości od zapytania pobierze sobie co chce?
-
+    //TODO uwzględnić brak sensora w danej okolicy (może jakiś dodatkowy konstruktor z odległością?)
     public AirlyClient(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
 
@@ -86,7 +86,7 @@ public class AirlyClient {
         double pollutionLevel = currentMeasurements.getPollutionLevel();
         if (isNaN(pollutionLevel))
             throw new NotProvidedException();
-        return pollutionLevel;
+        return (int) pollutionLevel;
     }
 
     public int getCurrentPressure() throws NotProvidedException {
