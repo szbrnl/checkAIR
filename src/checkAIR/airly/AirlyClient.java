@@ -114,8 +114,7 @@ public class AirlyClient {
 
         return Math.round(
                 Optional.ofNullable(currentMeasurements.windDirection)
-                        .orElseThrow(NotProvidedException::new)
-                        .doubleValue());
+                        .orElseThrow(NotProvidedException::new));
 
 //        double windDirection = currentMeasurements.windDirection;
 //        if (isNaN(windDirection))

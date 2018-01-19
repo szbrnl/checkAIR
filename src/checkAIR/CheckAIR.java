@@ -5,9 +5,12 @@ import checkAIR.airly.NotProvidedException;
 import checkAIR.console.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class CheckAIR {
 
+    //TODO getCurrentAsMap -> można iterować po tych które są aktualnie dostępne
+    //TODO argumenty -> wybrów opcji -pm10 -pm25 -humidity itd
     public static void main(String[] args) throws Exception {
 
         AirlyClient airlyClient;
@@ -30,10 +33,30 @@ public class CheckAIR {
         namesFrame.add("humidity");
 
         Frame valueFrames = new Frame(false);
-        valueFrames.add(airlyClient.getCurrentPm25());
-        valueFrames.add(airlyClient.getCurrentPm10());
-        valueFrames.add(airlyClient.getCurrentPm1());
-        valueFrames.add(airlyClient.getCurrentHumidity());
+
+        try {
+            valueFrames.add(airlyClient.getCurrentPm25());
+        } catch (NotProvidedException e) {
+            valueFrames.add("No information");
+        }
+
+        try {
+            valueFrames.add(airlyClient.getCurrentPm10());
+        } catch (NotProvidedException e) {
+            valueFrames.add("No information");
+        }
+
+        try {
+            valueFrames.add(airlyClient.getCurrentPm1());
+        } catch (NotProvidedException e) {
+            valueFrames.add("No information");
+        }
+
+        try {
+            valueFrames.add(airlyClient.getCurrentHumidity());
+        } catch (NotProvidedException e) {
+            valueFrames.add("No information");
+        }
 
 
         IConsoleView mainView = new CurrentMeasurementsView();
@@ -41,10 +64,7 @@ public class CheckAIR {
         //mainView.addFrame(valueFrames,14,14);
 
 
-
-
-
-        PrettyConsole cons = new PrettyConsole(mainView, "Stan powietrza w "+50.06201+ ", "+50.06201, "");
+        PrettyConsole cons = new PrettyConsole(mainView, "Stan powietrza w " + 50.06201 + ", " + 50.06201, "");
 
         cons.addFrame(namesFrame);
         cons.addFrame(valueFrames);
@@ -53,22 +73,19 @@ public class CheckAIR {
 
         try {
             System.out.println(airlyClient.getCurrentHumidity());
-        }
-        catch (NotProvidedException ex) {
+        } catch (NotProvidedException ex) {
             System.out.println("nie dali");
         }
 
         try {
             System.out.println(airlyClient.getCurrentWindDirection());
-        }
-        catch (NotProvidedException ex) {
+        } catch (NotProvidedException ex) {
             System.out.println("nie dali");
         }
 
         try {
             System.out.println(airlyClient.getCurrentAirQualityIndex());
-        }
-        catch (NotProvidedException ex) {
+        } catch (NotProvidedException ex) {
             System.out.println("nie dali");
         }
 
