@@ -43,6 +43,10 @@ public class Frame {
         width = Math.max(width, line.length());
     }
 
+    public void add(double value) {
+        add(Double.toString(value));
+    }
+
 
     public int getWidth() {
         return width;
