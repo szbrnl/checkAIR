@@ -27,12 +27,13 @@ public class CheckAIR {
         namesFrame.add("pm25");
         namesFrame.add("pm10");
         namesFrame.add("pm1");
+        namesFrame.add("humidity");
 
-        Frame valueFrames = new Frame(true);
-        valueFrames.add("odczyt1");
-        valueFrames.add("odczyt234234");
-        valueFrames.add("odczytsdieur348");
-
+        Frame valueFrames = new Frame(false);
+        valueFrames.add(airlyClient.getCurrentPm25());
+        valueFrames.add(airlyClient.getCurrentPm10());
+        valueFrames.add(airlyClient.getCurrentPm1());
+        valueFrames.add(airlyClient.getCurrentHumidity());
 
 
         IConsoleView mainView = new CurrentMeasurementsView();
@@ -44,6 +45,10 @@ public class CheckAIR {
 
 
         PrettyConsole cons = new PrettyConsole(mainView, "Stan powietrza w "+50.06201+ ", "+50.06201, "");
+
+        cons.addFrame(namesFrame);
+        cons.addFrame(valueFrames);
+
         System.out.println(cons.toString());
 
         try {
