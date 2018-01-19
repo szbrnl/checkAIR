@@ -8,56 +8,27 @@ import static java.lang.Double.NaN;
 
 public class Measurements {
 
-    //TODO zamienić na referencyjne z domyślnymi nullami
-    public Measurements(JsonObject jsonObject) {
+    private Double airQualityIndex;
 
-//        airQualityIndex = (jsonObject.has("airQualityIndex") ? jsonObject.get("airQualityIndex").getAsDouble() : NaN);
-//
-//        humidity = (jsonObject.has("humidity") ? jsonObject.get("humidity").getAsDouble() : null);
-//
-//        measurementTime = (jsonObject.has("measurementTime") ? jsonObject.get("measurementTime").getAsString() : null);
-//
-//        pm1 = (jsonObject.has("pm1") ? jsonObject.get("pm1").getAsDouble() : NaN);
-//
-//        pm10 = (jsonObject.has("pm10") ? jsonObject.get("pm10").getAsDouble() : NaN);
-//
-//        pm25 = (jsonObject.has("pm25") ? jsonObject.get("pm25").getAsDouble() : NaN);
-//
-//        pollutionLevel = (jsonObject.has("pollutionLevel") ? jsonObject.get("pollutionLevel").getAsDouble() : NaN);
-//
-//        pressure = (jsonObject.has("pressure") ? jsonObject.get("pressure").getAsDouble() : NaN);
-//
-//        temperature = (jsonObject.has("temperature") ? jsonObject.get("temperature").getAsDouble() : NaN);
-//
-//        windDirection = (jsonObject.has("windDirection") ? jsonObject.get("windDirection").getAsDouble() : null);
-//
-//        windSpeed = (jsonObject.has("windSpeed") ? jsonObject.get("windSpeed").getAsDouble() : NaN);
-//
-//        //humidity = Optional.ofNullable(jsonObject.get("humidity")).orElse(NaN).getAsDouble();
+    private Double humidity;
 
-    }
+    private String measurementTime;
 
-    public Double airQualityIndex;
+    private Double pm1;
 
-    public Double humidity;
+    private Double pm10;
 
-    public String measurementTime;
+    private Double pm25;
 
-    public double pm1;
+    private Double pollutionLevel;
 
-    public double pm10;
+    private Double pressure;
 
-    public double pm25;
+    private Double temperature;
 
-    public double pollutionLevel;
+    private Double windDirection;
 
-    public double pressure;
-
-    public double temperature;
-
-    public Double windDirection;
-
-    public double windSpeed;
+    private Double windSpeed;
 
     @Override
     public String toString() {
