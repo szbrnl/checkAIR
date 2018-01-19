@@ -21,6 +21,7 @@ public class AirlyClient {
 
     private List<DatedMeasurements> history;
 
+    //TODO get(MeasurementType)  ????
     //TODO dodać klasę airlyParser ktora zajmuje się tylko parsowaniem i zwraca Measurements?
     //TODO dodać stopień zagrożenia (jakiś enum?)
     //TODO w zależości od zapytania pobierze sobie co chce?
