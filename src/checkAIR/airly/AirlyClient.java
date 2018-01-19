@@ -3,6 +3,7 @@ package checkAIR.airly;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 
+import javax.naming.InsufficientResourcesException;
 import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +39,18 @@ public class AirlyClient {
         getSensorDetailedMeasurements(sensorId);
     }
 
+    public MeasurementQualityIndex getMeasurementQualityIndex(MeasurementType measurementType) throws NotProvidedException {
+        switch (measurementType) {
+            case Pm10:
+                return measurementType.getQualityIndex(currentMeasurements.getPm10());
+            case Pm25:
+                return measurementType.getQualityIndex(currentMeasurements.getPm25());
+            default:
+                return MeasurementQualityIndex.NoIndex;
+        }
+    }
+
+
     //TODO poczytać o mapach czy można ich tak użyć (bez getHashcode)
     public Map<String, String> getCurrentAsMap() {
         Map<String, String> map = new LinkedHashMap<>();
@@ -51,80 +64,53 @@ public class AirlyClient {
 
 
     //TODO konwersje na ludzką formę
-    public int getCurrentAirQualityIndex() throws NotProvidedException {
+    public Integer getCurrentAirQualityIndex() {
 
-        return Math.round(Optional.ofNullable(currentMeasurements.getAirQualityIndex())
-                .orElseThrow(NotProvidedException::new)
-                .intValue());
+        return Optional.ofNullable(currentMeasurements.getAirQualityIndex())
+                .map(Math::round)
+                .map(Long::intValue)
+                .orElse(null);
     }
 
-    public int getCurrentHumidity() throws NotProvidedException {
+    public Integer getCurrentHumidity() {
 
-        return Math.round(
-                Optional.ofNullable(currentMeasurements.getAirQualityIndex())
-                        .orElseThrow(NotProvidedException::new)
-                        .intValue());
+        return Optional.ofNullable(currentMeasurements.getHumidity())
+                .map(Math::round)
+                .map(Long::intValue)
+                .orElse(null);
     }
 
-    public String getCurrentMeasurementTime() throws NotProvidedException {
+    public Integer getCurrentPm10() {
 
-        return Optional.ofNullable(currentMeasurements.getMeasurementTime())
-                .orElseThrow(NotProvidedException::new);
-
+        return Optional.ofNullable(currentMeasurements.getPm10())
+                .map(Math::round)
+                .map(Long::intValue)
+                .orElse(null);
     }
 
-    public int getCurrentPm1() throws NotProvidedException {
+    public Integer getCurrentPm25() {
 
-        return Math.round(Optional.ofNullable(currentMeasurements.getPm1())
-                .orElseThrow(NotProvidedException::new)
-                .intValue());
+        return Optional.ofNullable(currentMeasurements.getPm25())
+                .map(Math::round)
+                .map(Long::intValue)
+                .orElse(null);
     }
 
-    public int getCurrentPm10() throws NotProvidedException {
+    public Integer getCurrentPressure() {
 
-        return Math.round(Optional.ofNullable(currentMeasurements.getPm10())
-                .orElseThrow(NotProvidedException::new)
-                .intValue());
+        return Optional.ofNullable(currentMeasurements.getPressure())
+                .map(Math::round)
+                .map(x-> x.intValue()/100)
+                .orElse(null);
     }
 
-    public int getCurrentPm25() throws NotProvidedException {
+    public Double getCurrentTemperature() {
 
-        return Math.round(Optional.ofNullable(currentMeasurements.getPm25())
-                .orElseThrow(NotProvidedException::new)
-                .intValue());
-    }
+        return Optional.ofNullable(currentMeasurements.getTemperature())
+                .map(x-> Math.round(x*10))
+                .map(x-> x.doubleValue()/10)
+                .orElse(null);
 
-    public int getCurrentPollutionLevel() throws NotProvidedException {
-
-        return Math.round(Optional.ofNullable(currentMeasurements.getPollutionLevel())
-                .orElseThrow(NotProvidedException::new)
-                .intValue());
-    }
-
-    public int getCurrentPressure() throws NotProvidedException {
-
-        return Math.round(Optional.ofNullable(currentMeasurements.getPressure())
-                .orElseThrow(NotProvidedException::new)
-                .intValue());
-    }
-
-    public int getCurrentTemperature() throws NotProvidedException {
-
-        return Math.round(Optional.ofNullable(currentMeasurements.getTemperature())
-                .orElseThrow(NotProvidedException::new)
-                .intValue());
-    }
-
-    public double getCurrentWindDirection() throws NotProvidedException {
-
-        return Optional.ofNullable(currentMeasurements.getWindDirection())
-                .orElseThrow(NotProvidedException::new);
-    }
-
-    public double getCurrentWindSpeed() throws NotProvidedException {
-
-        return Math.round(Optional.ofNullable(currentMeasurements.getWindSpeed())
-                .orElseThrow(NotProvidedException::new) *100)/100;
     }
 
 
@@ -166,7 +152,7 @@ public class AirlyClient {
 
         this.history = Arrays.asList(gson.fromJson(historyJsonArray, DatedMeasurements[].class));
 
-        for(int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             System.out.println(history.get(i).toString());
         }
 
