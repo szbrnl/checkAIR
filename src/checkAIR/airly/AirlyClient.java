@@ -100,15 +100,15 @@ public class AirlyClient {
 
         return Optional.ofNullable(currentMeasurements.getPressure())
                 .map(Math::round)
-                .map(x-> x.intValue()/100)
+                .map(x -> x.intValue() / 100)
                 .orElse(null);
     }
 
     public Double getCurrentTemperature() {
 
         return Optional.ofNullable(currentMeasurements.getTemperature())
-                .map(x-> Math.round(x*10))
-                .map(x-> x.doubleValue()/10)
+                .map(x -> Math.round(x * 10))
+                .map(x -> x.doubleValue() / 10)
                 .orElse(null);
 
     }
@@ -151,11 +151,6 @@ public class AirlyClient {
         this.currentMeasurements = gson.fromJson(currentMeasurementsJsonObject, Measurements.class);
 
         this.history = Arrays.asList(gson.fromJson(historyJsonArray, DatedMeasurements[].class));
-
-        for (int i = 0; i < 3; i++) {
-            System.out.println(history.get(i).toString());
-        }
-
     }
 
     private JsonReader retrieveJson(String Url) throws IOException {
