@@ -44,15 +44,15 @@ public class AirlyClient {
         double airQualityIndex = currentMeasurements.airQualityIndex;
         if (isNaN(airQualityIndex))
             throw new NotProvidedException();
-        return (int)(Math.round(airQualityIndex));
+        return (int) (Math.round(airQualityIndex));
     }
 
     public int getCurrentHumidity() throws NotProvidedException {
 
         return Math.round(
                 Optional.ofNullable(currentMeasurements.humidity)
-                .orElseThrow(NotProvidedException::new)
-                .intValue());
+                        .orElseThrow(NotProvidedException::new)
+                        .intValue());
 //
 //        double humidity = currentMeasurements.humidity;
 //        if (isNaN(humidity))
@@ -71,21 +71,21 @@ public class AirlyClient {
         double pm1 = currentMeasurements.pm1;
         if (isNaN(pm1))
             throw new NotProvidedException();
-        return (int)(Math.round(pm1));
+        return (int) (Math.round(pm1));
     }
 
     public int getCurrentPm10() throws NotProvidedException {
         double pm10 = currentMeasurements.pm10;
         if (isNaN(pm10))
             throw new NotProvidedException();
-        return (int)(Math.round(pm10));
+        return (int) (Math.round(pm10));
     }
 
     public int getCurrentPm25() throws NotProvidedException {
         double pm25 = currentMeasurements.pm25;
         if (isNaN(pm25))
             throw new NotProvidedException();
-        return (int)(Math.round(pm25));
+        return (int) (Math.round(pm25));
     }
 
     //TODO konwersja? na co?
@@ -100,14 +100,14 @@ public class AirlyClient {
         double currentPressure = currentMeasurements.pressure;
         if (isNaN(currentPressure))
             throw new NotProvidedException();
-        return (int)(Math.round(currentPressure));
+        return (int) (Math.round(currentPressure));
     }
 
     public int getCurrentTemperature() throws NotProvidedException {
         double currentTemperature = currentMeasurements.temperature;
         if (isNaN(currentTemperature))
             throw new NotProvidedException();
-        return (int)(Math.round(currentTemperature));
+        return (int) (Math.round(currentTemperature));
     }
 
     public double getCurrentWindDirection() throws NotProvidedException {
@@ -127,7 +127,7 @@ public class AirlyClient {
         double windSpeed = currentMeasurements.windSpeed;
         if (isNaN(windSpeed))
             throw new NotProvidedException();
-        return Math.round(windSpeed*10)/10;
+        return Math.round(windSpeed * 10) / 10;
     }
 
 
@@ -156,18 +156,25 @@ public class AirlyClient {
                 sensorID +
                 "&historyHours=5&historyResolutionHours=5";
 
+
         JsonObject root = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
 
         JsonObject currentMeasurementsJsonObject = root.get("currentMeasurements").getAsJsonObject();
         JsonArray historyJsonArray = root.getAsJsonArray("history");
 
         //Parsing current measurements
-        this.currentMeasurements = new Measurements(currentMeasurementsJsonObject);
+        //this.currentMeasurements = new Measurements(currentMeasurementsJsonObject);
+
+
+        //TODO czy to działa ???????
+        Gson gson = new Gson();
+        currentMeasurements = gson.fromJson(currentMeasurementsJsonObject, Measurements.class);
+
 
         this.history = new LinkedList<>();
 
         //Parsing the history array
-        historyJsonArray.forEach( x-> history.add(new DatedMeasurements(x.getAsJsonObject())));
+        historyJsonArray.forEach(x -> history.add(new DatedMeasurements(x.getAsJsonObject())));
     }
 
     private JsonReader retrieveJson(String Url) throws IOException {
