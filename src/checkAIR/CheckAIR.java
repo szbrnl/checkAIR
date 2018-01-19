@@ -1,11 +1,14 @@
 package checkAIR;
 
 import checkAIR.airly.AirlyClient;
+import checkAIR.airly.MeasurementQualityIndex;
+import checkAIR.airly.MeasurementType;
 import checkAIR.airly.NotProvidedException;
 import checkAIR.console.*;
 
 import java.io.IOException;
 import java.util.Optional;
+
 
 public class CheckAIR {
 
@@ -25,38 +28,24 @@ public class CheckAIR {
 
         System.out.println(airlyClient.toString());
 
+        MeasurementQualityIndexToColorConverter converter = new MeasurementQualityIndexToColorConverter();
+
 
         Frame namesFrame = new Frame(true);
         namesFrame.add("pm25");
         namesFrame.add("pm10");
-        namesFrame.add("pm1");
         namesFrame.add("humidity");
+        namesFrame.add("temperature");
+        namesFrame.add("pressure");
 
         Frame valueFrames = new Frame(false);
+System.out.println(airlyClient.getCurrentTemperature());
 
-        try {
-            valueFrames.add(airlyClient.getCurrentPm25(), Color.TextRed);
-        } catch (NotProvidedException e) {
-            valueFrames.add("No information");
-        }
-
-        try {
-            valueFrames.add(airlyClient.getCurrentPm10());
-        } catch (NotProvidedException e) {
-            valueFrames.add("No information");
-        }
-
-        try {
-            valueFrames.add(airlyClient.getCurrentPm1());
-        } catch (NotProvidedException e) {
-            valueFrames.add("No information");
-        }
-
-        try {
-            valueFrames.add(airlyClient.getCurrentHumidity());
-        } catch (NotProvidedException e) {
-            valueFrames.add("No information");
-        }
+        valueFrames.add(Optional.ofNullable(airlyClient.getCurrentPm25()).map(x-> x.toString()).orElse("No information"), converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pm25)));
+        valueFrames.add(Optional.ofNullable(airlyClient.getCurrentPm10()).map(x-> x.toString()).orElse("No information"), converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pm10)));
+        valueFrames.add(Optional.ofNullable(airlyClient.getCurrentHumidity()).map(x-> x.toString()).orElse("No information"), converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Humidity)));
+        valueFrames.add(Optional.ofNullable(airlyClient.getCurrentTemperature()).map(x-> x.toString()).orElse("No information"), converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Temperature)));
+        valueFrames.add(Optional.ofNullable(airlyClient.getCurrentPressure()).map(x-> x.toString()).orElse("No information"), converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pressure)));
 
 
         IConsoleView mainView = new CurrentMeasurementsView();
@@ -70,24 +59,19 @@ public class CheckAIR {
         cons.addFrame(valueFrames);
 
         System.out.println(cons.toString());
-
-        try {
-            System.out.println(airlyClient.getCurrentHumidity());
-        } catch (NotProvidedException ex) {
-            System.out.println("nie dali");
-        }
-
-        try {
-            System.out.println(airlyClient.getCurrentWindDirection());
-        } catch (NotProvidedException ex) {
-            System.out.println("nie dali");
-        }
-
-        try {
-            System.out.println(airlyClient.getCurrentAirQualityIndex());
-        } catch (NotProvidedException ex) {
-            System.out.println("nie dali");
-        }
+//
+//        try {
+//            System.out.println(airlyClient.getCurrentHumidity());
+//        } catch (NotProvidedException ex) {
+//            System.out.println("nie dali");
+//        }
+//
+//
+//        try {
+//            System.out.println(airlyClient.getCurrentAirQualityIndex());
+//        } catch (NotProvidedException ex) {
+//            System.out.println("nie dali");
+//        }
 
 
     }
