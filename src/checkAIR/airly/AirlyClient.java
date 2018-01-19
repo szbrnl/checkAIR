@@ -8,9 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.lang.Double.isNaN;
 
@@ -35,6 +33,14 @@ public class AirlyClient {
         getSensorDetailedMeasurements(sensorId);
     }
 
+    //TODO poczytać o mapach czy można ich tak użyć (bez getHashcode)
+    public Map<String, String> getCurrentAsMap() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("pm10", Double.toString(currentMeasurements.pm10));
+        map.put("pm25", Double.toString(currentMeasurements.pm25));
+
+        return map;
+    }
 
     //TODO rozróżnić opcję z historią?
 
@@ -88,8 +94,7 @@ public class AirlyClient {
         return (int) (Math.round(pm25));
     }
 
-    //TODO konwersja? na co?
-    public double getCurrentPollutionLevel() throws NotProvidedException {
+    public int getCurrentPollutionLevel() throws NotProvidedException {
         double pollutionLevel = currentMeasurements.pollutionLevel;
         if (isNaN(pollutionLevel))
             throw new NotProvidedException();
