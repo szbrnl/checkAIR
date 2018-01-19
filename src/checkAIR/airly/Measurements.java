@@ -30,6 +30,51 @@ public class Measurements {
 
     private Double windSpeed;
 
+
+    public Double getAirQualityIndex() {
+        return airQualityIndex;
+    }
+
+    public Double getHumidity() {
+        return humidity;
+    }
+
+    public String getMeasurementTime() {
+        return measurementTime;
+    }
+
+    public Double getPm1() {
+        return pm1;
+    }
+
+    public Double getPm10() {
+        return pm10;
+    }
+
+    public Double getPm25() {
+        return pm25;
+    }
+
+    public Double getPollutionLevel() {
+        return pollutionLevel;
+    }
+
+    public Double getPressure() {
+        return pressure;
+    }
+
+    public Double getTemperature() {
+        return temperature;
+    }
+
+    public Double getWindDirection() {
+        return windDirection;
+    }
+
+    public Double getWindSpeed() {
+        return windSpeed;
+    }
+
     @Override
     public String toString() {
         return

@@ -36,8 +36,8 @@ public class AirlyClient {
     //TODO poczytać o mapach czy można ich tak użyć (bez getHashcode)
     public Map<String, String> getCurrentAsMap() {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("pm10", Double.toString(currentMeasurements.pm10));
-        map.put("pm25", Double.toString(currentMeasurements.pm25));
+        map.put("pm10", Double.toString(currentMeasurements.getPm10()));
+        map.put("pm25", Double.toString(currentMeasurements.getPm25()));
 
         return map;
     }
@@ -47,7 +47,7 @@ public class AirlyClient {
 
     //TODO konwersje na ludzką formę
     public int getCurrentAirQualityIndex() throws NotProvidedException {
-        double airQualityIndex = currentMeasurements.airQualityIndex;
+        double airQualityIndex = currentMeasurements.getAirQualityIndex();
         if (isNaN(airQualityIndex))
             throw new NotProvidedException();
         return (int) (Math.round(airQualityIndex));
@@ -56,7 +56,7 @@ public class AirlyClient {
     public int getCurrentHumidity() throws NotProvidedException {
 
         return Math.round(
-                Optional.ofNullable(currentMeasurements.humidity)
+                Optional.ofNullable(currentMeasurements.getAirQualityIndex())
                         .orElseThrow(NotProvidedException::new)
                         .intValue());
 //
@@ -67,49 +67,49 @@ public class AirlyClient {
     }
 
     public String getCurrentMeasurementTime() throws NotProvidedException {
-        String measurementTime = currentMeasurements.measurementTime;
+        String measurementTime = currentMeasurements.getMeasurementTime();
         if (measurementTime == null)
             throw new NotProvidedException();
         return measurementTime;
     }
 
     public int getCurrentPm1() throws NotProvidedException {
-        double pm1 = currentMeasurements.pm1;
+        double pm1 = currentMeasurements.getPm1();
         if (isNaN(pm1))
             throw new NotProvidedException();
         return (int) (Math.round(pm1));
     }
 
     public int getCurrentPm10() throws NotProvidedException {
-        double pm10 = currentMeasurements.pm10;
+        double pm10 = currentMeasurements.getPm1();
         if (isNaN(pm10))
             throw new NotProvidedException();
         return (int) (Math.round(pm10));
     }
 
     public int getCurrentPm25() throws NotProvidedException {
-        double pm25 = currentMeasurements.pm25;
+        double pm25 = currentMeasurements.getPm25();
         if (isNaN(pm25))
             throw new NotProvidedException();
         return (int) (Math.round(pm25));
     }
 
     public int getCurrentPollutionLevel() throws NotProvidedException {
-        double pollutionLevel = currentMeasurements.pollutionLevel;
+        double pollutionLevel = currentMeasurements.getPollutionLevel();
         if (isNaN(pollutionLevel))
             throw new NotProvidedException();
         return (int) pollutionLevel;
     }
 
     public int getCurrentPressure() throws NotProvidedException {
-        double currentPressure = currentMeasurements.pressure;
+        double currentPressure = currentMeasurements.getPressure();
         if (isNaN(currentPressure))
             throw new NotProvidedException();
         return (int) (Math.round(currentPressure));
     }
 
     public int getCurrentTemperature() throws NotProvidedException {
-        double currentTemperature = currentMeasurements.temperature;
+        double currentTemperature = currentMeasurements.getTemperature();
         if (isNaN(currentTemperature))
             throw new NotProvidedException();
         return (int) (Math.round(currentTemperature));
@@ -118,7 +118,7 @@ public class AirlyClient {
     public double getCurrentWindDirection() throws NotProvidedException {
 
         return Math.round(
-                Optional.ofNullable(currentMeasurements.windDirection)
+                Optional.ofNullable(currentMeasurements.getWindDirection())
                         .orElseThrow(NotProvidedException::new));
 
 //        double windDirection = currentMeasurements.windDirection;
@@ -128,7 +128,7 @@ public class AirlyClient {
     }
 
     public double getCurrentWindSpeed() throws NotProvidedException {
-        double windSpeed = currentMeasurements.windSpeed;
+        double windSpeed = currentMeasurements.getWindSpeed();
         if (isNaN(windSpeed))
             throw new NotProvidedException();
         return Math.round(windSpeed * 10) / 10;
@@ -160,25 +160,23 @@ public class AirlyClient {
                 sensorID +
                 "&historyHours=5&historyResolutionHours=5";
 
+        Gson gson = new Gson();
 
         JsonObject root = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
 
         JsonObject currentMeasurementsJsonObject = root.get("currentMeasurements").getAsJsonObject();
         JsonArray historyJsonArray = root.getAsJsonArray("history");
 
+
         //Parsing current measurements
-        //this.currentMeasurements = new Measurements(currentMeasurementsJsonObject);
+        this.currentMeasurements = gson.fromJson(currentMeasurementsJsonObject, Measurements.class);
 
+        this.history = Arrays.asList(gson.fromJson(historyJsonArray, DatedMeasurements[].class));
 
-        //TODO czy to działa ???????
-        Gson gson = new Gson();
-        currentMeasurements = gson.fromJson(currentMeasurementsJsonObject, Measurements.class);
+        for(int i=0; i<3; i++) {
+            System.out.println(history.get(i).toString());
+        }
 
-
-        this.history = new LinkedList<>();
-
-        //Parsing the history array
-        historyJsonArray.forEach(x -> history.add(new DatedMeasurements(x.getAsJsonObject())));
     }
 
     private JsonReader retrieveJson(String Url) throws IOException {
