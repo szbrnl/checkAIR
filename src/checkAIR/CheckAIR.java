@@ -31,63 +31,30 @@ public class CheckAIR {
 
         MeasurementQualityIndexToColorConverter converter = new MeasurementQualityIndexToColorConverter();
 
+        CurrentMeasurementsView view = new CurrentMeasurementsView();
 
-        Frame namesFrame = new Frame(true);
-        namesFrame.add("pm25");
-        namesFrame.add("pm10");
-        namesFrame.add("humidity");
-        namesFrame.add("temperature");
-        namesFrame.add("pressure");
+        view.addMeasurement(MeasurementType.Pm25,
+                airlyClient.getCurrentPm25(),
+                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pm25)));
 
-        Frame valuesFrame = new Frame(false);
+        view.addMeasurement(MeasurementType.Pm10,
+                airlyClient.getCurrentPm10(),
+                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pm10)));
 
-        //Adding Pm25 to frame
-        valuesFrame.add(
-                Optional.ofNullable(airlyClient.getCurrentPm25())
-                        .map(x -> x.toString())
-                        .orElse("No information"),
-                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pm25))
-        );
+        view.addMeasurement(MeasurementType.Humidity,
+                airlyClient.getCurrentHumidity(),
+                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Humidity)));
 
-        //Adding Pm10 to frame
-        valuesFrame.add(
-                Optional.ofNullable(airlyClient.getCurrentPm10())
-                        .map(x -> x.toString())
-                        .orElse("No information"),
-                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pm10))
-        );
+        view.addMeasurement(MeasurementType.Temperature,
+                airlyClient.getCurrentTemperature(),
+                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Temperature)));
 
-        //Adding Humidity to frame
-        valuesFrame.add(
-                Optional.ofNullable(airlyClient.getCurrentHumidity())
-                        .map(x -> x.toString())
-                        .orElse("No information"),
-                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Humidity))
-        );
-
-        //Adding Temperature to frame
-        valuesFrame.add(
-                Optional.ofNullable(airlyClient.getCurrentTemperature())
-                        .map(x -> x.toString())
-                        .orElse("No information"),
-                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Temperature))
-        );
-
-        //Adding Pressure to frame
-        valuesFrame.add(
-                Optional.ofNullable(airlyClient.getCurrentPressure())
-                        .map(x -> x.toString())
-                        .orElse("No information"),
-                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pressure))
-        );
+        view.addMeasurement(MeasurementType.Pressure,
+                airlyClient.getCurrentPressure(),
+                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pressure)));
 
 
-        IConsoleView mainView = new CurrentMeasurementsView();
-
-        PrettyConsole cons = new PrettyConsole(mainView, "Stan powietrza w " + 50.06201 + ", " + 50.06201, "");
-
-        cons.addFrame(namesFrame);
-        cons.addFrame(valuesFrame);
+        PrettyConsole cons = new PrettyConsole(view, "Stan powietrza w " + 50.06201 + ", " + 50.06201, "");
 
         System.out.println(cons.toString());
 

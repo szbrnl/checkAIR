@@ -2,22 +2,20 @@ package checkAIR.console;
 
 public class PrettyConsole {
 
-    private IConsoleView currentView;
+    private Window window;
 
-    Window window;
-
-    public PrettyConsole(IConsoleView selectedView, String firstTitle, String secondTitle) throws IllegalAccessException, InstantiationException{
+    public PrettyConsole(IConsoleView selectedView, String firstTitle, String secondTitle) {
 
         int width = 100;
         int height = 20;
 
         window = new Window(width, height, 40, firstTitle, secondTitle);
+        setView(selectedView);
     }
 
-    public void addFrame(Frame frame) {
-        window.addColumn(frame);
+    private void setView(IConsoleView view) {
+        view.getColumns().forEach(x->window.addColumn(x));
     }
-
 
     @Override
     public String toString() {
