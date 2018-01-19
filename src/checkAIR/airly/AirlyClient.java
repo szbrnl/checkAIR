@@ -23,19 +23,24 @@ public class AirlyClient {
     private List<DatedMeasurements> history;
 
 
+
     //TODO dodać klasę airlyParser ktora zajmuje się tylko parsowaniem i zwraca Measurements?
     //TODO w zależości od zapytania pobierze sobie co chce?
     //TODO uwzględnić brak sensora w danej okolicy (może jakiś dodatkowy konstruktor z odległością?)
     public AirlyClient(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
 
-        getNearestSensorMeasurement(latitude, longitude);
+        AirlyJsonParser parser = new AirlyJsonParser(apiKey, latitude, longitude);
+        currentMeasurements = parser.getCurrentMeasurements();
+        history = parser.getHistory();
     }
 
     public AirlyClient(String apiKey, int sensorId) throws IOException {
         this.apiKey = apiKey;
 
-        getSensorDetailedMeasurements(sensorId);
+        AirlyJsonParser parser = new AirlyJsonParser(apiKey, sensorId);
+        currentMeasurements = parser.getCurrentMeasurements();
+        history = parser.getHistory();
     }
 
     public MeasurementQualityIndex getMeasurementQualityIndex(MeasurementType measurementType) throws NotProvidedException {
@@ -62,7 +67,6 @@ public class AirlyClient {
     //TODO rozróżnić opcję z historią?
 
 
-    //TODO konwersje na ludzką formę
     public Integer getCurrentAirQualityIndex() {
 
         return Optional.ofNullable(currentMeasurements.getAirQualityIndex())
@@ -113,78 +117,9 @@ public class AirlyClient {
     }
 
 
-    private void getNearestSensorMeasurement(double latitude, double longitude) throws IOException {
-
-        //TODO IO exception?
-        int id = getNearestSensorId(latitude, longitude);
-        getSensorDetailedMeasurements(id);
-
-    }
-
-    //TODO trycatch
-    private int getNearestSensorId(double latitude, double longitude) throws IOException {
-        String Url = "https://airapi.airly.eu/v1/nearestSensor/measurements?latitude=" +
-                latitude + "&longitude=" +
-                longitude + "&maxDistance=1000";
-
-        JsonObject root = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
-        return root.get("id").getAsInt();
-    }
-
-    //TODO jeśli zwróci puste to nie ma takiego sensora
-    public void getSensorDetailedMeasurements(int sensorID) throws IOException {
-        //TODO IO exception?
-        String Url = "https://airapi.airly.eu/v1/sensor/measurements?sensorId=" +
-                sensorID +
-                "&historyHours=5&historyResolutionHours=5";
-
-        Gson gson = new Gson();
-
-        JsonObject root = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
-
-        JsonObject currentMeasurementsJsonObject = root.get("currentMeasurements").getAsJsonObject();
-        JsonArray historyJsonArray = root.getAsJsonArray("history");
 
 
-        //Parsing current measurements
-        this.currentMeasurements = gson.fromJson(currentMeasurementsJsonObject, Measurements.class);
 
-        this.history = Arrays.asList(gson.fromJson(historyJsonArray, DatedMeasurements[].class));
-    }
-
-    private JsonReader retrieveJson(String Url) throws IOException {
-        HttpURLConnection request;
-
-        try {
-            URL url = new URL(Url);
-            request = (HttpURLConnection) url.openConnection();
-            request.setRequestProperty("apikey", apiKey);
-            request.connect();
-        } catch (IOException ex) {
-            throw new IOException("Connection error");
-        }
-
-        try {
-            InputStream inputStream = (InputStream) request.getContent();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-            JsonReader jsonReader = new JsonReader(inputStreamReader);
-
-            return jsonReader;
-        } catch (IOException ex) {
-            switch (request.getResponseCode()) {
-                case 400:
-                    throw new IOException("Input validation error (code 400)");
-                case 403:
-                    throw new IOException("Your API key is invalid (code 403)");
-                case 404:
-                    throw new IOException("Data not found (code 404)");
-
-            }
-            throw new IOException("There was a problem with your request");
-        }
-
-    }
 
     @Override
     public String toString() {
