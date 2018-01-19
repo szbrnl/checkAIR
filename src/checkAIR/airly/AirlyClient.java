@@ -1,19 +1,7 @@
 package checkAIR.airly;
 
-import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-
-import javax.naming.InsufficientResourcesException;
-import javax.swing.text.html.Option;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.NotActiveException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
-
-import static java.lang.Double.isNaN;
 
 public class AirlyClient {
     private final String apiKey;
@@ -22,10 +10,7 @@ public class AirlyClient {
 
     private List<DatedMeasurements> history;
 
-
-
-    //TODO dodać klasę airlyParser ktora zajmuje się tylko parsowaniem i zwraca Measurements?
-    //TODO w zależości od zapytania pobierze sobie co chce?
+    //TODO w zależości od zapytania pobierze sobie co chce? (bez niepotrzebnego parsowania history)
     //TODO uwzględnić brak sensora w danej okolicy (może jakiś dodatkowy konstruktor z odległością?)
     public AirlyClient(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
