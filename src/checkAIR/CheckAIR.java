@@ -35,7 +35,7 @@ public class CheckAIR {
         Frame valueFrames = new Frame(false);
 
         try {
-            valueFrames.add(airlyClient.getCurrentPm25());
+            valueFrames.add(airlyClient.getCurrentPm25(), Color.TextRed);
         } catch (NotProvidedException e) {
             valueFrames.add("No information");
         }

@@ -47,6 +47,9 @@ public class Frame {
         add(Double.toString(value));
     }
 
+    public void add(double value, Color color) {
+        add(Double.toString(value), color);
+    }
 
     public int getWidth() {
         return width;
