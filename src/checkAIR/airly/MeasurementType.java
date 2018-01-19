@@ -1,0 +1,49 @@
+package checkAIR.airly;
+
+public enum MeasurementType {
+    Pm10, Pm25, Temperature, Pressure, Humidity, AirQualityIndex;
+
+    public String getName() {
+        return this.name();
+    }
+
+    public String getUnit() {
+
+        switch (this) {
+            case Pm10:
+            case Pm25:
+                return "µ";
+
+            case Temperature:
+                return "℃";
+
+            case Pressure:
+                return "hPa";
+
+            case Humidity:
+                return "%";
+
+            case AirQualityIndex:
+                return "";
+
+            default:
+                return "";
+        }
+    }
+
+    public MeasurementQualityIndex getQualityIndex(Double value) throws NotProvidedException {
+        switch (this) {
+            case Pm10:
+                if(value <=60) return MeasurementQualityIndex.Good;
+                if(value <=140) return MeasurementQualityIndex.Moderate;
+                return MeasurementQualityIndex.Bad;
+            case Pm25:
+                if(value <=36) return MeasurementQualityIndex.Good;
+                if(value <=84) return MeasurementQualityIndex.Moderate;
+                return MeasurementQualityIndex.Bad;
+
+            default:
+                throw new NotProvidedException("There is no quality index for this type of measurement");
+        }
+    }
+}
