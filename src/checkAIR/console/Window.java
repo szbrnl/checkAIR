@@ -79,14 +79,19 @@ class Window {
         int posX;
         int posY = margin;
 
-        for (int i = 0; i < lines.size(); i++) {
-            posX = contentLinesEndPositions.get(posY + i);
+        for (int i = 0; i < lines.size(); i++, posY++) {
+            posX = contentLinesEndPositions.get(posY);
 
-            content.get(posY + i).replace(posX, posX + linesLengths.get(i), lines.get(i).toString());
+            content.get(posY).replace(posX, posX + linesLengths.get(i), lines.get(i).toString());
 
-            contentLinesEndPositions.set(posY + i, posX + lines.get(i).length() + 4);
+            contentLinesEndPositions.set(posY, posX + lines.get(i).length() + 4);
         }
         contentWidth = contentWidth + 4 + frame.getWidth();
+
+        for(; posY<content.size(); posY++) {
+            contentLinesEndPositions.set(posY, contentWidth);
+        }
+
     }
 
 
