@@ -5,16 +5,11 @@ import checkAIR.airly.MeasurementType;
 import checkAIR.console.*;
 
 import java.io.IOException;
-import java.util.Optional;
 
 
 public class CheckAIR {
 
-
-    //TODO currentmeasurementsview dostaje rodzaj odczytu i jego wartosc, sam sobie robi 2 Frame. Później dodajemy caly view do console
-
-
-    //TODO getCurrentAsMap -> można iterować po tych które są aktualnie dostępne
+    //TODO asciiarty
     //TODO argumenty -> wybrów opcji -pm10 -pm25 -humidity itd
     public static void main(String[] args) throws Exception {
 
@@ -27,11 +22,14 @@ public class CheckAIR {
             return;
         }
 
-        //System.out.println(airlyClient.toString());
-
         MeasurementQualityIndexToColorConverter converter = new MeasurementQualityIndexToColorConverter();
 
         CurrentMeasurementsView view = new CurrentMeasurementsView();
+
+//        TODO index wyświetlany w ascii arcie z lewej strony?
+        view.addMeasurement(MeasurementType.AirQualityIndex,
+                airlyClient.getCurrentAirQualityIndex(),
+                converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.AirQualityIndex)));
 
         view.addMeasurement(MeasurementType.Pm25,
                 airlyClient.getCurrentPm25(),
@@ -54,9 +52,8 @@ public class CheckAIR {
                 converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pressure)));
 
 
-        PrettyConsole cons = new PrettyConsole(view, "Stan powietrza w " + 50.06201 + ", " + 50.06201, "");
-
-        System.out.println(cons.toString());
+        PrettyConsole prettyConsole = new PrettyConsole(view, "Stan powietrza w " + 50.06201 + ", " + 50.06201, "");
+        System.out.println(prettyConsole.toString());
 
     }
 

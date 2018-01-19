@@ -5,6 +5,7 @@ import checkAIR.console.Color;
 import checkAIR.console.ColorConverter;
 
 public class MeasurementQualityIndexToColorConverter implements ColorConverter<MeasurementQualityIndex> {
+
     public Color convert(MeasurementQualityIndex index) {
         switch (index) {
             case Good:

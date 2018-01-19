@@ -1,6 +1,5 @@
 package checkAIR.console;
 
-import javax.xml.stream.events.Characters;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,14 +42,6 @@ public class Frame {
         width = Math.max(width, line.length());
     }
 
-    public void add(int value) {
-        add(Integer.toString(value));
-    }
-
-    public void add(int value, Color color) {
-        add(Integer.toString(value), color);
-    }
-
     public int getWidth() {
         return width;
     }
@@ -60,7 +51,6 @@ public class Frame {
     }
 
     public List<StringBuilder> getLines() {
-
             align();
         return lines;
     }
@@ -74,7 +64,7 @@ public class Frame {
             for(int i=0; i<lines.size(); i++) {
 
                 lines.set(i, new StringBuilder(
-                        fromChar(' ', width).replace(width - linesLengths.get(i) ,width, lines.get(i).toString())
+                        fromChar(' ', width).replace(width - linesLengths.get(i),width, lines.get(i).toString())
                 ));
 
                 linesLengths.set(i, width);
