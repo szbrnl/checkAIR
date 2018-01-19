@@ -3,9 +3,11 @@ package checkAIR.airly;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.NotActiveException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -19,6 +21,8 @@ public class AirlyClient {
 
     private List<DatedMeasurements> history;
 
+    //TODO dodać klasę airlyParser ktora zajmuje się tylko parsowaniem i zwraca Measurements?
+    //TODO dodać stopień zagrożenia (jakiś enum?)
     //TODO w zależości od zapytania pobierze sobie co chce?
     //TODO uwzględnić brak sensora w danej okolicy (może jakiś dodatkowy konstruktor z odległością?)
     public AirlyClient(String apiKey, double latitude, double longitude) throws IOException {
@@ -47,10 +51,10 @@ public class AirlyClient {
 
     //TODO konwersje na ludzką formę
     public int getCurrentAirQualityIndex() throws NotProvidedException {
-        double airQualityIndex = currentMeasurements.getAirQualityIndex();
-        if (isNaN(airQualityIndex))
-            throw new NotProvidedException();
-        return (int) (Math.round(airQualityIndex));
+
+        return Math.round(Optional.ofNullable(currentMeasurements.getAirQualityIndex())
+                .orElseThrow(NotProvidedException::new)
+                .intValue());
     }
 
     public int getCurrentHumidity() throws NotProvidedException {
@@ -59,79 +63,67 @@ public class AirlyClient {
                 Optional.ofNullable(currentMeasurements.getAirQualityIndex())
                         .orElseThrow(NotProvidedException::new)
                         .intValue());
-//
-//        double humidity = currentMeasurements.humidity;
-//        if (isNaN(humidity))
-//            throw new NotProvidedException();
-//        return (int)(Math.round(humidity));
     }
 
     public String getCurrentMeasurementTime() throws NotProvidedException {
-        String measurementTime = currentMeasurements.getMeasurementTime();
-        if (measurementTime == null)
-            throw new NotProvidedException();
-        return measurementTime;
+
+        return Optional.ofNullable(currentMeasurements.getMeasurementTime())
+                .orElseThrow(NotProvidedException::new);
+
     }
 
     public int getCurrentPm1() throws NotProvidedException {
-        double pm1 = currentMeasurements.getPm1();
-        if (isNaN(pm1))
-            throw new NotProvidedException();
-        return (int) (Math.round(pm1));
+
+        return Math.round(Optional.ofNullable(currentMeasurements.getPm1())
+                .orElseThrow(NotProvidedException::new)
+                .intValue());
     }
 
     public int getCurrentPm10() throws NotProvidedException {
-        double pm10 = currentMeasurements.getPm1();
-        if (isNaN(pm10))
-            throw new NotProvidedException();
-        return (int) (Math.round(pm10));
+
+        return Math.round(Optional.ofNullable(currentMeasurements.getPm10())
+                .orElseThrow(NotProvidedException::new)
+                .intValue());
     }
 
     public int getCurrentPm25() throws NotProvidedException {
-        double pm25 = currentMeasurements.getPm25();
-        if (isNaN(pm25))
-            throw new NotProvidedException();
-        return (int) (Math.round(pm25));
+
+        return Math.round(Optional.ofNullable(currentMeasurements.getPm25())
+                .orElseThrow(NotProvidedException::new)
+                .intValue());
     }
 
     public int getCurrentPollutionLevel() throws NotProvidedException {
-        double pollutionLevel = currentMeasurements.getPollutionLevel();
-        if (isNaN(pollutionLevel))
-            throw new NotProvidedException();
-        return (int) pollutionLevel;
+
+        return Math.round(Optional.ofNullable(currentMeasurements.getPollutionLevel())
+                .orElseThrow(NotProvidedException::new)
+                .intValue());
     }
 
     public int getCurrentPressure() throws NotProvidedException {
-        double currentPressure = currentMeasurements.getPressure();
-        if (isNaN(currentPressure))
-            throw new NotProvidedException();
-        return (int) (Math.round(currentPressure));
+
+        return Math.round(Optional.ofNullable(currentMeasurements.getPressure())
+                .orElseThrow(NotProvidedException::new)
+                .intValue());
     }
 
     public int getCurrentTemperature() throws NotProvidedException {
-        double currentTemperature = currentMeasurements.getTemperature();
-        if (isNaN(currentTemperature))
-            throw new NotProvidedException();
-        return (int) (Math.round(currentTemperature));
+
+        return Math.round(Optional.ofNullable(currentMeasurements.getTemperature())
+                .orElseThrow(NotProvidedException::new)
+                .intValue());
     }
 
     public double getCurrentWindDirection() throws NotProvidedException {
 
-        return Math.round(
-                Optional.ofNullable(currentMeasurements.getWindDirection())
-                        .orElseThrow(NotProvidedException::new));
-
-//        double windDirection = currentMeasurements.windDirection;
-//        if (isNaN(windDirection))
-//            throw new NotProvidedException();
-//        return windDirection;
+        return Optional.ofNullable(currentMeasurements.getWindDirection())
+                .orElseThrow(NotProvidedException::new);
     }
 
     public double getCurrentWindSpeed() throws NotProvidedException {
-        double windSpeed = currentMeasurements.getWindSpeed();
-        if (isNaN(windSpeed))
-            throw new NotProvidedException();
-        return Math.round(windSpeed * 10) / 10;
+
+        return Math.round(Optional.ofNullable(currentMeasurements.getWindSpeed())
+                .orElseThrow(NotProvidedException::new) *100)/100;
     }
 
 
