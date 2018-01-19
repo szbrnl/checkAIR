@@ -12,10 +12,10 @@ public enum MeasurementType {
         switch (this) {
             case Pm10:
             case Pm25:
-                return "µ";
+                return "µg/m3";
 
             case Temperature:
-                return "℃";
+                return "\u2103";
 
             case Pressure:
                 return "hPa";
