@@ -39,16 +39,6 @@ public class AirlyClient {
         }
     }
 
-
-    //TODO poczytać o mapach czy można ich tak użyć (bez getHashcode)
-    public Map<String, String> getCurrentAsMap() {
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("pm10", Double.toString(currentMeasurements.getPm10()));
-        map.put("pm25", Double.toString(currentMeasurements.getPm25()));
-
-        return map;
-    }
-
     //TODO rozróżnić opcję z historią?
 
 
