@@ -14,6 +14,7 @@ public class CheckAIR {
 
     //TODO asciiarty
     //TODO argumenty -> wybrów opcji -pm10 -pm25 -humidity itd
+    //TODO tryby działania jakoś ładnie opakować
     public static void main(String[] args) throws Exception {
 
         AirlyClient airlyClient;
@@ -60,6 +61,8 @@ public class CheckAIR {
 
         List<DatedMeasurements> history = airlyClient.getHistory();
 
+
+        //TODO reformat
         for (DatedMeasurements x : history) {
             List<MeasurementType> measurementTypes = new LinkedList<>();
 

@@ -15,6 +15,8 @@ public class HistoryView implements IConsoleView {
 
     private Frame historyFrame;
 
+
+    //TODO coś z tym zrobić
     private int maxHeight = 14;
 
 
@@ -43,7 +45,7 @@ public class HistoryView implements IConsoleView {
             addNewColumn();
         }
 
-
+//TODO zrobić z tym coś ładnego
         historyFrame.add(formatDateTime(fromDateTime) + " " + measurementTypes.get(0).getName() + " "
                 + colors.get(0).getCode() + values.get(0).toString() + " " + measurementTypes.get(0).getUnit() + colors.get(0).Reset);
 
