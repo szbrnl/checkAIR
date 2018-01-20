@@ -22,6 +22,7 @@ public class Frame {
         this.alignRight = alignRight;
     }
 
+
     public void add(String line, Color color) {
         StringBuilder sLine = new StringBuilder();
         sLine.append(color.getCode());
@@ -51,7 +52,7 @@ public class Frame {
     }
 
     public List<StringBuilder> getLines() {
-            align();
+        align();
         return lines;
     }
 
@@ -60,21 +61,20 @@ public class Frame {
     }
 
     private void align() {
-        if(alignRight) {
-            for(int i=0; i<lines.size(); i++) {
+        if (alignRight) {
+            for (int i = 0; i < lines.size(); i++) {
 
                 lines.set(i, new StringBuilder(
-                        fromChar(' ', width).replace(width - linesLengths.get(i),width, lines.get(i).toString())
+                        fromChar(' ', width).replace(width - linesLengths.get(i), width, lines.get(i).toString())
                 ));
 
                 linesLengths.set(i, width);
             }
-        }
-        else {
-            for(int i=0; i<lines.size(); i++) {
+        } else {
+            for (int i = 0; i < lines.size(); i++) {
 
                 lines.set(i, new StringBuilder(
-                        fromChar(' ', width).replace(0 ,linesLengths.get(i), lines.get(i).toString())
+                        fromChar(' ', width).replace(0, linesLengths.get(i), lines.get(i).toString())
                 ));
 
                 linesLengths.set(i, width);
@@ -86,7 +86,7 @@ public class Frame {
 
     private StringBuilder fromChar(char character, int count) {
         StringBuilder temp = new StringBuilder();
-        for(int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             temp.append(character);
         }
         return temp;

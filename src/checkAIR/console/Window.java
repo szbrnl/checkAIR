@@ -69,8 +69,9 @@ class Window {
     public void addColumn(Frame frame) {
 
         //Checking if there is enough space for a frame
-        if( contentWidth + margin + frame.getWidth() > width - 2)
+        if( contentWidth + margin + frame.getWidth() > width - 2) {
             return;
+        }
 
         List<StringBuilder> lines = frame.getLines();
         List<Integer> linesLengths = frame.getLinesLengths();
@@ -79,7 +80,7 @@ class Window {
         int posX;
         int posY = margin;
 
-        for (int i = 0; i < lines.size(); i++, posY++) {
+        for (int i = 0; i < lines.size() && posY < contentLinesEndPositions.size(); i++, posY++) {
             posX = contentLinesEndPositions.get(posY);
 
             content.get(posY).replace(posX, posX + linesLengths.get(i), lines.get(i).toString());

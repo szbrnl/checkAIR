@@ -14,7 +14,9 @@ public class PrettyConsole {
     }
 
     private void setView(IConsoleView view) {
-        view.getColumns().forEach(x->window.addColumn(x));
+
+        view.getColumns().forEach(x-> window.addColumn(x));
+
     }
 
     @Override

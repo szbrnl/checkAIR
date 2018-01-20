@@ -10,25 +10,30 @@ public class AirlyClient {
 
     private List<DatedMeasurements> history;
 
-    //TODO w zależości od zapytania pobierze sobie co chce? (bez niepotrzebnego parsowania history)
+    private AirlyJsonParser airlyJsonParser;
+
     //TODO uwzględnić brak sensora w danej okolicy (może jakiś dodatkowy konstruktor z odległością?)
     public AirlyClient(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
 
-        AirlyJsonParser parser = new AirlyJsonParser(apiKey, latitude, longitude);
-        currentMeasurements = parser.getCurrentMeasurements();
-        history = parser.getHistory();
+        airlyJsonParser = new AirlyJsonParser(apiKey, latitude, longitude);
+        currentMeasurements = airlyJsonParser.getCurrentMeasurements();
     }
 
     public AirlyClient(String apiKey, int sensorId) throws IOException {
         this.apiKey = apiKey;
 
-        AirlyJsonParser parser = new AirlyJsonParser(apiKey, sensorId);
-        currentMeasurements = parser.getCurrentMeasurements();
-        history = parser.getHistory();
+        airlyJsonParser = new AirlyJsonParser(apiKey, sensorId);
+        airlyJsonParser.getCurrentMeasurements();
     }
 
-    public MeasurementQualityIndex getMeasurementQualityIndex(MeasurementType measurementType) throws NotProvidedException {
+    public List<DatedMeasurements> getHistory() {
+        history = airlyJsonParser.getHistory();
+
+        return history;
+    }
+
+    public MeasurementQualityIndex getCurrentMeasurementQualityIndex(MeasurementType measurementType) throws NotProvidedException {
         switch (measurementType) {
             case Pm10:
                 return measurementType.getQualityIndex(currentMeasurements.getPm10());
@@ -38,6 +43,18 @@ public class AirlyClient {
                 return MeasurementQualityIndex.NoIndex;
         }
     }
+
+    public MeasurementQualityIndex getMeasurementQualityIndex(MeasurementType measurementType, Double value) throws NotProvidedException {
+        switch (measurementType) {
+            case Pm10:
+                return measurementType.getQualityIndex(value);
+            case Pm25:
+                return measurementType.getQualityIndex(value);
+            default:
+                return MeasurementQualityIndex.NoIndex;
+        }
+    }
+
 
     //TODO rozróżnić opcję z historią?
 
