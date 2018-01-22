@@ -60,7 +60,7 @@ class Window {
         this.firstTitle.replace(0, this.firstTitle.length(), firstTitle.substring(0, Math.min(this.firstTitle.length(), firstTitle.length())));
 
         this.secondTitle = new StringBuilder(fromChar(' ', this.bannerWidth - 2));
-        this.secondTitle.replace(0, this.secondTitle.length() - 1, secondTitle.substring(0, Math.min(this.secondTitle.length(), secondTitle.length())));
+        this.secondTitle.replace(this.secondTitle.length() - 1 - Math.min(this.secondTitle.length(), secondTitle.length()) , this.secondTitle.length() - 1, secondTitle.substring(0, Math.min(this.secondTitle.length(), secondTitle.length())));
 
         addBorders();
     }
