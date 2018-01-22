@@ -31,7 +31,7 @@ public enum MeasurementType {
         }
     }
 
-    public MeasurementQualityIndex getQualityIndex(Double value) throws NotProvidedException {
+    public MeasurementQualityIndex getQualityIndex(Double value) {
         switch (this) {
             case Pm10:
                 if(value <=60) return MeasurementQualityIndex.Good;
@@ -43,7 +43,7 @@ public enum MeasurementType {
                 return MeasurementQualityIndex.Bad;
 
             default:
-                throw new NotProvidedException("There is no quality index for this type of measurement");
+                return MeasurementQualityIndex.NoIndex;
         }
     }
 }

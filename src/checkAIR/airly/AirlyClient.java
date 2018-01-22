@@ -24,7 +24,7 @@ public class AirlyClient {
         this.apiKey = apiKey;
 
         airlyJsonParser = new AirlyJsonParser(apiKey, sensorId);
-        airlyJsonParser.getCurrentMeasurements();
+        currentMeasurements = airlyJsonParser.getCurrentMeasurements();
     }
 
     public List<DatedMeasurements> getHistory() {
@@ -33,7 +33,7 @@ public class AirlyClient {
         return history;
     }
 
-    public MeasurementQualityIndex getCurrentMeasurementQualityIndex(MeasurementType measurementType) throws NotProvidedException {
+    public MeasurementQualityIndex getCurrentMeasurementQualityIndex(MeasurementType measurementType) {
         switch (measurementType) {
             case Pm10:
                 return measurementType.getQualityIndex(currentMeasurements.getPm10());
@@ -44,7 +44,7 @@ public class AirlyClient {
         }
     }
 
-    public MeasurementQualityIndex getMeasurementQualityIndex(MeasurementType measurementType, Double value) throws NotProvidedException {
+    public MeasurementQualityIndex getMeasurementQualityIndex(MeasurementType measurementType, Double value) {
         switch (measurementType) {
             case Pm10:
                 return measurementType.getQualityIndex(value);
@@ -54,9 +54,6 @@ public class AirlyClient {
                 return MeasurementQualityIndex.NoIndex;
         }
     }
-
-
-    //TODO rozróżnić opcję z historią?
 
 
     public Integer getCurrentAirQualityIndex() {
