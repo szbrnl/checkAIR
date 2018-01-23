@@ -7,57 +7,55 @@ import checkAIR.console.*;
 import org.apache.commons.cli.ParseException;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class CheckAIR {
 
+    //TODO index wyświetlany w ascii arcie z lewej strony?
     //TODO asciiarty
-    //TODO argumenty -> wybrów opcji -pm10 -pm25 -humidity itd
-    //TODO tryby działania jakoś ładnie opakować
-    public static void main(String[] args){
+    //TODO get from environment
 
+    public static void main(String[] args) {
         CheckAIR checkAIR = new CheckAIR(args);
     }
 
+    private PrettyConsole prettyConsole;
+    private AirlyClient airlyClient;
 
-    PrettyConsole prettyConsole;
 
     public CheckAIR(String[] args) {
         OptionsParser optionsParser;
         try {
             optionsParser = new OptionsParser(args);
-        }
-        catch(ParseException ex) {
+        } catch (ParseException ex) {
             System.out.print(ex.getMessage());
             return;
-        }
-        catch(IllegalArgumentException ex)
-        {
+        } catch (IllegalArgumentException ex) {
             System.out.print(ex.getMessage());
             return;
         }
 
-        if(optionsParser.helpSelected()) {
+        if (optionsParser.helpSelected()) {
             optionsParser.showHelp();
             return;
         }
 
         String apiKey;
-        AirlyClient airlyClient;
-        if(optionsParser.apiKeyGiven()) {
+
+        if (optionsParser.apiKeyGiven()) {
             apiKey = optionsParser.getApiKey();
-        }
-        else
-        {
-            //from env
-            apiKey = "f87f3655b35f40f28e7cd00bd097f860";
+        } else {
+            apiKey = getApiKeyFromEnv();
         }
 
         String title;
-        if(optionsParser.coordinatesModeSelected()) {
+        if (optionsParser.coordinatesModeSelected()) {
             try {
                 airlyClient = new AirlyClient(apiKey, optionsParser.getLatitude(), optionsParser.getLongitude());
             } catch (IOException ex) {
@@ -65,9 +63,8 @@ public class CheckAIR {
                 return;
             }
 
-            title = Math.round(optionsParser.getLatitude()*100)/100.0 + ", " + Math.round(optionsParser.getLongitude()*100)/100.0;
-        }
-        else {
+            title = Math.round(optionsParser.getLatitude() * 100) / 100.0 + ", " + Math.round(optionsParser.getLongitude() * 100) / 100.0;
+        } else {
             try {
                 airlyClient = new AirlyClient(apiKey, optionsParser.getSensorId());
             } catch (IOException ex) {
@@ -79,82 +76,98 @@ public class CheckAIR {
 
         IConsoleView view;
 
-        if(optionsParser.historyModeSelected()) {
+        if (optionsParser.historyModeSelected()) {
             view = showHistory(airlyClient);
-        }
-        else {
+        } else {
             view = showCurrent(airlyClient);
 
         }
-        prettyConsole = new PrettyConsole(view, "Stan powietrza dla " + title , "tubedziegodzina");
+        prettyConsole = new PrettyConsole(view, "Stan powietrza dla " + title, "tubedziegodzina");
         System.out.println(prettyConsole.toString());
 
     }
 
     private IConsoleView showHistory(AirlyClient airlyClient) {
+
         HistoryView view = new HistoryView();
-
         List<DatedMeasurements> historyMeasurements = airlyClient.getHistory();
-        MeasurementQualityIndexToColorConverter converter = new MeasurementQualityIndexToColorConverter();
 
-        //TODO reformat
-        for (DatedMeasurements x : historyMeasurements ) {
-            List<MeasurementType> measurementTypes = new LinkedList<>();
+        for (DatedMeasurements measurement : historyMeasurements) {
 
-            List<Integer> values = new LinkedList<>();
+            List<MeasurementType> measurementTypes = Arrays.asList(MeasurementType.Pm10, MeasurementType.Pm25);
 
-            measurementTypes.add(MeasurementType.Pm10);
-            measurementTypes.add(MeasurementType.Pm25);
+            List<Integer> values = Arrays.asList(measurement.getPm10(), measurement.getPm25());
 
-            values.add(x.getPm10());
-            values.add(x.getPm25());
+            addMeasurementToView(measurementTypes, values, measurement.getFromDateTime(), measurement.getTillDateTime(), view);
 
-            List<Color> colors = new LinkedList<>();
-
-            colors.add(converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pm10, x.getPm10().doubleValue())));
-            colors.add(converter.convert(airlyClient.getMeasurementQualityIndex(MeasurementType.Pm25, x.getPm25().doubleValue())));
-
-            view.addMeasurement(x.getFromDateTime(), x.getTillDateTime(), measurementTypes, values, colors);
         }
-
 
         return view;
     }
 
     private IConsoleView showCurrent(AirlyClient airlyClient) {
-        MeasurementQualityIndexToColorConverter converter = new MeasurementQualityIndexToColorConverter();
 
         CurrentMeasurementsView view = new CurrentMeasurementsView();
 
-//        TODO index wyświetlany w ascii arcie z lewej strony?
-        //TODO uwzględnić nulle
-        view.addMeasurement(MeasurementType.AirQualityIndex,
-                airlyClient.getCurrentAirQualityIndex(),
-                converter.convert(airlyClient.getCurrentMeasurementQualityIndex(MeasurementType.AirQualityIndex)));
 
-        view.addMeasurement(MeasurementType.Pm25,
-                airlyClient.getCurrentPm25(),
-                converter.convert(airlyClient.getCurrentMeasurementQualityIndex(MeasurementType.Pm25)));
+        addMeasurementToView(MeasurementType.AirQualityIndex, airlyClient.getCurrentAirQualityIndex(), view);
 
-        view.addMeasurement(MeasurementType.Pm10,
-                airlyClient.getCurrentPm10(),
-                converter.convert(airlyClient.getCurrentMeasurementQualityIndex(MeasurementType.Pm10)));
+        addMeasurementToView(MeasurementType.Pm25, airlyClient.getCurrentPm25(), view);
 
-        view.addMeasurement(MeasurementType.Humidity,
-                airlyClient.getCurrentHumidity(),
-                converter.convert(airlyClient.getCurrentMeasurementQualityIndex(MeasurementType.Humidity)));
+        addMeasurementToView(MeasurementType.Pm10, airlyClient.getCurrentPm10(), view);
 
-        view.addMeasurement(MeasurementType.Temperature,
-                airlyClient.getCurrentTemperature(),
-                converter.convert(airlyClient.getCurrentMeasurementQualityIndex(MeasurementType.Temperature)));
+        addMeasurementToView(MeasurementType.Humidity, airlyClient.getCurrentHumidity(), view);
 
-        view.addMeasurement(MeasurementType.Pressure,
-                airlyClient.getCurrentPressure(),
-                converter.convert(airlyClient.getCurrentMeasurementQualityIndex(MeasurementType.Pressure)));
+        addMeasurementToView(MeasurementType.Pressure, airlyClient.getCurrentPressure(), view);
+
+        addMeasurementToView(MeasurementType.Temperature, airlyClient.getCurrentTemperature(), view);
 
 
         return view;
     }
 
+    private void addMeasurementToView(MeasurementType type, Integer value, CurrentMeasurementsView view) {
+
+        MeasurementQualityIndexToColorConverter converter = new MeasurementQualityIndexToColorConverter();
+
+        view.addMeasurement(type,
+                value,
+                converter.convert(airlyClient.getCurrentMeasurementQualityIndex(type))
+        );
+
+    }
+
+    private void addMeasurementToView(MeasurementType type, Double value, CurrentMeasurementsView view) {
+
+        MeasurementQualityIndexToColorConverter converter = new MeasurementQualityIndexToColorConverter();
+
+        view.addMeasurement(type,
+                value,
+                converter.convert(airlyClient.getCurrentMeasurementQualityIndex(type))
+        );
+
+    }
+
+    public void addMeasurementToView(List<MeasurementType> types, List<Integer> values, String fromDateTime, String tillDateTime, HistoryView view) {
+
+        MeasurementQualityIndexToColorConverter converter = new MeasurementQualityIndexToColorConverter();
+
+        List<Color> colors = new LinkedList<>();
+
+        for (int i = 0; i < values.size() && i < values.size(); i++) {
+            colors.add(
+                    converter.convert(
+                            airlyClient.getMeasurementQualityIndex(types.get(i), values.get(i).doubleValue())
+                    )
+            );
+        }
+
+        view.addMeasurement(fromDateTime, tillDateTime, types, values, colors);
+    }
+
+
+    private String getApiKeyFromEnv() {
+        return "f87f3655b35f40f28e7cd00bd097f860";
+    }
 
 }
