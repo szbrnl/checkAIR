@@ -87,7 +87,6 @@ public class AirlyJsonParser {
         return Arrays.asList(new Gson().fromJson(rootObject.getAsJsonArray("history"), DatedMeasurements[].class));
     }
 
-    //TODO try z zasobami?
     private JsonObject retrieveJson(String Url) throws IOException {
         HttpURLConnection request;
 
