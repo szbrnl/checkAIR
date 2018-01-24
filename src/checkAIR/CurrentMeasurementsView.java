@@ -1,9 +1,7 @@
 package checkAIR;
 
 import checkAIR.airly.MeasurementType;
-import checkAIR.console.Color;
-import checkAIR.console.Frame;
-import checkAIR.console.IConsoleView;
+import checkAIR.console.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,28 +9,34 @@ import java.util.Optional;
 
 public class CurrentMeasurementsView implements IConsoleView {
 
-    private List<Frame> columns;
+    private List<ConsoleElement> columns;
 
-    private Frame namesFrame;
-    private Frame valuesFrame;
-    private Frame AsciiArtFrame;
+    private ConsoleElement namesFrame;
+    private ConsoleElement valuesFrame;
+    private ConsoleElement asciiArtFrame;
 
     public CurrentMeasurementsView() {
         this.columns = new LinkedList<>();
 
         namesFrame = new Frame(true);
         valuesFrame = new Frame(false);
-        AsciiArtFrame = new Frame(false);
 
         columns.add(namesFrame);
         columns.add(valuesFrame);
-        columns.add(AsciiArtFrame);
     }
 
     @Override
-    public List<Frame> getColumns() {
+    public List<ConsoleElement> getColumns() {
         return columns;
     }
+
+    public void setAsciiArtNumber(int number, Color color) {
+       ConsoleElement asciiArtNumber = new AsciiArtNumber(number, color);
+
+        asciiArtFrame = asciiArtNumber;
+        columns.add(asciiArtFrame);
+    }
+
 
     public void addMeasurement(MeasurementType type, Integer value, Color color) {
         namesFrame.add(type.getName());

@@ -4,6 +4,7 @@ import checkAIR.airly.AirlyClient;
 import checkAIR.airly.DatedMeasurements;
 import checkAIR.airly.MeasurementType;
 import checkAIR.console.Color;
+import checkAIR.console.ColorConverter;
 import checkAIR.console.IConsoleView;
 import checkAIR.console.PrettyConsole;
 import org.apache.commons.cli.ParseException;
@@ -23,12 +24,6 @@ public class CheckAIR {
 
     public static void main(String[] args) {
         try {
-            System.out.print("██████╗ \n" +
-                    "╚════██╗\n" +
-                    " █████╔╝\n" +
-                    "██╔═══╝ \n" +
-                    "███████╗\n" +
-                    "╚══════╝");
             CheckAIR checkAIR = new CheckAIR(args);
         }
         catch(Exception ex)
@@ -138,6 +133,9 @@ public class CheckAIR {
 
         CurrentMeasurementsView view = new CurrentMeasurementsView();
 
+        ColorConverter converter = new MeasurementQualityIndexToColorConverter();
+        Color airQualityIndexColor = converter.convert(airlyClient.getCurrentMeasurementQualityIndex(MeasurementType.AirQualityIndex));
+        view.setAsciiArtNumber(airlyClient.getCurrentAirQualityIndex(), airQualityIndexColor );
 
         addMeasurementToView(MeasurementType.AirQualityIndex, airlyClient.getCurrentAirQualityIndex(), view);
 

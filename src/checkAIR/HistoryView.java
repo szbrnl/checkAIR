@@ -1,6 +1,7 @@
 package checkAIR;
 
 import checkAIR.airly.MeasurementType;
+import checkAIR.console.ConsoleElement;
 import checkAIR.console.Color;
 import checkAIR.console.Frame;
 import checkAIR.console.IConsoleView;
@@ -12,9 +13,9 @@ import java.util.Optional;
 
 public class HistoryView implements IConsoleView {
 
-    private List<Frame> columns;
+    private List<ConsoleElement> columns;
 
-    private Frame historyFrame;
+    private ConsoleElement historyFrame;
 
     private int maxHeight;
 
@@ -77,7 +78,7 @@ public class HistoryView implements IConsoleView {
     }
 
     @Override
-    public List<Frame> getColumns() {
+    public List<ConsoleElement> getColumns() {
         return columns;
     }
 

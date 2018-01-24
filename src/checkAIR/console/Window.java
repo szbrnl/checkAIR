@@ -1,9 +1,7 @@
 package checkAIR.console;
 
-import javax.xml.stream.events.Characters;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 class Window {
     private List<StringBuilder> window;
@@ -66,7 +64,7 @@ class Window {
     }
 
 
-    public void addColumn(Frame frame) {
+    public void addColumn(ConsoleElement frame) {
 
         //Checking if there is enough space for a frame
         if( contentWidth + margin + frame.getWidth() > width - 2) {

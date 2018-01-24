@@ -3,14 +3,7 @@ package checkAIR.console;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Frame {
-
-    private List<StringBuilder> lines;
-
-    private List<Integer> linesLengths;
-
-    private int width;
-
+public class Frame extends ConsoleElement {
     private boolean alignRight;
 
     public Frame(boolean alignRight) {
@@ -22,42 +15,10 @@ public class Frame {
         this.alignRight = alignRight;
     }
 
-
-    public void add(String line, Color color) {
-        StringBuilder sLine = new StringBuilder();
-        sLine.append(color.getCode());
-        sLine.append(line);
-        sLine.append(color.Reset);
-
-        lines.add(sLine);
-        linesLengths.add(line.length());
-        width = Math.max(width, line.length());
-    }
-
-    public void add(String line) {
-        StringBuilder sLine = new StringBuilder();
-        sLine.append(line);
-
-        lines.add(sLine);
-        linesLengths.add(line.length());
-        width = Math.max(width, line.length());
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return lines.size();
-    }
-
+    @Override
     public List<StringBuilder> getLines() {
         align();
         return lines;
-    }
-
-    public List<Integer> getLinesLengths() {
-        return linesLengths;
     }
 
     private void align() {
@@ -84,12 +45,6 @@ public class Frame {
     }
 
 
-    private StringBuilder fromChar(char character, int count) {
-        StringBuilder temp = new StringBuilder();
-        for (int i = 0; i < count; i++) {
-            temp.append(character);
-        }
-        return temp;
-    }
+
 
 }
