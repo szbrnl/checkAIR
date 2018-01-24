@@ -131,7 +131,6 @@ class Window {
         return temp;
     }
 
-    //TODO refaktoryzacja
     private void addBorders() {
 
         StringBuilder line = new StringBuilder();
