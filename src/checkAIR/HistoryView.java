@@ -62,7 +62,7 @@ public class HistoryView implements IConsoleView {
         line.append(": ");
         line.append(Optional
                 .ofNullable(value)
-                .map(x-> x.toString())
+                .map(x -> x.toString())
                 .orElse("No data"));
 
         line.append(" ");

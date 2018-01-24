@@ -20,20 +20,15 @@ class Window {
     private StringBuilder secondTitle;
 
 
-
     private int width;
     private int height;
     private int bannerWidth;
     private int margin = 2;
     private int contentWidth = 2;
 
-    //TODO jeśli coś wykracza poza ekran to nie powoduje błędu, jest po prostu ucinane
-
 
     public Window(int width, int height, int bannerWidth, String firstTitle, String secondTitle) throws IllegalArgumentException {
 
-        //TODO parametryzacja szerokości titlebar
-        // TODO sprawdzić czy się na pewno tak stopniuje
         if (height < 5)
             throw new IllegalArgumentException("Given height is too short");
 
@@ -58,7 +53,7 @@ class Window {
         this.firstTitle.replace(0, this.firstTitle.length(), firstTitle.substring(0, Math.min(this.firstTitle.length(), firstTitle.length())));
 
         this.secondTitle = new StringBuilder(fromChar(' ', this.bannerWidth - 2));
-        this.secondTitle.replace(this.secondTitle.length() - 1 - Math.min(this.secondTitle.length(), secondTitle.length()) , this.secondTitle.length() - 1, secondTitle.substring(0, Math.min(this.secondTitle.length(), secondTitle.length())));
+        this.secondTitle.replace(this.secondTitle.length() - 1 - Math.min(this.secondTitle.length(), secondTitle.length()), this.secondTitle.length() - 1, secondTitle.substring(0, Math.min(this.secondTitle.length(), secondTitle.length())));
 
         addBorders();
     }
@@ -67,7 +62,7 @@ class Window {
     public void addColumn(ConsoleElement frame) {
 
         //Checking if there is enough space for a frame
-        if( contentWidth + margin + frame.getWidth() > width - 2) {
+        if (contentWidth + margin + frame.getWidth() > width - 2) {
             return;
         }
 
@@ -78,7 +73,7 @@ class Window {
         int posX;
         int posY = margin;
 
-        for (int i = 0; i<linesLengths.size() && i < lines.size() && posY < contentLinesEndPositions.size() && posY <content.size(); i++, posY++) {
+        for (int i = 0; i < linesLengths.size() && i < lines.size() && posY < contentLinesEndPositions.size() && posY < content.size(); i++, posY++) {
             posX = contentLinesEndPositions.get(posY);
 
             content.get(posY).replace(posX, posX + linesLengths.get(i), lines.get(i).toString());
@@ -87,7 +82,7 @@ class Window {
         }
         contentWidth = contentWidth + 4 + frame.getWidth();
 
-        for(; posY<content.size(); posY++) {
+        for (; posY < content.size(); posY++) {
             contentLinesEndPositions.set(posY, contentWidth);
         }
 
@@ -116,7 +111,7 @@ class Window {
 
         //Appending border frames and content
         for (int i = 4; i < height; i++) {
-            filledWindow.append(window.get(i).replace(1, width  - 1, content.get(i - 4).toString()));
+            filledWindow.append(window.get(i).replace(1, width - 1, content.get(i - 4).toString()));
             filledWindow.append('\n');
         }
 
@@ -126,7 +121,6 @@ class Window {
 
         return filledWindow;
     }
-
 
 
     private StringBuilder fromChar(char character, int count) {
@@ -204,7 +198,6 @@ class Window {
 
     }
 
-    //TODO no raczej tak nie będzie
     @Override
     public String toString() {
         return getWindow().toString();

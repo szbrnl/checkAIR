@@ -16,17 +16,14 @@ import java.util.List;
 
 public class CheckAIR {
 
-    //f87f3655b35f40f28e7cd00bd097f860;
-
-
-    public static void main(String[] args) {
-        try {
+    public static void main(String[] args) throws Exception{
+       // try {
             CheckAIR checkAIR = new CheckAIR(args);
-        }
-        catch(Exception ex)
-        {
-            System.out.print(ex.getMessage());
-        }
+//        }
+//        catch(Exception ex)
+//        {
+//            System.out.print(ex.getMessage());
+//        }
     }
 
     private PrettyConsole prettyConsole;
@@ -78,7 +75,7 @@ public class CheckAIR {
                 }
             }
 
-            title = Math.round(optionsParser.getLatitude() * 100) / 100.0 + ", " + Math.round(optionsParser.getLongitude() * 100) / 100.0;
+            title = " " + Math.round(optionsParser.getLatitude() * 100) / 100.0 + ", " + Math.round(optionsParser.getLongitude() * 100) / 100.0;
 
         } else {
             try {
@@ -130,11 +127,12 @@ public class CheckAIR {
 
         CurrentMeasurementsView view = new CurrentMeasurementsView();
 
+
         ColorConverter converter = new MeasurementQualityIndexToColorConverter();
         Color airQualityIndexColor = converter.convert(airlyClient.getCurrentMeasurementQualityIndex(MeasurementType.AirQualityIndex));
+
         view.setAsciiArtNumber(airlyClient.getCurrentAirQualityIndex(), airQualityIndexColor );
 
-        addMeasurementToView(MeasurementType.AirQualityIndex, airlyClient.getCurrentAirQualityIndex(), view);
 
         addMeasurementToView(MeasurementType.Pm25, airlyClient.getCurrentPm25(), view);
 

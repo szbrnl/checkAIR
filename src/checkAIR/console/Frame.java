@@ -45,6 +45,4 @@ public class Frame extends ConsoleElement {
     }
 
 
-
-
 }

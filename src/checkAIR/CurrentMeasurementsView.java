@@ -31,7 +31,7 @@ public class CurrentMeasurementsView implements IConsoleView {
     }
 
     public void setAsciiArtNumber(int number, Color color) {
-       ConsoleElement asciiArtNumber = new AsciiArtNumber(number, color);
+        ConsoleElement asciiArtNumber = new AsciiArtNumber(number, color);
 
         asciiArtFrame = asciiArtNumber;
         asciiArtFrame.add("Air Quality Index");

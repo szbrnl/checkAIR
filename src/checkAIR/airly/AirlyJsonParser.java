@@ -25,29 +25,19 @@ public class AirlyJsonParser {
 
     public AirlyJsonParser(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
+        getSensorId(latitude, longitude);
 
-        try {
-            getSensorId(latitude, longitude);
-        } catch (NullPointerException ex) {
-
-            getRootObject();
-        }
+        getRootObject();
 
     }
 
     public AirlyJsonParser(String apiKey, double latitude, double longitude, int maxSearchDistance) throws IOException {
         this.apiKey = apiKey;
+        getSensorId(latitude, longitude, maxSearchDistance);
 
-        try {
-            getSensorId(latitude, longitude, maxSearchDistance);
-        } catch (NullPointerException ex) {
-
-            getRootObject();
-        }
+        getRootObject();
 
     }
-
-
 
     public AirlyJsonParser(String apiKey, int sensorId) throws IOException {
         this.apiKey = apiKey;
@@ -61,9 +51,9 @@ public class AirlyJsonParser {
                 sensorId +
                 "&historyHours=5&historyResolutionHours=5";
 
-        rootObject = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
+        rootObject = retrieveJson(Url);
 
-        if(rootObject.get("currentMeasurements").getAsJsonObject().size() == 0) {
+        if (rootObject.get("currentMeasurements").getAsJsonObject().size() == 0) {
             throw new IllegalArgumentException("Could not find sensor with given ID");
         }
 
@@ -71,7 +61,7 @@ public class AirlyJsonParser {
 
     private void getSensorId(double latitude, double longitude) throws IOException {
 
-       getSensorId(latitude, longitude, defaultMaxSearchDistance);
+        getSensorId(latitude, longitude, defaultMaxSearchDistance);
     }
 
     private void getSensorId(double latitude, double longitude, int maxSearchDistance) throws IOException {
@@ -79,7 +69,7 @@ public class AirlyJsonParser {
                 latitude + "&longitude=" +
                 longitude + "&maxDistance=" + maxSearchDistance;
 
-        JsonObject sensorMeasurementsRoot = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
+        JsonObject sensorMeasurementsRoot = retrieveJson(Url);
 
         try {
             sensorId = sensorMeasurementsRoot.get("id").getAsInt();
@@ -98,7 +88,7 @@ public class AirlyJsonParser {
     }
 
     //TODO try z zasobami?
-    private JsonReader retrieveJson(String Url) throws IOException {
+    private JsonObject retrieveJson(String Url) throws IOException {
         HttpURLConnection request;
 
         try {
@@ -110,13 +100,15 @@ public class AirlyJsonParser {
             throw new IOException("Connection error");
         }
 
-        try {
-            InputStream inputStream = (InputStream) request.getContent();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+        try (InputStream inputStream = (InputStream) request.getContent();
+             InputStreamReader inputStreamReader = new InputStreamReader(inputStream)
+        ) {
 
             JsonReader jsonReader = new JsonReader(inputStreamReader);
 
-            return jsonReader;
+            return new JsonParser().parse(jsonReader).getAsJsonObject();
+
         } catch (IOException ex) {
             switch (request.getResponseCode()) {
                 case 400:
@@ -130,7 +122,5 @@ public class AirlyJsonParser {
             throw new IOException("There was a problem with your request");
         }
 
-
     }
-
 }

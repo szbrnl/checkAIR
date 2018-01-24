@@ -29,7 +29,7 @@ public class ConsoleElement {
 
         lines.add(sLine);
 
-        int specialCharactersCount = (int) line.chars().filter(x-> x=='\033').count();
+        int specialCharactersCount = (int) line.chars().filter(x -> x == '\033').count();
 
         width = Math.max(width, line.length() - specialCharactersCount*11/2);
         linesLengths.add(line.length());
