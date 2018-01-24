@@ -1,7 +1,4 @@
-javac -d ../bin  -cp ../lib/* checkAIR/*.java checkAIR/airly/*.java checkAIR/console/*.java
+javac -cp .:../lib/gson-2.8.2.jar:../lib/commons-cli-1.4.jar  -d ../bin checkAIR/CheckAIR.java checkAIR/console/*.java checkAIR/airly/*.java
 
 
-
-
-
-java -cp ../lib/gson-2-8-2.jar checkAIR/CheckAir
+java -cp .:../lib/gson-2.8.2.jar:../lib/commons-cli-1.4.jar checkAIR.CheckAIR 
