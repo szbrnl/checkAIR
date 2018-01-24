@@ -92,7 +92,7 @@ public class CheckAIR {
                 throw new IllegalArgumentException(ex.getMessage());
             }
 
-            title = "sensora " + optionsParser.getSensorId();
+            title = " sensor " + optionsParser.getSensorId();
         }
 
         IConsoleView view;
@@ -104,10 +104,8 @@ public class CheckAIR {
 
         }
 
-
-
         String secondTitle = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(Calendar.getInstance().getTime());
-        prettyConsole = new PrettyConsole(view, "Stan powietrza dla " + title, secondTitle);
+        prettyConsole = new PrettyConsole(view, "Air quality for" + title, secondTitle);
         System.out.println(prettyConsole.toString());
 
     }
