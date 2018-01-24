@@ -23,6 +23,12 @@ public class CheckAIR {
 
     public static void main(String[] args) {
         try {
+            System.out.print("██████╗ \n" +
+                    "╚════██╗\n" +
+                    " █████╔╝\n" +
+                    "██╔═══╝ \n" +
+                    "███████╗\n" +
+                    "╚══════╝");
             CheckAIR checkAIR = new CheckAIR(args);
         }
         catch(Exception ex)
