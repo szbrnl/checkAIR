@@ -24,8 +24,12 @@ public class AirlyJsonParser {
     public AirlyJsonParser(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
 
-        getSensorId(latitude, longitude);
-        getRootObject();
+        try {
+            getSensorId(latitude, longitude);
+        } catch (NullPointerException ex) {
+
+            getRootObject();
+        }
 
     }
 
@@ -42,6 +46,11 @@ public class AirlyJsonParser {
                 "&historyHours=5&historyResolutionHours=5";
 
         rootObject = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
+
+        if(rootObject.get("currentMeasurements").getAsJsonObject().size() == 0) {
+            throw new IllegalArgumentException("Could not find sensor with given ID");
+        }
+
     }
 
     private void getSensorId(double latitude, double longitude) throws IOException {
@@ -50,7 +59,12 @@ public class AirlyJsonParser {
                 longitude + "&maxDistance=1000";
 
         JsonObject sensorMeasurementsRoot = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
-        sensorId = sensorMeasurementsRoot.get("id").getAsInt();
+
+        try {
+            sensorId = sensorMeasurementsRoot.get("id").getAsInt();
+        } catch (NullPointerException ex) {
+            throw new IOException("Could not find sensor near specified area. Try increasing maxDistance");
+        }
     }
 
     public Measurements getCurrentMeasurements() {
@@ -61,7 +75,7 @@ public class AirlyJsonParser {
         return Arrays.asList(new Gson().fromJson(rootObject.getAsJsonArray("history"), DatedMeasurements[].class));
     }
 
-//TODO try z zasobami?
+    //TODO try z zasobami?
     private JsonReader retrieveJson(String Url) throws IOException {
         HttpURLConnection request;
 
