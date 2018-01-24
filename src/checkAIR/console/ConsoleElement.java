@@ -16,6 +16,9 @@ public class ConsoleElement {
         sLine.append(color.Reset);
 
         lines.add(sLine);
+
+
+
         linesLengths.add(line.length());
         width = Math.max(width, line.length());
     }
@@ -25,9 +28,13 @@ public class ConsoleElement {
         sLine.append(line);
 
         lines.add(sLine);
+
+        int specialCharactersCount = (int) line.chars().filter(x-> x=='\033').count();
+
+        width = Math.max(width, line.length() - specialCharactersCount*11/2);
         linesLengths.add(line.length());
-        width = Math.max(width, line.length());
     }
+
 
     public int getWidth() {
         return width;

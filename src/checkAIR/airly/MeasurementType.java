@@ -15,7 +15,7 @@ public enum MeasurementType {
                 return "µg/m3";
 
             case Temperature:
-                return "\u2103";
+                return "°C";
 
             case Pressure:
                 return "hPa";
