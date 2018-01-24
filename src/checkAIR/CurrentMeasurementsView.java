@@ -43,10 +43,10 @@ public class CurrentMeasurementsView implements IConsoleView {
         namesFrame.add(type.getName());
 
         valuesFrame.add(
-                //If null given, show 'No information' instead
+                //If null given, show 'No data' instead
                 Optional.ofNullable(value)
                         .map(x -> x.toString() + " " + type.getUnit())
-                        .orElse("No information"),
+                        .orElse("No data"),
                 color
         );
 
@@ -59,7 +59,7 @@ public class CurrentMeasurementsView implements IConsoleView {
                 //If null given, show 'No information' instead
                 Optional.ofNullable(value)
                         .map(x -> x.toString() + " " + type.getUnit())
-                        .orElse("No information"),
+                        .orElse("No data"),
                 color
         );
     }

@@ -17,7 +17,7 @@ import java.util.List;
 public class CheckAIR {
 
     //f87f3655b35f40f28e7cd00bd097f860;
-    //TODO index wyświetlany w ascii arcie z lewej strony?
+
 
     public static void main(String[] args) {
         try {
