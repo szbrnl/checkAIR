@@ -38,6 +38,7 @@ public class AsciiArtNumber extends ConsoleElement {
                 StringBuilder currentLine = lines.get(i);
                 currentLine.append(digitLines.get(i));
                 currentLine.append(" ");
+                linesLengths.add(currentLine.length());
             }
             number /= 10;
         }
@@ -53,8 +54,6 @@ public class AsciiArtNumber extends ConsoleElement {
         for (StringBuilder line : lines) {
             line.insert(0, color.getCode());
             line.append(Color.Reset);
-
-            linesLengths.add(line.length() + color.getCode().length() + Color.Reset.length());
         }
     }
 
