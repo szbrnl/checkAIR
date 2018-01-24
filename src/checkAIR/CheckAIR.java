@@ -3,10 +3,7 @@ package checkAIR;
 import checkAIR.airly.AirlyClient;
 import checkAIR.airly.DatedMeasurements;
 import checkAIR.airly.MeasurementType;
-import checkAIR.console.Color;
-import checkAIR.console.ColorConverter;
-import checkAIR.console.IConsoleView;
-import checkAIR.console.PrettyConsole;
+import checkAIR.console.*;
 import org.apache.commons.cli.ParseException;
 
 import java.io.IOException;

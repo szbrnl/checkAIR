@@ -21,7 +21,7 @@ public class HistoryView implements IConsoleView {
 
 
     public HistoryView() {
-        maxHeight = 14;
+        maxHeight = 12;
         columns = new LinkedList<>();
 
         addNewColumn();
@@ -40,11 +40,11 @@ public class HistoryView implements IConsoleView {
             addNewColumn();
         }
 
-        historyFrame.add(formatTime(fromDateTime) + "-" + formatTime(tillDateTime));
+        historyFrame.add(formatTime(tillDateTime) + " - " + formatTime(fromDateTime), Color.UnderlineWhite);
 
         for (int i = 0; i < measurementTypes.size() && i < values.size() && i < colors.size(); i++) {
             String line = formatLine(measurementTypes.get(i), colors.get(i), values.get(i));
-            historyFrame.add(line);
+            historyFrame.add(line, colors.get(i));
         }
 
         historyFrame.add("");
@@ -59,8 +59,7 @@ public class HistoryView implements IConsoleView {
 
         StringBuilder line = new StringBuilder();
         line.append(type.getName());
-        line.append(" ");
-        line.append(color.getCode());
+        line.append(": ");
         line.append(Optional
                 .ofNullable(value)
                 .map(x-> x.toString())
@@ -68,7 +67,6 @@ public class HistoryView implements IConsoleView {
 
         line.append(" ");
         line.append(type.getUnit());
-        line.append(Color.Reset);
 
         return line.toString();
     }
