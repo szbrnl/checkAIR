@@ -34,7 +34,7 @@ public class CurrentMeasurementsView implements IConsoleView {
        ConsoleElement asciiArtNumber = new AsciiArtNumber(number, color);
 
         asciiArtFrame = asciiArtNumber;
-        asciiArtFrame.add("Air Quality Idex");
+        asciiArtFrame.add("Air Quality Index");
         columns.add(asciiArtFrame);
     }
 

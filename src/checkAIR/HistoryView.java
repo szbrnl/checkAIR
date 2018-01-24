@@ -40,7 +40,7 @@ public class HistoryView implements IConsoleView {
             addNewColumn();
         }
 
-        historyFrame.add(formatTime(fromDateTime) + " - " + formatTime(tillDateTime));
+        historyFrame.add(formatTime(fromDateTime) + "-" + formatTime(tillDateTime));
 
         for (int i = 0; i < measurementTypes.size() && i < values.size() && i < colors.size(); i++) {
             String line = formatLine(measurementTypes.get(i), colors.get(i), values.get(i));

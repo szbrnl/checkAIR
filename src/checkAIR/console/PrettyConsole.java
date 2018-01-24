@@ -6,8 +6,8 @@ public class PrettyConsole {
 
     public PrettyConsole(IConsoleView selectedView, String firstTitle, String secondTitle) {
 
-        int width = 100;
-        int height = 20;
+        int width = 94;
+        int height = 18;
 
         window = new Window(width, height, 40, firstTitle, secondTitle);
         setView(selectedView);

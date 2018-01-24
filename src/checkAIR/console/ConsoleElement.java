@@ -13,7 +13,7 @@ public class ConsoleElement {
         StringBuilder sLine = new StringBuilder();
         sLine.append(color.getCode());
         sLine.append(line);
-        sLine.append(color.Reset);
+        sLine.append(Color.Reset);
 
         lines.add(sLine);
 
@@ -45,6 +45,12 @@ public class ConsoleElement {
     }
 
     public List<StringBuilder> getLines() {
+
+        for (int i=0; i<lines.size(); i++) {
+            if(lines.get(i).length() < width) {
+                lines.set(i, fromChar(' ', width).replace(0, lines.get(i).length(), lines.get(i).toString()));
+            }
+        }
         return lines;
     }
 
