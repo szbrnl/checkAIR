@@ -106,10 +106,6 @@ public class AirlyClient {
     }
 
 
-
-
-
-
     @Override
     public String toString() {
         return currentMeasurements.toString();

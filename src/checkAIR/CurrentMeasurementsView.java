@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public class CurrentMeasurementsView implements IConsoleView {
 
-    //TODO interfejs (albo abstract) consoleElement, lista tych elementow
     private List<Frame> columns;
 
     private Frame namesFrame;
@@ -39,6 +38,7 @@ public class CurrentMeasurementsView implements IConsoleView {
         namesFrame.add(type.getName());
 
         valuesFrame.add(
+                //If null given, show 'No information' instead
                 Optional.ofNullable(value)
                         .map(x -> x.toString() + " " + type.getUnit())
                         .orElse("No information"),
@@ -51,11 +51,11 @@ public class CurrentMeasurementsView implements IConsoleView {
         namesFrame.add(type.getName());
 
         valuesFrame.add(
+                //If null given, show 'No information' instead
                 Optional.ofNullable(value)
                         .map(x -> x.toString() + " " + type.getUnit())
                         .orElse("No information"),
                 color
         );
-
     }
 }

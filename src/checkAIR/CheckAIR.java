@@ -3,16 +3,15 @@ package checkAIR;
 import checkAIR.airly.AirlyClient;
 import checkAIR.airly.DatedMeasurements;
 import checkAIR.airly.MeasurementType;
-import checkAIR.console.*;
+import checkAIR.console.Color;
+import checkAIR.console.IConsoleView;
+import checkAIR.console.PrettyConsole;
 import org.apache.commons.cli.ParseException;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 
 public class CheckAIR {
@@ -67,7 +66,7 @@ public class CheckAIR {
         } else {
             try {
                 airlyClient = new AirlyClient(apiKey, optionsParser.getSensorId());
-            } catch (IOException ex) {
+            } catch (IOException | IllegalArgumentException ex) {
                 System.out.println(ex.getMessage());
                 return;
             }

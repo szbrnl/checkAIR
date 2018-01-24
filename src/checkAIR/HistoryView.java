@@ -5,9 +5,9 @@ import checkAIR.console.Color;
 import checkAIR.console.Frame;
 import checkAIR.console.IConsoleView;
 
-
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class HistoryView implements IConsoleView {
 
@@ -15,14 +15,13 @@ public class HistoryView implements IConsoleView {
 
     private Frame historyFrame;
 
-
-    //TODO coś z tym zrobić
-    private int maxHeight = 14;
+    private int maxHeight;
 
 
     public HistoryView() {
-
+        maxHeight = 14;
         columns = new LinkedList<>();
+
         addNewColumn();
     }
 
@@ -33,12 +32,7 @@ public class HistoryView implements IConsoleView {
         addNewColumn();
     }
 
-    private String formatDateTime(String dateTime) {
-        return dateTime.substring(0, 10) + " "
-                + dateTime.substring(11, 16);
-    }
-
-
+//TODO null check jak w current
     public void addMeasurement(String fromDateTime, String tillDateTime, List<MeasurementType> measurementTypes, List<Integer> values, List<Color> colors) {
 
         if (historyFrame.getHeight() + measurementTypes.size() > maxHeight) {
@@ -59,6 +53,11 @@ public class HistoryView implements IConsoleView {
     private void addNewColumn() {
         historyFrame = new Frame(false);
         columns.add(historyFrame);
+    }
+
+    private String formatDateTime(String dateTime) {
+        return dateTime.substring(0, 10) + " "
+                + dateTime.substring(11, 16);
     }
 
     @Override
