@@ -135,8 +135,9 @@ public class OptionsParser {
                 throw new IllegalArgumentException("Cannot combine coordinates and sensor id");
             } else if (commandLine.hasOption("sensorid") && commandLine.hasOption("maxdistance")) {
                 throw new IllegalArgumentException("Cannot set max distance for sensor mode");
-            } else
+            } else if (commandLine.getOptions().length == 0) {
                 modes.add(Mode.Help);
+            }
 
         }
     }
