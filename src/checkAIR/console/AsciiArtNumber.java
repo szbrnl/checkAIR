@@ -12,6 +12,11 @@ public class AsciiArtNumber {
         generateNumber(number);
     }
 
+    public AsciiArtNumber(int number, Color color) {
+        generateNumber(number);
+        setColor(color);
+    }
+
     private void generateNumber(int number) {
 
         String digit = getDigit(number%10);
@@ -45,6 +50,13 @@ public class AsciiArtNumber {
         return lines;
     }
 
+
+    private void setColor(Color color) {
+        for(StringBuilder line : lines) {
+            line.insert(0, color.getCode());
+            line.append(Color.Reset);
+        }
+    }
 
     private String getDigit(int digit) {
         switch (digit) {
