@@ -18,24 +18,29 @@ import java.util.List;
 
 public class CheckAIR {
 
+    //f87f3655b35f40f28e7cd00bd097f860;
     //TODO index wyświetlany w ascii arcie z lewej strony?
-    //TODO get from environment
 
     public static void main(String[] args) {
-        CheckAIR checkAIR = new CheckAIR(args);
+        try {
+            CheckAIR checkAIR = new CheckAIR(args);
+        }
+        catch(Exception ex)
+        {
+            System.out.print(ex.getMessage());
+        }
     }
 
     private PrettyConsole prettyConsole;
     private AirlyClient airlyClient;
 
 
-    public CheckAIR(String[] args) {
+    public CheckAIR(String[] args) throws IllegalArgumentException, IOException{
         OptionsParser optionsParser;
         try {
             optionsParser = new OptionsParser(args);
         } catch (ParseException | IllegalArgumentException ex) {
-            System.out.print(ex.getMessage());
-            return;
+            throw new IllegalArgumentException(ex.getMessage());
         }
 
         if (optionsParser.isHelpSelected()) {
@@ -48,7 +53,13 @@ public class CheckAIR {
         if (optionsParser.isApikeyGiven()) {
             apiKey = optionsParser.getApiKey();
         } else {
-            apiKey = getApiKeyFromEnv();
+            try {
+                apiKey = getApiKeyFromEnv();
+            }
+            catch (IllegalArgumentException ex)
+            {
+                throw new IllegalArgumentException(ex.getMessage());
+            }
         }
 
         String title;
@@ -58,16 +69,14 @@ public class CheckAIR {
                 try {
                     airlyClient = new AirlyClient(apiKey, optionsParser.getLatitude(), optionsParser.getLongitude(), optionsParser.getMaxDistance());
                 } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                    return;
+                    throw new IOException(ex.getMessage());
                 }
             }
             else {
                 try {
                     airlyClient = new AirlyClient(apiKey, optionsParser.getLatitude(), optionsParser.getLongitude());
                 } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                    return;
+                    throw new IOException(ex.getMessage());
                 }
             }
 
@@ -76,10 +85,13 @@ public class CheckAIR {
         } else {
             try {
                 airlyClient = new AirlyClient(apiKey, optionsParser.getSensorId());
-            } catch (IOException | IllegalArgumentException ex) {
-                System.out.println(ex.getMessage());
-                return;
+            } catch (IOException ex) {
+                throw new IOException(ex.getMessage());
             }
+            catch(IllegalArgumentException ex) {
+                throw new IllegalArgumentException(ex.getMessage());
+            }
+
             title = "sensora " + optionsParser.getSensorId();
         }
 
@@ -179,8 +191,14 @@ public class CheckAIR {
     }
 
 
-    private String getApiKeyFromEnv() {
-        return "f87f3655b35f40f28e7cd00bd097f860";
+    private String getApiKeyFromEnv() throws IllegalArgumentException {
+
+        String envVariable = System.getenv("API_KEY");
+
+        if(envVariable == null)
+            throw new IllegalArgumentException("Could not find API_KEY in env");
+
+        return envVariable;
     }
 
 }
