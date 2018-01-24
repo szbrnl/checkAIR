@@ -2,6 +2,7 @@ package checkAIR.airly;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AirlyClient {
     private final String apiKey;
@@ -12,12 +13,13 @@ public class AirlyClient {
 
     private AirlyJsonParser airlyJsonParser;
 
-    //TODO uwzględnić brak sensora w danej okolicy (może jakiś dodatkowy konstruktor z odległością?)
     public AirlyClient(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
 
         airlyJsonParser = new AirlyJsonParser(apiKey, latitude, longitude);
         currentMeasurements = airlyJsonParser.getCurrentMeasurements();
+        history = airlyJsonParser.getHistory();
+        Collections.reverse(history);
     }
 
 
@@ -26,6 +28,8 @@ public class AirlyClient {
 
         airlyJsonParser = new AirlyJsonParser(apiKey, sensorId);
         currentMeasurements = airlyJsonParser.getCurrentMeasurements();
+        history = airlyJsonParser.getHistory();
+        Collections.reverse(history);
     }
 
     public AirlyClient(String apiKey, double latitude, double longitude, int maxSearchRadius) throws IOException {
@@ -33,11 +37,11 @@ public class AirlyClient {
 
         airlyJsonParser = new AirlyJsonParser(apiKey, latitude, longitude, maxSearchRadius);
         currentMeasurements = airlyJsonParser.getCurrentMeasurements();
+        history = airlyJsonParser.getHistory();
+        Collections.reverse(history);
     }
 
     public List<DatedMeasurements> getHistory() {
-        history = airlyJsonParser.getHistory();
-
         return history;
     }
 
