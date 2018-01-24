@@ -9,7 +9,9 @@ import checkAIR.console.PrettyConsole;
 import org.apache.commons.cli.ParseException;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,9 +19,7 @@ import java.util.List;
 public class CheckAIR {
 
     //TODO index wyświetlany w ascii arcie z lewej strony?
-    //TODO asciiarty
     //TODO get from environment
-    //TODO tubydziegodzina
 
     public static void main(String[] args) {
         CheckAIR checkAIR = new CheckAIR(args);
@@ -72,6 +72,7 @@ public class CheckAIR {
             }
 
             title = Math.round(optionsParser.getLatitude() * 100) / 100.0 + ", " + Math.round(optionsParser.getLongitude() * 100) / 100.0;
+
         } else {
             try {
                 airlyClient = new AirlyClient(apiKey, optionsParser.getSensorId());
@@ -90,7 +91,11 @@ public class CheckAIR {
             view = showCurrent(airlyClient);
 
         }
-        prettyConsole = new PrettyConsole(view, "Stan powietrza dla " + title, "tubedziegodzina");
+
+
+
+        String secondTitle = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(Calendar.getInstance().getTime());
+        prettyConsole = new PrettyConsole(view, "Stan powietrza dla " + title, secondTitle);
         System.out.println(prettyConsole.toString());
 
     }
