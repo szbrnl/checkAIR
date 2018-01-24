@@ -16,14 +16,14 @@ import java.util.List;
 
 public class CheckAIR {
 
-    public static void main(String[] args) throws Exception{
-       // try {
+    public static void main(String[] args) {
+        try {
             CheckAIR checkAIR = new CheckAIR(args);
-//        }
-//        catch(Exception ex)
-//        {
-//            System.out.print(ex.getMessage());
-//        }
+        }
+        catch(Exception ex)
+        {
+            System.out.print(ex.getMessage());
+        }
     }
 
     private PrettyConsole prettyConsole;
@@ -128,7 +128,7 @@ public class CheckAIR {
         CurrentMeasurementsView view = new CurrentMeasurementsView();
 
 
-        ColorConverter converter = new MeasurementQualityIndexToColorConverter();
+        MeasurementQualityIndexToColorConverter converter = new MeasurementQualityIndexToColorConverter();
         Color airQualityIndexColor = converter.convert(airlyClient.getCurrentMeasurementQualityIndex(MeasurementType.AirQualityIndex));
 
         view.setAsciiArtNumber(airlyClient.getCurrentAirQualityIndex(), airQualityIndexColor );
