@@ -7,6 +7,7 @@ import checkAIR.console.IConsoleView;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class HistoryView implements IConsoleView {
@@ -32,20 +33,18 @@ public class HistoryView implements IConsoleView {
         addNewColumn();
     }
 
-//TODO null check jak w current
     public void addMeasurement(String fromDateTime, String tillDateTime, List<MeasurementType> measurementTypes, List<Integer> values, List<Color> colors) {
 
         if (historyFrame.getHeight() + measurementTypes.size() > maxHeight) {
             addNewColumn();
         }
 
-//TODO zrobić z tym coś ładnego
-        historyFrame.add(formatDateTime(fromDateTime) + " " + measurementTypes.get(0).getName() + " "
-                + colors.get(0).getCode() + values.get(0).toString() + " " + measurementTypes.get(0).getUnit() + colors.get(0).Reset);
+        historyFrame.add(formatTime(fromDateTime) + " - " + formatTime(tillDateTime));
 
-
-        historyFrame.add(formatDateTime(tillDateTime) + " " + measurementTypes.get(1).getName() + " "
-                + colors.get(1).getCode() + values.get(1).toString() + " " + measurementTypes.get(1).getUnit() + colors.get(1).Reset);
+        for (int i = 0; i < measurementTypes.size() && i < values.size() && i < colors.size(); i++) {
+            String line = formatLine(measurementTypes.get(i), colors.get(i), values.get(i));
+            historyFrame.add(line);
+        }
 
         historyFrame.add("");
     }
@@ -55,9 +54,26 @@ public class HistoryView implements IConsoleView {
         columns.add(historyFrame);
     }
 
-    private String formatDateTime(String dateTime) {
-        return dateTime.substring(0, 10) + " "
-                + dateTime.substring(11, 16);
+    private String formatLine(MeasurementType type, Color color, Integer value) {
+
+        StringBuilder line = new StringBuilder();
+        line.append(type.getName());
+        line.append(" ");
+        line.append(color.getCode());
+        line.append(Optional
+                .ofNullable(value)
+                .map(x-> x.toString())
+                .orElse("No data"));
+
+        line.append(" ");
+        line.append(type.getUnit());
+        line.append(Color.Reset);
+
+        return line.toString();
+    }
+
+    private String formatTime(String dateTime) {
+        return dateTime.substring(11, 16);
     }
 
     @Override
