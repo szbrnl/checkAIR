@@ -51,6 +51,8 @@ public class AirlyClient {
                 return measurementType.getQualityIndex(currentMeasurements.getPm10());
             case Pm25:
                 return measurementType.getQualityIndex(currentMeasurements.getPm25());
+            case AirQualityIndex:
+                return measurementType.getQualityIndex(currentMeasurements.getAirQualityIndex());
             default:
                 return MeasurementQualityIndex.NoIndex;
         }

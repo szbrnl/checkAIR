@@ -42,6 +42,11 @@ public enum MeasurementType {
                 if(value <=84) return MeasurementQualityIndex.Moderate;
                 return MeasurementQualityIndex.Bad;
 
+            case AirQualityIndex:
+                if(value <= 50) return MeasurementQualityIndex.Good;
+                if(value <=150) return MeasurementQualityIndex.Moderate;
+                return  MeasurementQualityIndex.Bad;
+
             default:
                 return MeasurementQualityIndex.NoIndex;
         }
