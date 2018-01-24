@@ -1,6 +1,7 @@
 package checkAIR.console;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,9 +20,12 @@ public class AsciiArtNumber extends ConsoleElement {
     }
 
     private void generateNumber(int number) {
-        number = invertNumber(number);
-        String digit = getDigit(number % 10);
-        number /= 10;
+        List<Integer> digits = invertNumber(number);
+        Collections.reverse(digits);
+
+        String digit = getDigit(digits.get(0));
+
+        digits.remove(0);
 
         lines = new LinkedList<>(
                 Arrays.stream(
@@ -30,8 +34,8 @@ public class AsciiArtNumber extends ConsoleElement {
                         .collect(Collectors.toList())
         );
 
-        while (number > 0) {
-            digit = getDigit(number % 10);
+        for(Integer integer : digits) {
+            digit = getDigit(integer);
             List<String> digitLines = Arrays.asList(digit.split("\n"));
 
             for (int i = 0; i < digitLines.size(); i++) {
@@ -40,7 +44,7 @@ public class AsciiArtNumber extends ConsoleElement {
                 currentLine.append(" ");
                 linesLengths.add(currentLine.length());
             }
-            number /= 10;
+
         }
 
     }
@@ -57,15 +61,13 @@ public class AsciiArtNumber extends ConsoleElement {
         }
     }
 
-    private int invertNumber(int number) {
-        int result = 0;
-
+    private List<Integer> invertNumber(int number) {
+        List<Integer> digits = new LinkedList<>();
         while (number > 0) {
-            result *= 10;
-            result += number % 10;
+            digits.add(number%10);
             number /= 10;
         }
-        return result;
+        return digits;
     }
 
     private String getDigit(int digit) {
@@ -76,42 +78,42 @@ public class AsciiArtNumber extends ConsoleElement {
                         "╚██║\n" +
                         " ██║\n" +
                         " ██║\n" +
-                        " ╚═╝\n";
+                        " ╚═╝";
             case 2:
                 return "██████╗ \n" +
                         "╚════██╗\n" +
                         " █████╔╝\n" +
                         "██╔═══╝ \n" +
                         "███████╗\n" +
-                        "╚══════╝\n";
+                        "╚══════╝";
             case 3:
                 return "██████╗ \n" +
                         "╚════██╗\n" +
                         " █████╔╝\n" +
                         " ╚═══██╗\n" +
                         "██████╔╝\n" +
-                        "╚═════╝ \n";
+                        "╚═════╝ ";
             case 4:
                 return "██╗  ██╗\n" +
                         "██║  ██║\n" +
                         "███████║\n" +
                         "╚════██║\n" +
                         "     ██║\n" +
-                        "     ╚═╝\n";
+                        "     ╚═╝";
             case 5:
                 return "███████╗\n" +
                         "██╔════╝\n" +
                         "███████╗\n" +
                         "╚════██║\n" +
                         "███████║\n" +
-                        "╚══════╝\n";
+                        "╚══════╝";
             case 6:
                 return " ██████╗ \n" +
                         "██╔════╝ \n" +
                         "███████╗ \n" +
                         "██╔═══██╗\n" +
                         "╚██████╔╝\n" +
-                        " ╚═════╝ \n";
+                        " ╚═════╝ ";
 
             case 7:
                 return "███████╗\n" +
@@ -119,7 +121,7 @@ public class AsciiArtNumber extends ConsoleElement {
                         "    ██╔╝\n" +
                         "   ██╔╝ \n" +
                         "   ██║  \n" +
-                        "   ╚═╝  \n";
+                        "   ╚═╝  ";
 
             case 8:
                 return " █████╗ \n" +
@@ -127,21 +129,21 @@ public class AsciiArtNumber extends ConsoleElement {
                         "╚█████╔╝\n" +
                         "██╔══██╗\n" +
                         "╚█████╔╝\n" +
-                        " ╚════╝ \n";
+                        " ╚════╝ ";
             case 9:
                 return " █████╗  \n" +
                         "██╔══██╗ \n" +
                         "╚██████║ \n" +
                         " ╚═══██║ \n" +
                         " █████╔╝ \n" +
-                        " ╚════╝  \n";
+                        " ╚════╝  ";
             case 0:
                 return " ██████╗ \n" +
                         "██╔═████╗\n" +
                         "██║██╔██║\n" +
                         "████╔╝██║\n" +
                         "╚██████╔╝\n" +
-                        " ╚═════╝ \n";
+                        " ╚═════╝ ";
             default:
                 return "";
         }

@@ -78,7 +78,7 @@ class Window {
         int posX;
         int posY = margin;
 
-        for (int i = 0; i < lines.size() && posY < contentLinesEndPositions.size(); i++, posY++) {
+        for (int i = 0; i<linesLengths.size() && i < lines.size() && posY < contentLinesEndPositions.size() && posY <content.size(); i++, posY++) {
             posX = contentLinesEndPositions.get(posY);
 
             content.get(posY).replace(posX, posX + linesLengths.get(i), lines.get(i).toString());
