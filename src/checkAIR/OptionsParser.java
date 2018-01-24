@@ -14,6 +14,7 @@ public class OptionsParser {
     private double longitude;
     private double latitude;
     private int sensorId;
+    private int maxDistance;
 
     private List<Mode> modes;
 
@@ -36,12 +37,29 @@ public class OptionsParser {
             modes.add(Mode.ApiKey);
         }
         if (commandLine.hasOption("longitude")) {
-            longitude = Double.parseDouble(commandLine.getOptionValue("longitude"));
-            latitude = Double.parseDouble(commandLine.getOptionValue("latitude"));
+
+            try {
+                longitude = Double.parseDouble(commandLine.getOptionValue("longitude"));
+            } catch (NumberFormatException ex) {
+                throw new IllegalArgumentException("Illegal argument for option longitude");
+            }
+
+            try {
+                latitude = Double.parseDouble(commandLine.getOptionValue("latitude"));
+            } catch (NumberFormatException ex) {
+                throw new IllegalArgumentException("Illegal argument for option latitude");
+            }
+
             modes.add(Mode.Coordinates);
         }
         if (commandLine.hasOption("sensorid")) {
-            sensorId = Integer.parseInt(commandLine.getOptionValue("sensorid"));
+
+            try {
+                sensorId = Integer.parseInt(commandLine.getOptionValue("sensorid"));
+            } catch (NumberFormatException ex) {
+                throw new IllegalArgumentException("Illegal argument for option sensorid");
+            }
+
             modes.add(Mode.SensorID);
         }
         if (commandLine.hasOption("history")) {
@@ -49,6 +67,13 @@ public class OptionsParser {
         }
 
         if (commandLine.hasOption("maxdistance")) {
+
+            try {
+                maxDistance = Integer.parseInt(commandLine.getOptionValue("maxdistance"));
+            } catch (NumberFormatException ex) {
+                throw new IllegalArgumentException("Illegal argument for option maxdistance");
+            }
+
             modes.add(Mode.MaxDistance);
         }
     }
@@ -69,20 +94,28 @@ public class OptionsParser {
         return sensorId;
     }
 
-    public boolean helpSelected() {
+    public int getMaxDistance() {
+        return maxDistance;
+    }
+
+    public boolean isHelpSelected() {
         return modes.get(0) == Mode.Help;
     }
 
-    public boolean coordinatesModeSelected() {
+    public boolean isCoordinatesModeSelected() {
         return modes.contains(Mode.Coordinates);
     }
 
-    public boolean historyModeSelected() {
+    public boolean isHistoryModeSelected() {
         return modes.contains(Mode.History);
     }
 
-    public boolean apiKeyGiven() {
+    public boolean isApikeyGiven() {
         return modes.contains(Mode.ApiKey);
+    }
+
+    public boolean isMaxDistanceGiven() {
+        return modes.contains(Mode.MaxDistance);
     }
 
 
@@ -98,13 +131,12 @@ public class OptionsParser {
                 throw new IllegalArgumentException("Both coordinates must be specified");
             } else if (commandLine.hasOption("longitude") && !commandLine.hasOption("latitude")) {
                 throw new IllegalArgumentException("Both coordinates must be specified");
-            } else if ((commandLine.hasOption("latitude") || commandLine.hasOption("longitude")) && commandLine.hasOption("sensor-id")) {
+            } else if ((commandLine.hasOption("latitude") || commandLine.hasOption("longitude")) && commandLine.hasOption("sensorid")) {
                 throw new IllegalArgumentException("Cannot combine coordinates and sensor id");
-            } else if (!commandLine.hasOption("sensorid") && !commandLine.hasOption("longitude"))
-                throw new IllegalArgumentException("No mode selected");
-            else if (commandLine.hasOption("sensorid") && commandLine.hasOption("maxdistance")) {
+            } else if (commandLine.hasOption("sensorid") && commandLine.hasOption("maxdistance")) {
                 throw new IllegalArgumentException("Cannot set max distance for sensor mode");
-            }
+            } else
+                modes.add(Mode.Help);
 
         }
     }
@@ -116,7 +148,7 @@ public class OptionsParser {
         options.addOption(Option.builder("longitude").argName("coordinate").hasArg().build());
         options.addOption(Option.builder("latitude").argName("coordinate").hasArg().build());
         options.addOption(Option.builder("history").desc("show history measurements").build());
-        options.addOption(Option.builder("maxdistance").desc("set max distance (default 1000)").build());
+        options.addOption(Option.builder("maxdistance").argName("distance").hasArg().desc("set max distance (default 1000)").build());
     }
 
 }

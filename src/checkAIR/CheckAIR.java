@@ -19,6 +19,7 @@ public class CheckAIR {
     //TODO index wyświetlany w ascii arcie z lewej strony?
     //TODO asciiarty
     //TODO get from environment
+    //TODO tubydziegodzina
 
     public static void main(String[] args) {
         CheckAIR checkAIR = new CheckAIR(args);
@@ -32,34 +33,42 @@ public class CheckAIR {
         OptionsParser optionsParser;
         try {
             optionsParser = new OptionsParser(args);
-        } catch (ParseException ex) {
-            System.out.print(ex.getMessage());
-            return;
-        } catch (IllegalArgumentException ex) {
+        } catch (ParseException | IllegalArgumentException ex) {
             System.out.print(ex.getMessage());
             return;
         }
 
-        if (optionsParser.helpSelected()) {
+        if (optionsParser.isHelpSelected()) {
             optionsParser.showHelp();
             return;
         }
 
         String apiKey;
 
-        if (optionsParser.apiKeyGiven()) {
+        if (optionsParser.isApikeyGiven()) {
             apiKey = optionsParser.getApiKey();
         } else {
             apiKey = getApiKeyFromEnv();
         }
 
         String title;
-        if (optionsParser.coordinatesModeSelected()) {
-            try {
-                airlyClient = new AirlyClient(apiKey, optionsParser.getLatitude(), optionsParser.getLongitude());
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-                return;
+        if (optionsParser.isCoordinatesModeSelected()) {
+
+            if(optionsParser.isMaxDistanceGiven()) {
+                try {
+                    airlyClient = new AirlyClient(apiKey, optionsParser.getLatitude(), optionsParser.getLongitude(), optionsParser.getMaxDistance());
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                    return;
+                }
+            }
+            else {
+                try {
+                    airlyClient = new AirlyClient(apiKey, optionsParser.getLatitude(), optionsParser.getLongitude());
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                    return;
+                }
             }
 
             title = Math.round(optionsParser.getLatitude() * 100) / 100.0 + ", " + Math.round(optionsParser.getLongitude() * 100) / 100.0;
@@ -75,7 +84,7 @@ public class CheckAIR {
 
         IConsoleView view;
 
-        if (optionsParser.historyModeSelected()) {
+        if (optionsParser.isHistoryModeSelected()) {
             view = showHistory(airlyClient);
         } else {
             view = showCurrent(airlyClient);

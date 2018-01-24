@@ -21,6 +21,8 @@ public class AirlyJsonParser {
 
     private JsonObject rootObject;
 
+    private final int defaultMaxSearchDistance = 1000;
+
     public AirlyJsonParser(String apiKey, double latitude, double longitude) throws IOException {
         this.apiKey = apiKey;
 
@@ -32,6 +34,20 @@ public class AirlyJsonParser {
         }
 
     }
+
+    public AirlyJsonParser(String apiKey, double latitude, double longitude, int maxSearchDistance) throws IOException {
+        this.apiKey = apiKey;
+
+        try {
+            getSensorId(latitude, longitude, maxSearchDistance);
+        } catch (NullPointerException ex) {
+
+            getRootObject();
+        }
+
+    }
+
+
 
     public AirlyJsonParser(String apiKey, int sensorId) throws IOException {
         this.apiKey = apiKey;
@@ -54,9 +70,14 @@ public class AirlyJsonParser {
     }
 
     private void getSensorId(double latitude, double longitude) throws IOException {
+
+       getSensorId(latitude, longitude, defaultMaxSearchDistance);
+    }
+
+    private void getSensorId(double latitude, double longitude, int maxSearchDistance) throws IOException {
         String Url = "https://airapi.airly.eu/v1/nearestSensor/measurements?latitude=" +
                 latitude + "&longitude=" +
-                longitude + "&maxDistance=1000";
+                longitude + "&maxDistance=" + maxSearchDistance;
 
         JsonObject sensorMeasurementsRoot = new JsonParser().parse(retrieveJson(Url)).getAsJsonObject();
 
@@ -66,6 +87,7 @@ public class AirlyJsonParser {
             throw new IOException("Could not find sensor near specified area. Try increasing maxDistance");
         }
     }
+
 
     public Measurements getCurrentMeasurements() {
         return new Gson().fromJson(rootObject.get("currentMeasurements"), Measurements.class);

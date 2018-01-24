@@ -20,10 +20,18 @@ public class AirlyClient {
         currentMeasurements = airlyJsonParser.getCurrentMeasurements();
     }
 
+
     public AirlyClient(String apiKey, int sensorId) throws IOException {
         this.apiKey = apiKey;
 
         airlyJsonParser = new AirlyJsonParser(apiKey, sensorId);
+        currentMeasurements = airlyJsonParser.getCurrentMeasurements();
+    }
+
+    public AirlyClient(String apiKey, double latitude, double longitude, int maxSearchRadius) throws IOException {
+        this.apiKey = apiKey;
+
+        airlyJsonParser = new AirlyJsonParser(apiKey, latitude, longitude, maxSearchRadius);
         currentMeasurements = airlyJsonParser.getCurrentMeasurements();
     }
 
