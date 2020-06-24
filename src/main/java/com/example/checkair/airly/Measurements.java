@@ -1,10 +1,4 @@
-package checkAIR.airly;
-
-import com.google.gson.JsonObject;
-
-import java.util.Optional;
-
-import static java.lang.Double.NaN;
+package com.example.checkair.airly;
 
 public class Measurements {
 

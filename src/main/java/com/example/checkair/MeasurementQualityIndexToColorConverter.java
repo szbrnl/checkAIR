@@ -1,8 +1,8 @@
-package checkAIR;
+package com.example.checkair;
 
-import checkAIR.airly.MeasurementQualityIndex;
-import checkAIR.console.Color;
-import checkAIR.console.ColorConverter;
+import com.example.checkair.airly.MeasurementQualityIndex;
+import com.example.checkair.console.Color;
+import com.example.checkair.console.ColorConverter;
 
 public class MeasurementQualityIndexToColorConverter implements ColorConverter<MeasurementQualityIndex> {
 

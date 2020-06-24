@@ -1,7 +1,8 @@
-package checkAIR;
+package com.example.checkair;
 
-import checkAIR.airly.MeasurementType;
+import com.example.checkair.airly.MeasurementType;
 import checkAIR.console.*;
+import com.example.checkair.console.*;
 
 import java.util.LinkedList;
 import java.util.List;

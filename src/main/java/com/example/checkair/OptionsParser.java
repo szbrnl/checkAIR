@@ -1,4 +1,4 @@
-package checkAIR;
+package com.example.checkair;
 
 import org.apache.commons.cli.*;
 

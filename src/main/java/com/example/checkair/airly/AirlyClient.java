@@ -1,8 +1,7 @@
-package checkAIR.airly;
+package com.example.checkair.airly;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AirlyClient {
     private final String apiKey;

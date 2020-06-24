@@ -1,4 +1,4 @@
-package checkAIR.airly;
+package com.example.checkair.airly;
 
 public enum MeasurementType {
     Pm10, Pm25, Temperature, Pressure, Humidity, AirQualityIndex;

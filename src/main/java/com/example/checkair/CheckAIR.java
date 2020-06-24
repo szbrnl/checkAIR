@@ -1,9 +1,12 @@
-package checkAIR;
+package com.example.checkair;
 
-import checkAIR.airly.AirlyClient;
-import checkAIR.airly.DatedMeasurements;
-import checkAIR.airly.MeasurementType;
+import com.example.checkair.airly.AirlyClient;
+import com.example.checkair.airly.DatedMeasurements;
+import com.example.checkair.airly.MeasurementType;
 import checkAIR.console.*;
+import com.example.checkair.console.Color;
+import com.example.checkair.console.IConsoleView;
+import com.example.checkair.console.PrettyConsole;
 import org.apache.commons.cli.ParseException;
 
 import java.io.IOException;

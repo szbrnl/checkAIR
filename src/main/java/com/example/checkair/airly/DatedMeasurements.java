@@ -1,7 +1,6 @@
-package checkAIR.airly;
+package com.example.checkair.airly;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 public class DatedMeasurements {
     private String fromDateTime;

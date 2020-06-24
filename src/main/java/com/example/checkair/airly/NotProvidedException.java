@@ -1,4 +1,4 @@
-package checkAIR.airly;
+package com.example.checkair.airly;
 
 public class NotProvidedException extends Exception {
     public NotProvidedException() {

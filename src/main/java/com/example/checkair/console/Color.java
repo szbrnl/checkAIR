@@ -1,4 +1,4 @@
-package checkAIR.console;
+package com.example.checkair.console;
 
 public enum Color {
     TextBlack, TextRed, TextGreen, TextYellow, TextBlue, TextPurple, TextCyan, TextWhite,

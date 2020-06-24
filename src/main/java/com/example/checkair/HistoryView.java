@@ -1,10 +1,10 @@
-package checkAIR;
+package com.example.checkair;
 
-import checkAIR.airly.MeasurementType;
-import checkAIR.console.ConsoleElement;
-import checkAIR.console.Color;
-import checkAIR.console.Frame;
-import checkAIR.console.IConsoleView;
+import com.example.checkair.airly.MeasurementType;
+import com.example.checkair.console.ConsoleElement;
+import com.example.checkair.console.Color;
+import com.example.checkair.console.Frame;
+import com.example.checkair.console.IConsoleView;
 
 import java.util.LinkedList;
 import java.util.List;
