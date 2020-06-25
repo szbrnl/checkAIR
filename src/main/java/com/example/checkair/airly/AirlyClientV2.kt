@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import java.time.ZonedDateTime
 
 interface Airly {
-    fun getCurrentMeasurements(): AirlyResult
+    fun getNearestMeasurements(latitude: Double, longitude: Double): AirlyResult
 }
 
 class AirlyClientV2(
@@ -30,11 +30,11 @@ class AirlyClientV2(
         }
     }
 
-    private fun currentMeasurementsUrl(lat: Double = 50.062006, lon: Double = 19.940984, maxDistance: Int = 5): String = "https://airapi.airly.eu/v2/measurements/nearest?lat=$lat&lng=$lon&maxDistanceKM=$maxDistance&maxResults=3"
+    private fun currentMeasurementsUrl(lat: Double, lon: Double, maxDistance: Int = -1): String = "https://airapi.airly.eu/v2/measurements/nearest?lat=$lat&lng=$lon&maxDistanceKM=$maxDistance&maxResults=3"
 
-    override fun getCurrentMeasurements(): AirlyResult {
+    override fun getNearestMeasurements(latitude: Double, longitude: Double): AirlyResult {
         return runBlocking {
-            val message = httpClient.get<AirlyResult>(currentMeasurementsUrl()) {
+            val message = httpClient.get<AirlyResult>(currentMeasurementsUrl(latitude, longitude)) {
                 this.header("apikey", apiKey)
             }
 

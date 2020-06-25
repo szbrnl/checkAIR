@@ -31,7 +31,7 @@ class AirlyAdapterSpec extends Specification {
         }
 
         and:
-        client.getCurrentMeasurements() >> fromValues([
+        client.getNearestMeasurements(2, 3) >> fromValues([
                 "PM10"       : 1.0,
                 "PM25"       : 2.0,
                 "TEMPERATURE": 33.1,

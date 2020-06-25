@@ -5,7 +5,7 @@ open class AirlyAdapter(
 ) {
 
     fun getCurrentMeasurements(): Measurements {
-        val airlyMeasurements = client.getCurrentMeasurements().current.values.associate {
+        val airlyMeasurements = client.getNearestMeasurements(latitude = 50.062006, longitude  = 19.940984).current.values.associate {
             it.name to it.value
         }
 
