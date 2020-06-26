@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class CurrentMeasurementsView implements IConsoleView {
+public class CurrentMeasurementsView implements ColumnarView {
 
     private List<ConsoleElement> columns;
 

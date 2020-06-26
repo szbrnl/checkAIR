@@ -4,7 +4,7 @@ public class PrettyConsole {
 
     private Window window;
 
-    public PrettyConsole(IConsoleView selectedView, String firstTitle, String secondTitle) {
+    public PrettyConsole(ColumnarView selectedView, String firstTitle, String secondTitle) {
 
         int width = 94;
         int height = 18;
@@ -13,7 +13,7 @@ public class PrettyConsole {
         setView(selectedView);
     }
 
-    private void setView(IConsoleView view) {
+    private void setView(ColumnarView view) {
 
         view.getColumns()
                 .forEach(x -> window.addColumn(x));
